@@ -26,12 +26,6 @@ poetry run invoke start
 
 [Työaikakirjanpito](https://docs.google.com/spreadsheets/d/1A-ZcTPfodWB2oIwpxf0ftId64tXmp-Jd7OyfNQiHnw4/edit#gid=1003565531)
 
-
-[Backlog](https://github.com/PaulusParssinen/ohtu-miniprojekti/projects/1)
-
-[Työaikakirjanpito](https://docs.google.com/spreadsheets/d/1A-ZcTPfodWB2oIwpxf0ftId64tXmp-Jd7OyfNQiHnw4/edit#gid=1003565531)
-
-
 [Definition of done](https://github.com/PaulusParssinen/ohtu-miniprojekti/blob/master/dokumentaatio/definition_of_done.md)
 
 
