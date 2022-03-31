@@ -6,4 +6,5 @@ class TestGameBoard(unittest.TestCase):
         self.reading_tip = ReadingTip('Tirakirja', 'kirja', 'laaksonen')
 
     def test_string(self):
-        self.assertEqual(self.reading_tip.string(), 'Otsikko: Tirakirja \n Tyyppi: kirja \n Author: laaksonen')
+        self.assertEqual(self.reading_tip.string(), 
+                        'Otsikko: Tirakirja \n Tyyppi: kirja \n Author: laaksonen')
