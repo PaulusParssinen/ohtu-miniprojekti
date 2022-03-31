@@ -2,15 +2,15 @@ class ReadingTip:
 
     """Class that describes a reading tip."""
 
-    def __init__(self, title, type, author, isbn=None, url=None, description=None, comment=None, related_courses=None):
+    def __init__(self, title, reading_type, author, isbn=None, url=None, description=None):
         self.title = title
         self.author = author
-        self.type = type
+        self.type = reading_type
         self.isbn = isbn
         self.url = url
         self.description = description
-        self.comment = comment
-        self.related_courses = related_courses
+        self.comment = ''
+        self.related_courses = []
 
     def string(self):
         return f"Otsikko: {self.title} \n Tyyppi: {self.type} \n Author: {self.author}"
