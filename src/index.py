@@ -1,5 +1,4 @@
 from console_io import ConsoleIO
-from services import reading_tip_service
 from services.reading_tip_service import ReadingTipService
 from app import App
 
