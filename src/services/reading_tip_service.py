@@ -17,6 +17,7 @@ class ReadingTipService:
     def search_reading_tip(self):
         pass
 
+    
 
     
 
