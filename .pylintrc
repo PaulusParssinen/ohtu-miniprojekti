@@ -319,8 +319,6 @@ redefining-builtins-modules=six.moves,past.builtins,future.builtins,builtins,io
 
 [FORMAT]
 
-good-names=io,ex
-
 # Expected format of line ending, e.g. empty (any line ending), LF or CRLF.
 expected-line-ending-format=
 
@@ -425,7 +423,8 @@ function-naming-style=snake_case
 #function-rgx=
 
 # Good variable names which should always be accepted, separated by a comma.
-good-names=i,
+good-names=io,
+           i,
            j,
            k,
            ex,

@@ -1,4 +1,4 @@
-from entities.reading_tip import ReadingTip
+#from entities.reading_tip import ReadingTip
 
 class ReadingTipService:
     def __init__(self, reading_tip_repository=None):
