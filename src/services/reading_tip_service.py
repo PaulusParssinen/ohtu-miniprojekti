@@ -17,6 +17,11 @@ class ReadingTipService:
     def search_reading_tip(self):
         pass
 
+    def modify_reading_tip(self):
+        print("Testataan modify_reading_tip")
+        
+
+
 
     
 
