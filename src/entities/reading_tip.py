@@ -16,5 +16,4 @@ class ReadingTip:
         return f"Otsikko: {self.title} \n Tyyppi: {self.type} \n Author: {self.author}"
 
     def __str__(self):
-    # if self.type == 'book':
-        #return self.string() + f" \n ISBN: {self.isbn}"
+        pass
