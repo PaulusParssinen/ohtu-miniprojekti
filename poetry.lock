@@ -61,6 +61,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "invoke"
+version = "1.7.0"
+description = "Pythonic task execution"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "isort"
 version = "5.10.1"
 description = "A Python utility / library to sort Python imports."
@@ -213,7 +221,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "aabec3cc9ca6ff0a8d727f52c935ef890110ff9357c4a96e81f25a924c891eaa"
+content-hash = "8861faa6dc2f93baa44d30dd9cae8b8a126df3c1aaab4a53731078f76f3d72eb"
 
 [metadata.files]
 astroid = [
@@ -239,6 +247,10 @@ dill = [
 iniconfig = [
     {file = "iniconfig-1.1.1-py2.py3-none-any.whl", hash = "sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3"},
     {file = "iniconfig-1.1.1.tar.gz", hash = "sha256:bc3af051d7d14b2ee5ef9969666def0cd1a000e121eaea580d4a313df4b37f32"},
+]
+invoke = [
+    {file = "invoke-1.7.0-py3-none-any.whl", hash = "sha256:a5159fc63dba6ca2a87a1e33d282b99cea69711b03c64a35bb4e1c53c6c4afa0"},
+    {file = "invoke-1.7.0.tar.gz", hash = "sha256:e332e49de40463f2016315f51df42313855772be86435686156bc18f45b5cc6c"},
 ]
 isort = [
     {file = "isort-5.10.1-py3-none-any.whl", hash = "sha256:6f62d78e2f89b4500b080fe3a81690850cd254227f27f75c3a0c491a1f351ba7"},

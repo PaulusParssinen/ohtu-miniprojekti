@@ -2,18 +2,22 @@ class App:
     def __init__(self, reading_tip_service, io):
         self.io = io
         self.reading_tip_service = reading_tip_service
-    
+
     def run(self):
 
         self.io.write('Welcome to Reading Tip software!\n')
-        self.io.write('Choose from the following operations:\n  1. Add a Reading Tip\n  2. Modify a Reading Tip\n  3. Exit software\n')
+        self.io.write('Choose from the following operations:\n')
+        self.io.write('1. Add a Reading Tip\n')
+        self.io.write('2. Modify a Reading Tip\n')
+        self.io.write('3. Delete a Reading Tip\n')
+        self.io.write('4. Exit software\n')
 
         while True:
             command = self.io.read("Select the operation you want to run (numbers only): ")
             if command == "1":
 
                 try:
-                    self.reading_tip_service.create_reading_tip()
+                    self.reading_tip_service.create_reading_tip() 
                     self.io.write("\nNew Reading Tip added to database.\n")
                 except Exception as error:
                     self.io.write(str(error))
@@ -26,13 +30,13 @@ class App:
                     self.io.write(str(error))
 
             elif command == "3":
+                try:
+                    tip_id = self.io.read('Which reading tip you want to delete? Please give id.')
+                except:
+                    self.io.write("Invalid reading tip id")
+                self.reading_tip_service.delete_reading_tip_by_id(tip_id)
+
+            elif command == "4":
                 self.io.write("\nSession ended.\n")
                 break
-        
-        
-
-        
-        
-
-        
 

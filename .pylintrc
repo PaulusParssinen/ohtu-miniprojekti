@@ -60,7 +60,9 @@ confidence=
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use "--disable=all --enable=classes
 # --disable=W".
-disable=print-statement,
+disable=broad-except,
+        trailing-whitespace,
+        print-statement,
         parameter-unpacking,
         unpacking-in-except,
         old-raise-syntax,
@@ -421,7 +423,8 @@ function-naming-style=snake_case
 #function-rgx=
 
 # Good variable names which should always be accepted, separated by a comma.
-good-names=i,
+good-names=io,
+           i,
            j,
            k,
            ex,
@@ -579,7 +582,7 @@ max-public-methods=20
 max-returns=6
 
 # Maximum number of statements in function / method body.
-max-statements=20
+max-statements=25
 
 # Minimum number of public methods for a class (see R0903).
 min-public-methods=0
