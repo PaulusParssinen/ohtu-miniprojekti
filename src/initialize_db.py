@@ -26,7 +26,6 @@ def create_tables_to_db(db_connection):
         Url TEXT, \
         Description TEXT, \
         Comment TEXT)")
-
     db_connection.commit()
 
 

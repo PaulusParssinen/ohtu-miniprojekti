@@ -39,4 +39,3 @@ class App:
             elif command == "4":
                 self.io.write("\nSession ended.\n")
                 break
-

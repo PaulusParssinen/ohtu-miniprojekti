@@ -1,4 +1,3 @@
-
 from services.reading_tip_service import ReadingTipService
 from repositories.reading_tip_repository import ReadingTipRepository
 from ui.console_io import ConsoleIO
