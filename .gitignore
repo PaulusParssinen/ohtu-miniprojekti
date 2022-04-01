@@ -133,3 +133,4 @@ dmypy.json
 
 # Ignore any local SQLite databases
 *.db
+

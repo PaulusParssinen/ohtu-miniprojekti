@@ -8,6 +8,7 @@ authors = ["Hattivatit"]
 python = "^3.8"
 pylint = "^2.13.4"
 pytest = "^7.1.1"
+invoke = "^1.7.0"
 
 [tool.poetry.dev-dependencies]
 

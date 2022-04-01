@@ -3,7 +3,7 @@
 [![CI](https://github.com/PaulusParssinen/ohtu-miniprojekti/actions/workflows/ci.yml/badge.svg)](https://github.com/PaulusParssinen/ohtu-miniprojekti/actions/workflows/ci.yml)
 
 
-## Asennus
+## Alustus
 
 
 Asenna riippuvuudet komennolla:
@@ -12,10 +12,38 @@ Asenna riippuvuudet komennolla:
 poetry install
 ```
 
-Käynnistä komennolla:
+Alusta tietokanta komennolla:
+
+```
+poetry run invoke build
+```
+
+## Ohjelman suoritus
+
+Käynnistä ohjelma komennolla:
 
 ```
 poetry run invoke start
+```
+
+## Ohjelman testaus
+
+Testaa ohjelma komennolla:
+
+```
+poetry run invoke test
+```
+
+Suorita RobotFramework-testit komennolla:
+
+```
+poetry run invoke test
+```
+
+Suorita Pylint komennolla:
+
+```
+poetry run invoke lint
 ```
 
 ## Dokumentaatio

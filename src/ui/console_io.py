@@ -4,5 +4,3 @@ class ConsoleIO:
 
     def read(self, prompt):
         return input(prompt)
-    
-    

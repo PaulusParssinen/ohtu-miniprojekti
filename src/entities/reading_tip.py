@@ -1,8 +1,9 @@
 class ReadingTip:
 
-    """Class that describes a reading tip."""
+    """Class that represents the reading tip."""
 
-    def __init__(self, title, reading_type, author, isbn=None, url=None, description=None):
+    def __init__(self, title=None, reading_type=None, 
+                author=None, isbn=None, url=None, description=None):
         self.title = title
         self.author = author
         self.type = reading_type
