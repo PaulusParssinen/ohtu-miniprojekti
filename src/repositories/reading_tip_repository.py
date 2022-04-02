@@ -17,7 +17,7 @@ class ReadingTipRepository:
     def create(self, reading_tip_object):
         """Inserting new reading tip into db.
         
-           Data is checked before inserting into db:
+           Given data is checked before inserting into db:
            - None values are replaced with empty strings
            - Non-string values are replaced with strings
         """
@@ -83,6 +83,40 @@ class ReadingTipRepository:
         return query_result
     
     
+    def modify(self, reading_tip_id, new_reading_tip_object):
+        """Modifying existing reading tip in db.
+        
+           If given reading tip id does not exist in the db, nothing is done.
+        
+           Given data is checked before modifying in db:
+           - None values are replaced with empty strings
+           - Non-string values are replaced with strings
+        """
+        
+        db_cursor = self._db_connection.cursor()
+        
+        values_to_db = [new_reading_tip_object.title, new_reading_tip_object.author, new_reading_tip_object.type, new_reading_tip_object.isbn, new_reading_tip_object.url, new_reading_tip_object.description, new_reading_tip_object.comment]
+        
+        # Data checked before inputting into db:
+        for index, value in enumerate(values_to_db):
+            if value == None:
+                values_to_db[index] = ''
+            elif not isinstance(value, str):
+                values_to_db[index] = str(value)
+        
+        # Reading tip id passed as parameter to sql query together with new values
+        values_to_db = values_to_db + [reading_tip_id]
+        
+        try:
+            db_cursor.execute(
+                "UPDATE ReadingTip SET Title=?, Author=?, Type=?, Isbn=?, Url=?, Description=?, Comment=? WHERE Id=?", tuple(values_to_db)
+            )
+            
+            self._db_connection.commit()
+        except:
+            pass
+    
+    
     def delete(self, reading_tip_id):
         """Deleting existing reading tip from db.
         
@@ -95,10 +129,10 @@ class ReadingTipRepository:
             db_cursor.execute(
                 "DELETE FROM ReadingTip WHERE Id = ?", (reading_tip_id,)
             )
+            
+            self._db_connection.commit()
         except:
             pass
-        
-        self._db_connection.commit()
 
 
 
