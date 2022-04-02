@@ -50,6 +50,21 @@ class ReadingTipRepository:
         
         query_result = db_cursor.execute(
             "SELECT * FROM ReadingTip WHERE Id = ?", (reading_tip_id,)
+        ).fetchone()
+        
+        return query_result
+    
+    
+    def get_by_title(self, reading_tip_title):
+        """Returns reading tips based on given title from db.
+        
+           If reading tip on given title does not exist in the db, returns an empty tuple.
+        """
+        
+        db_cursor = self._db_connection.cursor()
+        
+        query_result = db_cursor.execute(
+            "SELECT * FROM ReadingTip WHERE Title = ?", (reading_tip_title,)
         ).fetchall()
         
         return query_result
@@ -63,7 +78,7 @@ class ReadingTipRepository:
         
         query_result = db_cursor.execute(
             "SELECT * FROM ReadingTip"
-        ).fetchone()
+        ).fetchall()
         
         return query_result
     
