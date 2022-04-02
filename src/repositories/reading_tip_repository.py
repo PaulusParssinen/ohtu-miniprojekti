@@ -34,10 +34,38 @@ class ReadingTipRepository:
                 values_to_db[index] = str(value)
         
         db_cursor.execute(
-            "INSERT INTO ReadingTip (Title, Author, Type, Isbn, Url, Description, Comment) VALUES (?, ?, ?, ?, ?, ?, ?)", values_to_db
+            "INSERT INTO ReadingTip (Title, Author, Type, Isbn, Url, Description, Comment) VALUES (?, ?, ?, ?, ?, ?, ?)", tuple(values_to_db)
         )
         
         self._db_connection.commit()
+    
+    
+    def get_by_id(self, reading_tip_id):
+        """Returns reading tip based on given id from db.
+        
+           If reading tip on given id does not exist in the db, returns an empty tuple.
+        """
+        
+        db_cursor = self._db_connection.cursor()
+        
+        query_result = db_cursor.execute(
+            "SELECT * FROM ReadingTip WHERE Id = ?", (reading_tip_id,)
+        ).fetchall()
+        
+        return query_result
+    
+    
+    def get_all(self):
+        """Returns all reading tips from db.
+        """
+        
+        db_cursor = self._db_connection.cursor()
+        
+        query_result = db_cursor.execute(
+            "SELECT * FROM ReadingTip"
+        ).fetchone()
+        
+        return query_result
     
     
     def delete(self, reading_tip_id):
@@ -50,7 +78,7 @@ class ReadingTipRepository:
         
         try:
             db_cursor.execute(
-                "DELETE FROM ReadingTip WHERE Id = ?", [reading_tip_id]
+                "DELETE FROM ReadingTip WHERE Id = ?", (reading_tip_id,)
             )
         except:
             pass
