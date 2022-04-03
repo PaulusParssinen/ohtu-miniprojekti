@@ -18,8 +18,14 @@ class ReadingTipService:
         self._reading_tip_repository.delete(tip_id)
 
 
-    def search_reading_tip(self):
-        pass
+    def search_reading_tip_by_title(self, title):
+        titles = self._reading_tip_repository.get_by_title(title)
+
+        if len(titles) == 0:
+            print(f"Reading tips with title {title} were not found.")
+        else:
+            for title in titles:
+                print("Käsitellään tuplet ja tulostetaan ne.")
 
     def modify_reading_tip(self):
         print("Testataan modify_reading_tip")

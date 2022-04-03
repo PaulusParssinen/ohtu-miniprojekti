@@ -10,7 +10,8 @@ class App:
         self.io.write('1. Add a Reading Tip\n')
         self.io.write('2. Modify a Reading Tip\n')
         self.io.write('3. Delete a Reading Tip\n')
-        self.io.write('4. Exit software\n')
+        self.io.write('4. Search Reading Tips by title\n')
+        self.io.write('5. Exit software\n')
 
         while True:
             command = self.io.read("Select the operation you want to run (numbers only): ")
@@ -37,5 +38,9 @@ class App:
                 self.reading_tip_service.delete_reading_tip_by_id(tip_id)
 
             elif command == "4":
+                title = self.io.read("Enter title: ")
+                self.reading_tip_service.search_reading_tip_by_title(title)
+
+            elif command == "5":
                 self.io.write("\nSession ended.\n")
                 break
