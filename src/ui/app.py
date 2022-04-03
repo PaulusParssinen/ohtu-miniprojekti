@@ -38,7 +38,7 @@ class App:
                 self.reading_tip_service.delete_reading_tip_by_id(tip_id)
 
             elif command == "4":
-                title = self.io.read("Enter title: ")
+                title = self.io.read("Enter title to search: ")
                 self.reading_tip_service.search_reading_tip_by_title(title)
 
             elif command == "5":
