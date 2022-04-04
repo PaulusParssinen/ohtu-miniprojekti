@@ -1,4 +1,3 @@
-from entities.reading_tip import ReadingTip
 from db_connection import get_db_connection
 
 
@@ -24,17 +23,26 @@ class ReadingTipRepository:
         
         db_cursor = self._db_connection.cursor()
         
-        values_to_db = [reading_tip_object.title, reading_tip_object.author, reading_tip_object.type, reading_tip_object.isbn, reading_tip_object.url, reading_tip_object.description, reading_tip_object.comment]
+        values_to_db = [
+            reading_tip_object.title, 
+            reading_tip_object.author, 
+            reading_tip_object.type, 
+            reading_tip_object.isbn, 
+            reading_tip_object.url, 
+            reading_tip_object.description, 
+            reading_tip_object.comment
+        ]
         
         # Data checked before inputting into db:
         for index, value in enumerate(values_to_db):
-            if value == None:
+            if value is None:
                 values_to_db[index] = ''
             elif not isinstance(value, str):
                 values_to_db[index] = str(value)
         
         db_cursor.execute(
-            "INSERT INTO ReadingTip (Title, Author, Type, Isbn, Url, Description, Comment) VALUES (?, ?, ?, ?, ?, ?, ?)", tuple(values_to_db)
+            "INSERT INTO ReadingTip (Title, Author, Type, Isbn, Url, Description, Comment) \
+            VALUES (?, ?, ?, ?, ?, ?, ?)", tuple(values_to_db)
         )
         
         self._db_connection.commit()
@@ -95,11 +103,19 @@ class ReadingTipRepository:
         
         db_cursor = self._db_connection.cursor()
         
-        values_to_db = [new_reading_tip_object.title, new_reading_tip_object.author, new_reading_tip_object.type, new_reading_tip_object.isbn, new_reading_tip_object.url, new_reading_tip_object.description, new_reading_tip_object.comment]
+        values_to_db = [
+            new_reading_tip_object.title, 
+            new_reading_tip_object.author, 
+            new_reading_tip_object.type, 
+            new_reading_tip_object.isbn,
+            new_reading_tip_object.url,
+            new_reading_tip_object.description,
+            new_reading_tip_object.comment
+        ]
         
         # Data checked before inputting into db:
         for index, value in enumerate(values_to_db):
-            if value == None:
+            if value is None:
                 values_to_db[index] = ''
             elif not isinstance(value, str):
                 values_to_db[index] = str(value)
@@ -109,7 +125,15 @@ class ReadingTipRepository:
         
         try:
             db_cursor.execute(
-                "UPDATE ReadingTip SET Title=?, Author=?, Type=?, Isbn=?, Url=?, Description=?, Comment=? WHERE Id=?", tuple(values_to_db)
+                "UPDATE ReadingTip SET \
+                    Title=?, \
+                    Author=?, \
+                    Type=?, \
+                    Isbn=?, \
+                    Url=?, \
+                    Description=?, \
+                    Comment=? \
+                    WHERE Id=?", tuple(values_to_db)
             )
             
             self._db_connection.commit()
@@ -134,8 +158,4 @@ class ReadingTipRepository:
         except:
             pass
 
-
-
 reading_tip_repository = ReadingTipRepository(get_db_connection())
-
-
