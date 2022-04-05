@@ -27,7 +27,8 @@ class App:
             elif command == "2":
 
                 try:
-                    self.reading_tip_service.modify_reading_tip()
+                    tip_id = self.io.read('Which reading tip you want to modify? Please give id.')
+                    self.reading_tip_service.modify_reading_tip(tip_id)
                 except Exception as error:
                     self.io.write(str(error))
 

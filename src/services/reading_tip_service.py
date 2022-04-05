@@ -50,5 +50,10 @@ class ReadingTipService:
             
         return True
 
-    def modify_reading_tip(self):
+    def modify_reading_tip(self, tip_id):
+        tip = self._reading_tip_repository.get_by_id(tip_id)
+
+        if tip is None:
+            print(f"Reading tips with tip id {tip_id} were not found\n")
+
         print("Testataan modify_reading_tip")
