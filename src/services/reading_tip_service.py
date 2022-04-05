@@ -49,7 +49,7 @@ class ReadingTipService:
             
         return True
 
-    def validate_reading_tip(self, tip_id):
+    def check_reading_tip_by_id(self, tip_id):
         reading_tip = self._reading_tip_repository.get_by_id(tip_id)
         
         if reading_tip is None:

@@ -18,4 +18,16 @@ class TestReadingTipService(unittest.TestCase):
     
     def test_search_by_title_returns_true_if_found(self):
         self.assertTrue(self._reading_tip_service.search_reading_tip_by_title("Kirja 1"))
-    
+
+    def test_check_reading_tip_with_existing_reading_tip(self):
+        reading_tip = self._reading_tip_service.check_reading_tip_by_id(1)
+        self.assertEqual(1, reading_tip[0])
+
+    def test_check_reading_tip_with_nonexisting_reading_tip(self):
+        self.assertEqual(False, self._reading_tip_service.check_reading_tip_by_id(100))
+
+    def test_modify_reading_tip_by_tip_id(self):
+        self._reading_tip_service.modify_reading_tip(1, 'Muutettu Kirja 1')
+        reading_tip = self._reading_tip_service.check_reading_tip_by_id(1)
+
+        self.assertEqual(reading_tip[1], 'Muutettu Kirja 1')

@@ -28,7 +28,7 @@ class App:
 
                 try:
                     tip_id = self.io.read('Which reading tip you want to modify? Please give id: \n')
-                    reading_tip = self.reading_tip_service.validate_reading_tip(tip_id)
+                    reading_tip = self.reading_tip_service.check_reading_tip_by_id(tip_id)
 
                     if reading_tip is False:
                         self.io.write(f"Reading tip with tip id {tip_id} was not found.")
