@@ -27,7 +27,7 @@ class ReadingTipService:
         print(f"Found {len(all_tips)} tips:\n")
 
         for tip in all_tips:
-            print(f"Id: {tip[0]}")
+            print(f"Id: {str(tip[0])}")
             print(f"Title: {tip[1]}")
             print(f"Author: {tip[2]}")
             print(f"Url: {tip[5]}\n")
