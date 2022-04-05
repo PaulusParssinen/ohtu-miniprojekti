@@ -8,11 +8,12 @@ class ReadingTipService:
         self._reading_tip_repository = reading_tip_repository
 
     def create_reading_tip(self):
+        print("Add a new reading tip:")
         title = input("Enter title: ")
+        url = input("Enter url: ")
 
         self._reading_tip_repository.create(ReadingTip(title=title, 
-            author="another author", url="link for tip"))
-        print("Testataan create_reading_tip")
+            url=url))
 
     def delete_reading_tip_by_id(self, tip_id):
         """Delete selected reading tip by id
