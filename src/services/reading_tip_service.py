@@ -22,7 +22,19 @@ class ReadingTipService:
 
         self._reading_tip_repository.delete(tip_id)
 
+    def see_all_reading_tips(self):
+        all_tips = self._reading_tip_repository.get_all()
+        
+        print(f"Found {len(all_tips)} tips:\n")
 
+        for tip in all_tips:
+            print(f"Id: {tip[0]}")
+            print(f"Title: {tip[1]}")
+            print(f"Author: {tip[2]}")
+            print(f"Url: {tip[5]}\n")
+            
+        return True
+    
     def search_reading_tip_by_title(self, tip_title):
         tips_with_title = self._reading_tip_repository.get_by_title(tip_title)
 
