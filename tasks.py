@@ -1,7 +1,7 @@
 from invoke import task
 
 @task
-def build(ctx):
+def reset_database(ctx):
     ctx.run("python3 src/index.py --reset-database")
 
 @task
