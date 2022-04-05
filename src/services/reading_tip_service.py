@@ -8,12 +8,10 @@ class ReadingTipService:
         self._reading_tip_repository = reading_tip_repository
 
     def create_reading_tip(self):
-        print("Add a new reading tip:")
         title = input("Enter title: ")
-        url = input("Enter url: ")
 
         self._reading_tip_repository.create(ReadingTip(title=title, 
-            url=url))
+            author="another author", url="link for tip"))
 
     def delete_reading_tip_by_id(self, tip_id):
         """Delete selected reading tip by id
@@ -51,10 +49,18 @@ class ReadingTipService:
             
         return True
 
-    def modify_reading_tip(self, tip_id):
-        tip = self._reading_tip_repository.get_by_id(tip_id)
+    def validate_reading_tip(self, tip_id):
+        reading_tip = self._reading_tip_repository.get_by_id(tip_id)
+        
+        if reading_tip is None:
+            return False
+        
+        return reading_tip
+        
 
-        if tip is None:
-            print(f"Reading tips with tip id {tip_id} were not found\n")
-
-        print("Testataan modify_reading_tip")
+    def modify_reading_tip(self, tip_id, new_title):
+        self._reading_tip_repository.modify(tip_id,
+                                            ReadingTip(title=new_title,
+                                            author='another author',
+                                            url='link for tip'))
+        

@@ -27,8 +27,23 @@ class App:
             elif command == "2":
 
                 try:
-                    tip_id = self.io.read('Which reading tip you want to modify? Please give id.')
-                    self.reading_tip_service.modify_reading_tip(tip_id)
+                    tip_id = self.io.read('Which reading tip you want to modify? Please give id: \n')
+                    reading_tip = self.reading_tip_service.validate_reading_tip(tip_id)
+
+                    if reading_tip is False:
+                        self.io.write(f"Reading tip with tip id {tip_id} was not found.")
+                    else:
+                        self.io.write(f"Reading tip with tip id {tip_id} found.\n")
+
+                        self.io.write(f"Title: {reading_tip[1]}")
+                        self.io.write(f"Author: {reading_tip[2]}")
+                        self.io.write(f"Url: {reading_tip[3]}")
+
+                        new_title = self.io.read('\nEnter new title:\n')
+                        self.reading_tip_service.modify_reading_tip(tip_id, new_title)
+
+                        self.io.write(f"Modification done successfully.")
+
                 except Exception as error:
                     self.io.write(str(error))
 
