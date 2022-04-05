@@ -2,12 +2,12 @@ import unittest
 from entities.reading_tip import ReadingTip
 from repositories.reading_tip_repository import ReadingTipRepository
 from services.reading_tip_service import ReadingTipService
-from db_connection import get_db_connection_for_testing
+from db_connection import get_db_connection
 
 class TestReadingTipService(unittest.TestCase):
     def setUp(self):
-        get_db_connection_for_testing()
-        self.db = ReadingTipRepository(get_db_connection_for_testing())
+        get_db_connection()
+        self.db = ReadingTipRepository(get_db_connection())
 
         self._reading_tip_service = ReadingTipService(self.db)
 
