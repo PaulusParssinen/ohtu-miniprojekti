@@ -19,7 +19,7 @@ def create_tables_to_db(db_connection):
     db_cursor = db_connection.cursor()
 
     db_cursor.execute("CREATE TABLE ReadingTip (\
-        Id SERIAL PRIMARY KEY, \
+        Id INTEGER PRIMARY KEY, \
         Title TEXT, Author TEXT, \
         Type TEXT, \
         Isbn TEXT, \
