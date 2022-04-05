@@ -2,19 +2,33 @@ class ReadingTip:
 
     """Class that represents the reading tip."""
 
-    def __init__(self, title=None, reading_type=None, 
-                author=None, isbn=None, url=None, description=None):
+    def __init__(self, identifier=None, title=None, reading_type=None, 
+                author=None, isbn=None, url=None, description=None, comment=None):
+        self.id = identifier
         self.title = title
         self.author = author
         self.type = reading_type
         self.isbn = isbn
         self.url = url
         self.description = description
-        self.comment = ''
+        self.comment = comment
         self.related_courses = []
-
-    def string(self):
-        return f"Otsikko: {self.title} \n Tyyppi: {self.type} \n Author: {self.author}"
+        
+    def format(self, seperator=", ") -> str:
+        """Formats the reading tip values to a string using the specified seperator (default \", ").
+        """
+        values = []
+        # Add values to the formatting string if they are defined.
+        if self.id:
+            values.append(f"Id: {self.id}")
+        if self.title:
+            values.append(f"Title: {self.title}")
+        if self.type:
+            values.append(f"Type: {self.type}")
+        if self.author:
+            values.append(f"Author: {self.author}")
+        
+        return seperator.join(values)
 
     def __str__(self):
-        pass
+        return self.format()

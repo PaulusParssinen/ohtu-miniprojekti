@@ -1,28 +1,31 @@
-from db_connection import get_db_connection
+from database import (db as default_reading_tip_db)
 
+from entities.reading_tip import ReadingTip
 
 class ReadingTipRepository:
     """All database operations related to reading tips (adding, modifying and deleting)
     """
     
     
-    def __init__(self, db_connection):
+    def __init__(self, db=default_reading_tip_db):
         """Initializing class with db connection as parameter.
         """
-        
-        self._db_connection = db_connection
+        self._db = db
     
     
-    def create(self, reading_tip_object):
+    def create(self, reading_tip_object: ReadingTip) -> bool:
         """Inserting new reading tip into db.
         
+           If given reading tip was succesfully inserted into the database, returns True.
+           If not; returns false.
+           
            Given data is checked before inserting into db:
            - None values are replaced with empty strings
            - Non-string values are replaced with strings
         """
         
-        db_cursor = self._db_connection.cursor()
-        
+        db_cursor = self._db.connection.cursor()
+
         values_to_db = [
             reading_tip_object.title, 
             reading_tip_object.author, 
@@ -40,77 +43,88 @@ class ReadingTipRepository:
             elif not isinstance(value, str):
                 values_to_db[index] = str(value)
         
-        db_cursor.execute(
-            "INSERT INTO ReadingTip (Title, Author, Type, Isbn, Url, Description, Comment) \
-            VALUES (?, ?, ?, ?, ?, ?, ?)", tuple(values_to_db)
-        )
+        try:
+            db_cursor.execute(
+                "INSERT INTO ReadingTip (Title, Author, Type, Isbn, Url, Description, Comment) \
+                VALUES (?, ?, ?, ?, ?, ?, ?)", tuple(values_to_db)
+            )
+        except:
+            return False
         
-        self._db_connection.commit()
+        self._db.connection.commit()
+        return True
     
     
-    def get_by_id(self, reading_tip_id):
+    def get_by_id(self, reading_tip_id) -> ReadingTip:
         """Returns reading tip based on given id from db.
         
-           If reading tip on given id does not exist in the db, returns an empty tuple.
+           If reading tip on given id does not exist in the db, returns None.
         """
         
-        db_cursor = self._db_connection.cursor()
+        db_cursor = self._db.connection.cursor()
         
-        query_result = db_cursor.execute(
-            "SELECT * FROM ReadingTip WHERE Id = ?", (reading_tip_id,)
-        ).fetchone()
+        try:
+            query_result = db_cursor.execute(
+                "SELECT * FROM ReadingTip WHERE Id = ?", (reading_tip_id,)
+            ).fetchone()
+        except:
+            return None
         
-        return query_result
+        return self.create_tip_from_result(query_result)
     
     
-    def get_by_title(self, reading_tip_title):
-        """Returns reading tips based on given title from db.
+    def search_by_title(self, reading_tip_title) -> ReadingTip:
+        """Returns reading tips that contain given title from db.
         
-           If reading tip on given title does not exist in the db, returns an empty tuple.
+           If query failed, returns None.
         """
         
-        db_cursor = self._db_connection.cursor()
+        db_cursor = self._db.connection.cursor()
         
-        query_result = db_cursor.execute(
-            "SELECT * FROM ReadingTip WHERE Title = ?", (reading_tip_title,)
-        ).fetchall()
+        try:
+            query_result = db_cursor.execute(
+                "SELECT * FROM ReadingTip WHERE Title LIKE ?", (f"%{reading_tip_title}%",)
+            ).fetchall()
+        except:
+            return None
         
-        return query_result
+        return self.create_tips_from_results(query_result)
     
     
-    def get_all(self):
+    def get_all(self) -> list[ReadingTip]:
         """Returns all reading tips from db.
         """
         
-        db_cursor = self._db_connection.cursor()
+        db_cursor = self._db.connection.cursor()
         
         query_result = db_cursor.execute(
             "SELECT * FROM ReadingTip"
         ).fetchall()
         
-        return query_result
+        return self.create_tips_from_results(query_result)
     
-    
-    def modify(self, reading_tip_id, new_reading_tip_object):
+    def modify(self, new_reading_tip: ReadingTip) -> bool:
         """Modifying existing reading tip in db.
         
-           If given reading tip id does not exist in the db, nothing is done.
+           If given reading tip was modified succesfully, returns True.
+           If given reading tip id does not exist in the db, returns False.
         
            Given data is checked before modifying in db:
            - None values are replaced with empty strings
            - Non-string values are replaced with strings
         """
         
-        db_cursor = self._db_connection.cursor()
+        db_cursor = self._db.connection.cursor()
         
         values_to_db = [
-            new_reading_tip_object.title, 
-            new_reading_tip_object.author, 
-            new_reading_tip_object.type, 
-            new_reading_tip_object.isbn,
-            new_reading_tip_object.url,
-            new_reading_tip_object.description,
-            new_reading_tip_object.comment
+            new_reading_tip.title, 
+            new_reading_tip.author, 
+            new_reading_tip.type, 
+            new_reading_tip.isbn,
+            new_reading_tip.url,
+            new_reading_tip.description,
+            new_reading_tip.comment,
+            new_reading_tip.id
         ]
         
         # Data checked before inputting into db:
@@ -119,9 +133,6 @@ class ReadingTipRepository:
                 values_to_db[index] = ''
             elif not isinstance(value, str):
                 values_to_db[index] = str(value)
-        
-        # Reading tip id passed as parameter to sql query together with new values
-        values_to_db = values_to_db + [reading_tip_id]
         
         try:
             db_cursor.execute(
@@ -136,26 +147,59 @@ class ReadingTipRepository:
                     WHERE Id=?", tuple(values_to_db)
             )
             
-            self._db_connection.commit()
+            self._db.connection.commit()
         except:
-            pass
+            return False
+        return True
     
     
-    def delete(self, reading_tip_id):
+    def delete(self, reading_tip_id) -> bool:
         """Deleting existing reading tip from db.
         
-            If reading tip with given id does not exist in the db, nothing is done.
+           If reading tip was deleted succesfully, returns True
+           If reading tip with given id does not exist in the db, returns False.
         """
         
-        db_cursor = self._db_connection.cursor()
+        db_cursor = self._db.connection.cursor()
         
         try:
             db_cursor.execute(
                 "DELETE FROM ReadingTip WHERE Id = ?", (reading_tip_id,)
             )
             
-            self._db_connection.commit()
+            self._db.connection.commit()
         except:
-            pass
-
-reading_tip_repository = ReadingTipRepository(get_db_connection())
+            return False
+        return True
+    
+    def create_tip_from_result(self, result_row) -> ReadingTip:
+        """Populates a ReadingTip object from a single query result row.
+           
+           If the the result row is empty, returns None.
+        """
+        if not result_row:
+            return None
+        
+        return ReadingTip(
+            identifier=int(result_row[0]),
+            title=result_row[1],
+            author=result_row[2],
+            reading_type=result_row[3],
+            isbn=result_row[4],
+            url=result_row[5],
+            description=result_row[6],
+            comment=result_row[7]
+        )
+    
+    def create_tips_from_results(self, result_rows)-> list[ReadingTip]:
+        """Populates a list of ReadingTip object from query result rows.
+           
+           If result_rows is empty, returns None.
+        """
+        tips = []
+        for row in result_rows:
+            tips.append(self.create_tip_from_result(row))
+        return tips
+    
+    
+reading_tip_repository = ReadingTipRepository()

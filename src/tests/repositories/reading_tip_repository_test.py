@@ -1,11 +1,14 @@
 import unittest
-from db_connection import get_db_connection
+
+from database import Database
+
 from entities.reading_tip import ReadingTip
 from repositories.reading_tip_repository import ReadingTipRepository
 
 class TestReadingTipsRepository(unittest.TestCase):
-    def setUp(self):        
-        self.repository = ReadingTipRepository(get_db_connection())
+    def setUp(self):
+        db = Database(":memory:")
+        self.repository = ReadingTipRepository(db)
     
     def create_tip_with_non_empty_values_works(self):
         self.repository.create(ReadingTip(title="Kirja 1", author="Author 1", url="Link 1"))

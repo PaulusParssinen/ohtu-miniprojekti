@@ -1,10 +1,9 @@
 import unittest
 from entities.reading_tip import ReadingTip
 
-class TestGameBoard(unittest.TestCase):
+class TestReadingTip(unittest.TestCase):
     def setUp(self):
-        self.reading_tip = ReadingTip('Tirakirja', 'kirja', 'laaksonen')
+        self.reading_tip = ReadingTip(title='Tirakirja', reading_type='kirja', author='laaksonen')
 
     def test_string(self):
-        self.assertEqual(self.reading_tip.string(), 
-                        'Otsikko: Tirakirja \n Tyyppi: kirja \n Author: laaksonen')
+        self.assertEqual(str(self.reading_tip), 'Title: Tirakirja, Type: kirja, Author: laaksonen')
