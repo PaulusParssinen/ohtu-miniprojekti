@@ -1,5 +1,5 @@
 class ConsoleIO:
-    def write(self, value='', end='\n'):
+    def write(self, value, end='\n'):
         print(value, end=end)
 
     def read(self, prompt):

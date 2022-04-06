@@ -5,8 +5,9 @@ from database import db
 from services.reading_tip_service import ReadingTipService
 from repositories.reading_tip_repository import ReadingTipRepository
 
-from ui.app import App
 from ui.console_io import ConsoleIO
+
+from app import App
 
 def main():
     reading_tip_repository = ReadingTipRepository(db)

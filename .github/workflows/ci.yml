@@ -26,5 +26,7 @@ jobs:
       run: poetry install
     - name: Run tests
       run: poetry run invoke test
+    - name: Run Robot tests
+      run: poetry run invoke robot
     - name: Lint
       run: poetry run invoke lint

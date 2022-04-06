@@ -17,7 +17,8 @@ class App:
 
     def add_reading_tip(self):
         title = self.io.read("Give reading tip title: ")
-        self.reading_tip_service.create(title)
+        link = self.io.read("Give reading tip a link: ")
+        self.reading_tip_service.create(title, link=link)
         
         self.io.write("New Reading Tip added!")
     
@@ -102,3 +103,5 @@ class App:
                 # If the command handler does not have own exception handling, 
                 # this exception block handles it by simply printing the error to user.
                 self.io.write(str(error))
+            except SystemExit:
+                break

@@ -27,6 +27,8 @@ class ReadingTip:
             values.append(f"Type: {self.type}")
         if self.author:
             values.append(f"Author: {self.author}")
+        if self.url:
+            values.append(f"URL: {self.url}")
         
         return seperator.join(values)
 

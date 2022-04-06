@@ -134,3 +134,7 @@ dmypy.json
 # Ignore any local SQLite databases
 *.db
 
+# Robot framework
+log.html
+output.xml
+report.html
