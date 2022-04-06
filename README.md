@@ -12,12 +12,6 @@ Asenna riippuvuudet komennolla:
 poetry install
 ```
 
-Alusta tietokanta komennolla:
-
-```
-poetry run invoke build
-```
-
 ## Ohjelman suoritus
 
 Käynnistä ohjelma komennolla:
@@ -28,19 +22,19 @@ poetry run invoke start
 
 ## Ohjelman testaus
 
-Testaa ohjelma komennolla:
+Yksikkötestit voi suorittaa komennolla:
 
 ```
 poetry run invoke test
 ```
 
-Suorita RobotFramework-testit komennolla:
+Robot Frameworkilla toteutetut integraatio-testit voi suorittaa komennolla:
 
 ```
-poetry run invoke test
+poetry run invoke robot
 ```
 
-Suorita Pylint komennolla:
+Pylint suoritus onnistuu komennolla:
 
 ```
 poetry run invoke lint
