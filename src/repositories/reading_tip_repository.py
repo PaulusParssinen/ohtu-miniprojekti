@@ -77,7 +77,7 @@ class ReadingTipRepository:
 
         return self.create_tips_from_results(query_result)
 
-    def update(self, new_reading_tip):
+def update(self, new_reading_tip):
         """Update existing ReadingTip in the database.
            If given ReadingTip was updated successfully, returns True.
            If the given ReadingTip does not follow the database schema constraints; returns False.
@@ -142,6 +142,7 @@ class ReadingTipRepository:
             description=result_row[6],
             comment=result_row[7],
             tags=result_row[8]
+
         )
 
 
