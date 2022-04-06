@@ -13,12 +13,11 @@ class ReadingTip:
         self.description = description
         self.comment = comment
         self.related_courses = []
-        
+
     def format(self, seperator=", ") -> str:
         """Formats the reading tip values to a string using the specified seperator (default ", ").
         """
         values = []
-        # Add values to the formatting string if they are defined.
         if self.id:
             values.append(f"Id: {self.id}")
         if self.title:
@@ -29,7 +28,7 @@ class ReadingTip:
             values.append(f"Author: {self.author}")
         if self.url:
             values.append(f"URL: {self.url}")
-        
+
         return seperator.join(values)
 
     def __str__(self):

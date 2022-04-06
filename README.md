@@ -3,7 +3,7 @@
 [![CI](https://github.com/PaulusParssinen/ohtu-miniprojekti/actions/workflows/ci.yml/badge.svg)](https://github.com/PaulusParssinen/ohtu-miniprojekti/actions/workflows/ci.yml)
 
 
-## Alustus
+## Alustus ja ohjelman suoritus
 
 
 Asenna riippuvuudet komennolla:
@@ -12,12 +12,10 @@ Asenna riippuvuudet komennolla:
 poetry install
 ```
 
-## Ohjelman suoritus
-
-Käynnistä ohjelma komennolla:
+Mikäli käytät ohjelmaa ensimmäisen kerran, alusta tietokanta ja käynnistä sovellus seuraavalla komennolla:
 
 ```
-poetry run invoke start
+poetry run invoke reset-database
 ```
 
 ## Ohjelman testaus
@@ -38,6 +36,20 @@ Pylint suoritus onnistuu komennolla:
 
 ```
 poetry run invoke lint
+
+```
+
+Testaavuuskattavuuden suoritus onnistuu seuraavalla komennolla:
+
+```
+poetry run invoke coverage-report
+```
+
+Testaavuuskattavuusraportti avautuu seilameen myös seuraavalla komennolla:
+
+```
+poetry run invoke view-report
+
 ```
 
 ## Dokumentaatio

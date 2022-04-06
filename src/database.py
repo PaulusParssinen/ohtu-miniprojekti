@@ -3,14 +3,14 @@ import sqlite3
 class Database:
     """Class responsible for creating and initializing the database connection.
     """
-    
+
     def __init__(self, file_name):
         """Opens a connection to the specified local database and ensures that 
            the database tables are created.
         """
         self.connection = sqlite3.connect(file_name)
         self.ensure_tables_are_created()
-    
+
     def drop_tables_from_db(self):
         """Drops all tables from db.
         """
@@ -37,11 +37,11 @@ class Database:
             Description TEXT, \
             Comment TEXT)")
         self.connection.commit()
-        
+
     def reset_database(self):
         """Drops database if it exists and creates new tables.
         """
         self.drop_tables_from_db()
         self.ensure_tables_are_created()
-    
+
 db = Database("readingtips.db")

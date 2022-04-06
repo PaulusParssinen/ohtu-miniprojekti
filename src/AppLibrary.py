@@ -1,5 +1,4 @@
 from app import App
-
 from database import Database
 from tests.stub_io import StubIO
 from services.reading_tip_service import ReadingTipService
@@ -22,7 +21,7 @@ class AppLibrary:
 
         if not value in outputs:
             raise AssertionError(f"Output \"{value}\" is not in {str(outputs)}")
-    
+
     def run_application(self):
         self._app.run()
 
