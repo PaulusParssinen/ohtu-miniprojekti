@@ -18,6 +18,20 @@ class App:
     def add_reading_tip(self):
         title = self.io.read("Give reading tip title: ")
         link = self.io.read("Give reading tip a link: ")
+        self.io.write('Choose tag for tip!')
+        self.see_all_tags()
+        command = self.io.read(f'Press 1: Choose existing tag \n \
+                        Press 2: Create new tag')
+        if command == 1:
+            self.io.write("Please give tag id: ")
+            # lisää tägi lukuvinkkiin
+        if command == 2:
+            pass
+            new_tag = self.io.write("Please give new tag name: ")
+            # luo uusi tägi
+            # lisää tägi tietokantaan
+            # lisää tägi lukuvinkkiin
+
         self.reading_tip_service.create(title, link=link)
         self.io.write("New Reading Tip added!")
 
@@ -30,7 +44,7 @@ class App:
         else:
             self.print_reading_tip(reading_tip)
             new_title = self.io.read("Enter new title: \n")
-            
+
             reading_tip.title = new_title
             self.reading_tip_service.update(reading_tip)
             self.io.write("Modification done successfully.")
@@ -41,6 +55,11 @@ class App:
         except:
             self.io.write("Invalid reading tip id")
         self.reading_tip_service.delete(tip_id)
+
+    def see_all_tags(self):
+        all_tags = self.reading_tip_service.get_all_tags()
+        if all_tags:
+            self.print_list_of_tags(all_tags)
 
     def see_all_reading_tips(self):
         all_tips = self.reading_tip_service.get_all()
@@ -64,6 +83,11 @@ class App:
         self.io.write(f"{len(tips)} reading tips found:")
         for tip in tips:
             self.print_reading_tip(tip)
+
+    def print_list_of_tags(self, tags):
+        self.io.write(f"{len(tags)} reading tips found:")
+        for tags in tags:
+            self.print_reading_tip(tags)
 
     def print_reading_tip(self, tip: ReadingTip):
         self.io.write(tip.format())
@@ -89,7 +113,7 @@ class App:
                 # Attempt to lookup a matching command handler by the given id
                 command_handler = self.commands.get(command_id)
 
-                # If the corresponding command handler was found, call it. 
+                # If the corresponding command handler was found, call it.
                 # If not; write an error message.
                 if command_handler:
                     command_handler()
@@ -98,8 +122,8 @@ class App:
                     self.print_all_operations()
 
             except Exception as error:
-                # This exception handler is a catch-all for all of the command handlers. 
-                # If the command handler does not have own exception handling, 
+                # This exception handler is a catch-all for all of the command handlers.
+                # If the command handler does not have own exception handling,
                 # this exception block handles it by simply printing the error to user.
                 self.io.write(str(error))
             except SystemExit:

@@ -13,7 +13,7 @@ class ReadingTipRepository:
     def create(self, reading_tip_object: ReadingTip) -> bool:
         """Inserting new reading tip into db.
 
-           If the given ReadingTip was succesfully inserted into the database, returns True.
+           If the given ReadingTip was successfully inserted into the database, returns True.
            If the given ReadingTip does not follow the database schema constraints; returns False.
         """
 
@@ -26,15 +26,14 @@ class ReadingTipRepository:
             reading_tip_object.isbn,
             reading_tip_object.url,
             reading_tip_object.description,
-            reading_tip_object.comment
+            reading_tip_object.comment,
+            reading_tip_object.tags
         ]
-
         try:
             db_cursor.execute(
-                "INSERT INTO ReadingTip (Title, Author, Type, Isbn, Url, Description, Comment) \
-                VALUES (?, ?, ?, ?, ?, ?, ?)", tuple(values_to_db)
+                "INSERT INTO ReadingTip (Title, Author, Type, Isbn, Url, Description, Comment, Tags) \
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tuple(values_to_db)
             )
-
             self._db.connection.commit()
         except:
             return False
@@ -66,6 +65,7 @@ class ReadingTipRepository:
 
         return self.create_tips_from_results(query_result)
 
+
     def get_all(self):
         """Returns all reading tips from db.
         """
@@ -95,7 +95,8 @@ class ReadingTipRepository:
             new_reading_tip.url,
             new_reading_tip.description,
             new_reading_tip.comment,
-            new_reading_tip.id
+            new_reading_tip.id,
+            new_reading_tip.tags
         ]
         try:
             db_cursor.execute(
@@ -107,6 +108,7 @@ class ReadingTipRepository:
                     Url=?, \
                     Description=?, \
                     Comment=? \
+                    Tags=? \
                     WHERE Id=?", tuple(values_to_db)
             )
 
@@ -142,8 +144,10 @@ class ReadingTipRepository:
             isbn=result_row[4],
             url=result_row[5],
             description=result_row[6],
-            comment=result_row[7]
+            comment=result_row[7],
+            tag=result_row[8]
         )
+
 
     def create_tips_from_results(self, result_rows):
         """Populates a list of ReadingTip object from query result rows.
