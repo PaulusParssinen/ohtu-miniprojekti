@@ -12,7 +12,13 @@ Asenna riippuvuudet komennolla:
 poetry install
 ```
 
-Mikäli käytät ohjelmaa ensimmäisen kerran, alusta tietokanta ja käynnistä sovellus seuraavalla komennolla:
+Käynnistä sovellus seuraavalla komennolla:
+
+```
+poetry run invoke start
+```
+
+Voit alustaa tietokannan halutessasi uudelleen komennolla:
 
 ```
 poetry run invoke reset-database
