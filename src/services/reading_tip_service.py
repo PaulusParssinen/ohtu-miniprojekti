@@ -23,6 +23,7 @@ class ReadingTipService:
            Raises an exception if given fields do not follow the validation rules.
         """
         self.validate_title(title)
+
         reading_tip = ReadingTip(title=title, author=author, url=link)
         tag = ReadingTip(tags=tag_name)
 
