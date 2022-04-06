@@ -30,7 +30,7 @@ class ReadingTip:
             values.append(f"Author: {self.author}")
         if self.url:
             values.append(f"URL: {self.url}")
-        if self.tag:
+        if self.tags:
             values.append(f"Tags:' {self.tags}")
 
         return seperator.join(values)

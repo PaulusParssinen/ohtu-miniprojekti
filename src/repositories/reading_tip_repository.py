@@ -31,7 +31,7 @@ class ReadingTipRepository:
         try:
             db_cursor.execute(
                 "INSERT INTO ReadingTip (Title, Author, Type, Isbn, Url, Description, Comment) \
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tuple(values_to_db)
+                VALUES (?, ?, ?, ?, ?, ?, ?)", tuple(values_to_db)
             )
             self._db.connection.commit()
         except:
@@ -95,7 +95,6 @@ class ReadingTipRepository:
             new_reading_tip.description,
             new_reading_tip.comment,
             new_reading_tip.id,
-            new_reading_tip.tags
         ]
         try:
             db_cursor.execute(
@@ -144,7 +143,6 @@ class ReadingTipRepository:
             url=result_row[5],
             description=result_row[6],
             comment=result_row[7],
-            tag=result_row[8]
         )
 
 
