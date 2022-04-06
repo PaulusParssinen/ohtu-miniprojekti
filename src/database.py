@@ -16,7 +16,6 @@ class Database:
         """
 
         db_cursor = self.connection.cursor()
-
         db_cursor.execute("DROP TABLE IF EXISTS ReadingTip")
 
         self.connection.commit()
@@ -30,7 +29,7 @@ class Database:
 
         db_cursor.execute("CREATE TABLE IF NOT EXISTS ReadingTip (\
             Id INTEGER PRIMARY KEY, \
-            Title TEXT NOT NULL, \
+            Title TEXT CHECK(Title IS NOT NULL AND length(Title) > 0), \
             Author TEXT, \
             Type TEXT, \
             Isbn TEXT, \

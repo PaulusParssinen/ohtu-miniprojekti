@@ -16,12 +16,8 @@ class ReadingTipRepository:
     def create(self, reading_tip_object: ReadingTip) -> bool:
         """Inserting new reading tip into db.
         
-           If given reading tip was succesfully inserted into the database, returns True.
-           If not; returns false.
-           
-           Given data is checked before inserting into db:
-           - None values are replaced with empty strings
-           - Non-string values are replaced with strings
+           If the given ReadingTip was succesfully inserted into the database, returns True.
+           If the given ReadingTip does not follow the database schema constraints; returns False.
         """
         
         db_cursor = self._db.connection.cursor()
@@ -36,19 +32,16 @@ class ReadingTipRepository:
             reading_tip_object.comment
         ]
         
-        self.validate_db_values(values_to_db)
-        
         try:
             db_cursor.execute(
                 "INSERT INTO ReadingTip (Title, Author, Type, Isbn, Url, Description, Comment) \
                 VALUES (?, ?, ?, ?, ?, ?, ?)", tuple(values_to_db)
             )
+            
+            self._db.connection.commit()
         except:
             return False
-        
-        self._db.connection.commit()
         return True
-    
     
     def get_by_id(self, reading_tip_id) -> ReadingTip:
         """Returns reading tip based on given id from db.
@@ -58,30 +51,21 @@ class ReadingTipRepository:
         
         db_cursor = self._db.connection.cursor()
         
-        try:
-            query_result = db_cursor.execute(
-                "SELECT * FROM ReadingTip WHERE Id = ?", (reading_tip_id,)
-            ).fetchone()
-        except:
-            return None
+        query_result = db_cursor.execute(
+            "SELECT * FROM ReadingTip WHERE Id = ?", (reading_tip_id,)
+        ).fetchone()
         
         return self.create_tip_from_result(query_result)
     
-    
     def search_by_title(self, reading_tip_title) -> ReadingTip:
         """Returns reading tips that contain given title from db.
-        
-           If query failed, returns None.
         """
         
         db_cursor = self._db.connection.cursor()
         
-        try:
-            query_result = db_cursor.execute(
-                "SELECT * FROM ReadingTip WHERE Title LIKE ?", (f"%{reading_tip_title}%",)
-            ).fetchall()
-        except:
-            return None
+        query_result = db_cursor.execute(
+            "SELECT * FROM ReadingTip WHERE Title LIKE ?", (f"%{reading_tip_title}%",)
+        ).fetchall()
         
         return self.create_tips_from_results(query_result)
     
@@ -98,15 +82,11 @@ class ReadingTipRepository:
         
         return self.create_tips_from_results(query_result)
     
-    def modify(self, new_reading_tip: ReadingTip) -> bool:
-        """Modifying existing reading tip in db.
+    def update(self, new_reading_tip: ReadingTip) -> bool:
+        """Update existing ReadingTip in the database.
         
-           If given reading tip was modified succesfully, returns True.
-           If given reading tip id does not exist in the db, returns False.
-        
-           Given data is checked before modifying in db:
-           - None values are replaced with empty strings
-           - Non-string values are replaced with strings
+           If given ReadingTip was updated succesfully, returns True.
+           If the given ReadingTip does not follow the database schema constraints; returns False.
         """
         
         db_cursor = self._db.connection.cursor()
@@ -121,8 +101,6 @@ class ReadingTipRepository:
             new_reading_tip.comment,
             new_reading_tip.id
         ]
-        
-        self.validate_db_values(values_to_db)
         
         try:
             db_cursor.execute(
@@ -142,32 +120,17 @@ class ReadingTipRepository:
             return False
         return True
     
-    
     def delete(self, reading_tip_id) -> bool:
         """Deleting existing reading tip from db.
-        
-           If reading tip was deleted succesfully, returns True
-           If reading tip with given id does not exist in the db, returns False.
         """
         
         db_cursor = self._db.connection.cursor()
         
-        try:
-            db_cursor.execute(
-                "DELETE FROM ReadingTip WHERE Id = ?", (reading_tip_id,)
-            )
+        db_cursor.execute(
+            "DELETE FROM ReadingTip WHERE Id = ?", (reading_tip_id,)
+        )
             
-            self._db.connection.commit()
-        except:
-            return False
-        return True
-    
-    def validate_db_values(self, values):
-        for index, value in enumerate(values):
-            if value is None:
-                values[index] = ''
-            elif not isinstance(value, str):
-                values[index] = str(value)
+        self._db.connection.commit()
     
     def create_tip_from_result(self, result_row) -> ReadingTip:
         """Populates a ReadingTip object from a single query result row.
@@ -197,6 +160,5 @@ class ReadingTipRepository:
         for row in result_rows:
             tips.append(self.create_tip_from_result(row))
         return tips
-    
-    
+
 reading_tip_repository = ReadingTipRepository()

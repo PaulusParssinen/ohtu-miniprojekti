@@ -4,20 +4,20 @@ from repositories.reading_tip_repository import (
 from entities.reading_tip import ReadingTip
 
 class ReadingTipService:
-    """Class encapsulating the business logic exposed to the application.
+    """Class encapsulating the business logic such as exposed to the application.
+    
+       This class is responsible for validating and sanitizing parameters to be valid the 
+       for underlying data storage.
     """
     def __init__(self, reading_tip_repository=default_reading_tip_repository):
         self._reading_tip_repository = reading_tip_repository
 
-    def create(self, title, author=None, link=None):
+    def create(self, title: str, author=None, link=None):
         """Adds a new tip with given fields to the underlying repository.
            
            Raises an exception if given fields do not follow the validation rules.
         """
-        title = title.rstrip()
-        if len(title) == 0:
-            raise Exception("Reading tip must have a title!")
-        
+        self.validate_title(title)
         reading_tip = ReadingTip(title=title, author=author, url=link)
         
         if not self._reading_tip_repository.create(reading_tip):
@@ -26,8 +26,7 @@ class ReadingTipService:
     def delete(self, tip_id):
         """Delete selected reading tip by id
         """
-        if not self._reading_tip_repository.delete(tip_id):
-            raise Exception(f"Failed to delete reading tip with given id: {tip_id}")
+        self._reading_tip_repository.delete(tip_id)
 
     def get_all(self) -> list[ReadingTip]:
         """Returns all reading tips from the underlying repository.
@@ -39,8 +38,7 @@ class ReadingTipService:
         
            If no tips were found from the repository, returns None.
         """
-        tips_with_title = self._reading_tip_repository.search_by_title(tip_title)
-        return tips_with_title
+        return self._reading_tip_repository.search_by_title(tip_title)
 
     def get_by_id(self, tip_id) -> ReadingTip:
         """Returns reading tip by given id from the underlying repository.
@@ -58,23 +56,28 @@ class ReadingTipService:
         """
         tip = self.get_by_id(reading_tip_id)
         if tip is None:
-            return False
+            raise Exception(f"No reading tip found with id: {reading_tip_id}")
         
-        return self.update(tip, new_title, new_author, new_url)
-
-    def update(self, reading_tip: ReadingTip,
-            new_title=None, new_author=None, new_url=None) -> bool:
-        """Updates given reading tip fields in the underlying repository.
-        
-           If given reading tip was modified succesfully, returns True.
-           If given reading tip id does not exist in the repository, returns False
-        """
-        # Update fields in the existing ReadingTip object if new values are specified
+        # Edit the existing tip fields
         if new_title:
-            reading_tip.title = new_title
+            tip.title = new_title
         if new_author:
-            reading_tip.author = new_author
+            tip.author = new_author
         if new_url:
-            reading_tip.url = new_url
+            tip.url = new_url
         
-        return self._reading_tip_repository.modify(reading_tip)
+        return self.update(tip)
+
+    def update(self, new_reading_tip: ReadingTip) -> bool:
+        """Updates given reading tip fields in the underlying repository.
+        """
+        # Validate the fields of the new reading tip object
+        self.validate_title(new_reading_tip.title)
+        
+        self._reading_tip_repository.update(new_reading_tip)
+    
+    def validate_title(self, title):
+        # Remove whitespace from the start and end of the title
+        title = title.strip()
+        if len(title) == 0:
+            raise Exception("Reading tip cannot have a empty title!")
