@@ -5,11 +5,12 @@ class Database:
     """
 
     def __init__(self, file_name):
-        """Opens a connection to the specified local database and ensures that 
+        """Opens a connection to the specified local database and ensures that
            the database tables are created.
         """
         self.connection = sqlite3.connect(file_name)
         self.ensure_tables_are_created()
+        self.ensure_tags_table_is_created()
 
     def drop_tables_from_db(self):
         """Drops all tables from db.
@@ -36,7 +37,16 @@ class Database:
             Isbn TEXT, \
             Url TEXT, \
             Description TEXT, \
-            Comment TEXT)")
+            Comment TEXT, \
+            Tags)")
+        self.connection.commit()
+
+    def ensure_tags_table_is_created(self):
+        db_cursor = self.connection.cursor()
+
+        db_cursor.execute("CREATE TABLE IF NOT EXISTS Tags (\
+            Tag_id INTEGER PRIMARY KEY, \
+            Tag_name TEXT CHECK(Tag_name IS NOT NULL AND length(Tag_name) > 0))")
         self.connection.commit()
 
     def ensure_tags_table_is_created(self):
@@ -52,5 +62,6 @@ class Database:
         """
         self.drop_tables_from_db()
         self.ensure_tables_are_created()
+        self.ensure_tags_table_is_created()
 
 db = Database("readingtips.db")

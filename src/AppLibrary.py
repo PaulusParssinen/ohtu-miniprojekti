@@ -3,13 +3,15 @@ from database import Database
 from tests.stub_io import StubIO
 from services.reading_tip_service import ReadingTipService
 from repositories.reading_tip_repository import ReadingTipRepository
+from repositories.tags_repository import TagsRepository
 
 class AppLibrary:
     def __init__(self):
         self._io = StubIO()
         self._db = Database(":memory:")
-        self._repository = ReadingTipRepository(self._db)
-        self._service = ReadingTipService(self._repository)
+        self._reading_tip_repository = ReadingTipRepository(self._db)
+        self._tags_repository = TagsRepository(self._db)
+        self._service = ReadingTipService(self._reading_tip_repository, self._tags_repository)
 
         self._app = App(self._service, self._io)
 

@@ -20,19 +20,8 @@ class App:
         link = self.io.read("Give reading tip a link: ")
         self.io.write('Choose tag for tip!')
         self.see_all_tags()
-        command = self.io.read(f'Press 1: Choose existing tag \n \
-                        Press 2: Create new tag')
-        if command == 1:
-            self.io.write("Please give tag id: ")
-            # lisää tägi lukuvinkkiin
-        if command == 2:
-            pass
-            new_tag = self.io.write("Please give new tag name: ")
-            # luo uusi tägi
-            # lisää tägi tietokantaan
-            # lisää tägi lukuvinkkiin
-
-        self.reading_tip_service.create(title, link=link)
+        new_tag = self.io.read("Please give new tag name: ")
+        self.reading_tip_service.create(title, link=link, tag_name=new_tag)
         self.io.write("New Reading Tip added!")
 
     def modify_reading_tip(self):

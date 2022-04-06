@@ -27,11 +27,10 @@ class ReadingTipRepository:
             reading_tip_object.url,
             reading_tip_object.description,
             reading_tip_object.comment,
-            reading_tip_object.tags
         ]
         try:
             db_cursor.execute(
-                "INSERT INTO ReadingTip (Title, Author, Type, Isbn, Url, Description, Comment, Tags) \
+                "INSERT INTO ReadingTip (Title, Author, Type, Isbn, Url, Description, Comment) \
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tuple(values_to_db)
             )
             self._db.connection.commit()
