@@ -14,7 +14,7 @@ class TestReadingTipsRepository(unittest.TestCase):
     def test_create_tip_with_non_empty_values_works(self):
         self.assertEqual(self.repository.get_by_id(1).title, "Kirja 1")
 
-    def test_creat_tip_with_empty_title_should_return_false(self):
+    def test_create_tip_with_empty_title_should_return_false(self):
         self.assertFalse(self.repository.create(ReadingTip()))
 
     def test_get_by_id_by_id_that_does_not_exist_returns_none(self):
