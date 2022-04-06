@@ -30,7 +30,9 @@ class App:
         else:
             self.print_reading_tip(reading_tip)
             new_title = self.io.read("Enter new title: \n")
-            self.reading_tip_service.update(reading_tip, new_title)
+            
+            reading_tip.title = new_title
+            self.reading_tip_service.update(reading_tip)
             self.io.write("Modification done successfully.")
 
     def delete_reading_tip(self):
