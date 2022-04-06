@@ -30,7 +30,7 @@ class Database:
 
         db_cursor.execute("CREATE TABLE IF NOT EXISTS ReadingTip (\
             Id INTEGER PRIMARY KEY, \
-            Title TEXT, \
+            Title TEXT NOT NULL, \
             Author TEXT, \
             Type TEXT, \
             Isbn TEXT, \
