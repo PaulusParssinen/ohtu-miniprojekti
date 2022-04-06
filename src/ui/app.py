@@ -17,13 +17,13 @@ class App:
 
     def add_reading_tip(self):
         title = self.io.read("Give reading tip title: ")
-        self.reading_tip_service.create_reading_tip(title)
+        self.reading_tip_service.create(title)
         
         self.io.write("New Reading Tip added!")
     
     def modify_reading_tip(self):
         tip_id = self.io.read("Which reading tip you want to modify? Please give id: \n")
-        reading_tip = self.reading_tip_service.get_reading_tip_by_id(tip_id)
+        reading_tip = self.reading_tip_service.get_by_id(tip_id)
 
         if reading_tip is None:
             self.io.writeline(f"Reading tip with id {tip_id} was not found.")
@@ -31,7 +31,7 @@ class App:
             self.print_reading_tip(reading_tip)
             
             new_title = self.io.read("Enter new title: \n")
-            self.reading_tip_service.modify_reading_tip(reading_tip, new_title)
+            self.reading_tip_service.update(reading_tip, new_title)
  
             self.io.write("Modification done successfully.")
     
@@ -40,16 +40,16 @@ class App:
             tip_id = int(self.io.read("Which reading tip you want to delete? Please give id: "))
         except:
             self.io.write("Invalid reading tip id")
-        self.reading_tip_service.delete_reading_tip_by_id(tip_id)
+        self.reading_tip_service.delete(tip_id)
     
     def see_all_reading_tips(self):
-        all_tips = self.reading_tip_service.see_all_reading_tips()
+        all_tips = self.reading_tip_service.get_all()
         if all_tips:
             self.print_list_of_tips(all_tips)
     
     def search_reading_tips_by_title(self):
         title = self.io.read("Enter title to search for: ")
-        tips = self.reading_tip_service.search_reading_tip_by_title(title)
+        tips = self.reading_tip_service.search_by_title(title)
         if tips:
             self.print_list_of_tips(tips)
         else:

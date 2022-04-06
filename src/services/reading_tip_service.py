@@ -9,7 +9,7 @@ class ReadingTipService:
     def __init__(self, reading_tip_repository=default_reading_tip_repository):
         self._reading_tip_repository = reading_tip_repository
 
-    def create_reading_tip(self, title, author=None, link=None):
+    def create(self, title, author=None, link=None):
         """Adds a new tip with given fields to the underlying repository.
            
            Raises an exception if given fields do not follow the validation rules.
@@ -23,18 +23,18 @@ class ReadingTipService:
         if not self._reading_tip_repository.create(reading_tip):
             raise Exception("Failed to add a new reading tip!")
 
-    def delete_reading_tip_by_id(self, tip_id):
+    def delete(self, tip_id):
         """Delete selected reading tip by id
         """
         if not self._reading_tip_repository.delete(tip_id):
             raise Exception(f"Failed to delete reading tip with given id: {tip_id}")
 
-    def see_all_reading_tips(self) -> list[ReadingTip]:
+    def get_all(self) -> list[ReadingTip]:
         """Returns all reading tips from the underlying repository.
         """
         return self._reading_tip_repository.get_all()
     
-    def search_reading_tip_by_title(self, tip_title) -> list[ReadingTip]:
+    def search_by_title(self, tip_title) -> list[ReadingTip]:
         """Returns reading tips by found from the underlying repository by given title.
         
            If no tips were found from the repository, returns None.
@@ -42,34 +42,34 @@ class ReadingTipService:
         tips_with_title = self._reading_tip_repository.search_by_title(tip_title)
         return tips_with_title
 
-    def get_reading_tip_by_id(self, tip_id) -> ReadingTip:
+    def get_by_id(self, tip_id) -> ReadingTip:
         """Returns reading tip by given id from the underlying repository.
         
            If reading tip on given id does not exist in the repository, returns None.
         """
         return self._reading_tip_repository.get_by_id(tip_id)
 
-    def modify_reading_tip_by_id(self, reading_tip_id: int,
+    def update_by_id(self, reading_tip_id: int,
             new_title=None, new_author=None, new_url=None) -> bool:
-        """Modifies given reading tip fields in the underlying repository.
+        """Updates given reading tip fields in the underlying repository.
         
            If given reading tip was modified succesfully, returns True.
            If given reading tip id does not exist in the repository, returns False
         """
-        tip = self.get_reading_tip_by_id(reading_tip_id)
+        tip = self.get_by_id(reading_tip_id)
         if tip is None:
             return False
         
-        return self.modify_reading_tip(tip, new_title, new_author, new_url)
+        return self.update(tip, new_title, new_author, new_url)
 
-    def modify_reading_tip(self, reading_tip: ReadingTip,
+    def update(self, reading_tip: ReadingTip,
             new_title=None, new_author=None, new_url=None) -> bool:
-        """Modifies given reading tip fields in the underlying repository.
+        """Updates given reading tip fields in the underlying repository.
         
            If given reading tip was modified succesfully, returns True.
            If given reading tip id does not exist in the repository, returns False
         """
-        # Update fields in the existing ReadintTip object if new values are specified
+        # Update fields in the existing ReadingTip object if new values are specified
         if new_title:
             reading_tip.title = new_title
         if new_author:

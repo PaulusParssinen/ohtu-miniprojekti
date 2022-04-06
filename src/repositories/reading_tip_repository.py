@@ -36,12 +36,7 @@ class ReadingTipRepository:
             reading_tip_object.comment
         ]
         
-        # Data checked before inputting into db:
-        for index, value in enumerate(values_to_db):
-            if value is None:
-                values_to_db[index] = ''
-            elif not isinstance(value, str):
-                values_to_db[index] = str(value)
+        self.validate_db_values(values_to_db)
         
         try:
             db_cursor.execute(
@@ -127,12 +122,7 @@ class ReadingTipRepository:
             new_reading_tip.id
         ]
         
-        # Data checked before inputting into db:
-        for index, value in enumerate(values_to_db):
-            if value is None:
-                values_to_db[index] = ''
-            elif not isinstance(value, str):
-                values_to_db[index] = str(value)
+        self.validate_db_values(values_to_db)
         
         try:
             db_cursor.execute(
@@ -171,6 +161,13 @@ class ReadingTipRepository:
         except:
             return False
         return True
+    
+    def validate_db_values(self, values):
+        for index, value in enumerate(values):
+            if value is None:
+                values[index] = ''
+            elif not isinstance(value, str):
+                values[index] = str(value)
     
     def create_tip_from_result(self, result_row) -> ReadingTip:
         """Populates a ReadingTip object from a single query result row.
