@@ -97,5 +97,4 @@ class ReadingTipService:
         title = title.strip()
         if len(title) == 0:
             raise Exception("Reading tip cannot have a empty title!")
-
  

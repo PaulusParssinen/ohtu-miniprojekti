@@ -79,8 +79,7 @@ class ReadingTipRepository:
 
     def update(self, new_reading_tip):
         """Update existing ReadingTip in the database.
-
-           If given ReadingTip was updated succesfully, returns True.
+           If given ReadingTip was updated successfully, returns True.
            If the given ReadingTip does not follow the database schema constraints; returns False.
         """
 
@@ -94,7 +93,7 @@ class ReadingTipRepository:
             new_reading_tip.url,
             new_reading_tip.description,
             new_reading_tip.comment,
-            new_reading_tip.id,
+            new_reading_tip.id
         ]
         try:
             db_cursor.execute(
@@ -106,7 +105,6 @@ class ReadingTipRepository:
                     Url=?, \
                     Description=?, \
                     Comment=? \
-                    Tags=? \
                     WHERE Id=?", tuple(values_to_db)
             )
 
@@ -143,6 +141,7 @@ class ReadingTipRepository:
             url=result_row[5],
             description=result_row[6],
             comment=result_row[7],
+            tags=result_row[8]
         )
 
 
