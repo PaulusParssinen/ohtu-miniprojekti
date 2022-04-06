@@ -25,5 +25,5 @@ class AppLibrary:
     def run_application(self):
         self._app.run()
 
-    def create_reading_tip(self, title, link):
-        self._service.create(title, link=link)
+    def create_reading_tip(self, title, link, tag):
+        self._service.create(title, link=link, tag=tag)

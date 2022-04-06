@@ -17,6 +17,7 @@ class Database:
 
         db_cursor = self.connection.cursor()
         db_cursor.execute("DROP TABLE IF EXISTS ReadingTip")
+        db_cursor.execute("DROP TABLE IF EXISTS Tags")
 
         self.connection.commit()
 
@@ -36,6 +37,14 @@ class Database:
             Url TEXT, \
             Description TEXT, \
             Comment TEXT)")
+        self.connection.commit()
+
+    def ensure_tags_table_is_created(self):
+        db_cursor = self.connection.cursor()
+
+        db_cursor.execute("CREATE TABLE IF NOT EXISTS Tags (\
+            Tag_id INTEGER PRIMARY KEY, \
+            Tag_name TEXT CHECK(Tag_name IS NOT NULL AND length(Title) > 0))")
         self.connection.commit()
 
     def reset_database(self):
