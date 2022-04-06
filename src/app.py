@@ -18,10 +18,11 @@ class App:
     def add_reading_tip(self):
         title = self.io.read("Give reading tip title: ")
         link = self.io.read("Give reading tip a link: ")
-        self.io.write('Choose tag for tip!')
-        self.see_all_tags()
-        new_tag = self.io.read("Please give new tag name: ")
-        self.reading_tip_service.create(title, link=link, tag_name=new_tag)
+        #self.io.write('Choose tag for tip!')
+        #self.see_all_tags()
+        #new_tag = self.io.read("Please give new tag name: ")
+        self.reading_tip_service.create(title, link=link)
+        #self.reading_tip_service.create(title, link=link, tag_name=new_tag)
         self.io.write("New Reading Tip added!")
 
     def modify_reading_tip(self):

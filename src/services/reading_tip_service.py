@@ -17,7 +17,7 @@ class ReadingTipService:
         self._reading_tip_repository = reading_tip_repository
         self._tags_repository = tags_repository
 
-    def create(self, title: str, author=None, link=None, tag_name=None):
+    def create(self, title: str, author=None, link=None): #tag_name=None)
         """Adds a new tip with given fields to the underlying repository.
 
            Raises an exception if given fields do not follow the validation rules.
@@ -25,12 +25,12 @@ class ReadingTipService:
         self.validate_title(title)
 
         reading_tip = ReadingTip(title=title, author=author, url=link)
-        tag = ReadingTip(tags=tag_name)
+        #tag = ReadingTip(tags=tag_name)
 
         if not self._reading_tip_repository.create(reading_tip):
             raise Exception("Failed to add a new reading tip!")
-        if not self._tags_repository.create(tag):
-            raise Exception("Failed to add a new reading tip!")
+        #if not self._tags_repository.create(tag):
+        #   raise Exception("Failed to add a new reading tip!")
 
     def delete(self, tip_id):
         """Delete selected reading tip by id
