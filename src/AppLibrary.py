@@ -2,7 +2,7 @@ from app import App
 from database import Database
 from tests.stub_io import StubIO
 from services.reading_tip_service import ReadingTipService
-from services.tag_service import TagService
+from services.tags_service import TagsService
 from repositories.reading_tip_repository import ReadingTipRepository
 from repositories.tags_repository import TagsRepository
 
@@ -13,8 +13,7 @@ class AppLibrary:
         self._reading_tip_repository = ReadingTipRepository(self._db)
         self._tags_repository = TagsRepository(self._db)
         self._service = ReadingTipService(self._reading_tip_repository)
-        self._tag_service = TagService(self._tags_repository)
-
+        self._tag_service = TagsService(self._tags_repository)
         self._app = App(self._service, self._io, self._tag_service)
 
     def input(self, value):

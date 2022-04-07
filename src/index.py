@@ -1,7 +1,7 @@
 import sys
 from database import db
 from services.reading_tip_service import ReadingTipService
-from services.tag_service import TagService
+from services.tags_service import TagService
 from repositories.reading_tip_repository import ReadingTipRepository
 from repositories.tags_repository import TagsRepository
 from ui.console_io import ConsoleIO
