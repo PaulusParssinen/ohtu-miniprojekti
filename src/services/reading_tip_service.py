@@ -29,7 +29,6 @@ class ReadingTipService:
         """
         self._reading_tip_repository.delete(tip_id)
 
-
     def get_all(self):
         """Returns all reading tips from the underlying repository.
         """

@@ -1,3 +1,4 @@
+from entities.tag import Tag
 class ReadingTip:
 
     """Class that represents the reading tip."""
@@ -32,3 +33,4 @@ class ReadingTip:
 
     def __str__(self):
         return self.format()
+

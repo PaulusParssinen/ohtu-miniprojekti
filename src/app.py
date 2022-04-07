@@ -13,20 +13,21 @@ class App:
             3: self.delete_reading_tip,
             4: self.see_all_reading_tips,
             5: self.search_reading_tips_by_title,
-            6: self.exit_app
+            6: self.exit_app,
+            7: self.add_tag
         }
 
     def add_reading_tip(self):
         title = self.io.read("Give reading tip title: ")
         link = self.io.read("Give reading tip a link: ")
-        self.io.write('Choose tag for tip!')
-        self.see_all_tags()
         self.reading_tip_service.create(title, link=link)
         #self.reading_tip_service.create(title, link=link, tag_name=new_tag)
         self.io.write("New Reading Tip added!")
 
     def add_tag(self):
-        pass
+        new_tag = self.io.read("Give new tag: ")
+        self.tag_service.create_tag(new_tag)
+        self.io.write("New tag added")
 
     def modify_reading_tip(self):
         tip_id = self.io.read("Which reading tip you want to modify? Please give id: \n")
@@ -41,6 +42,7 @@ class App:
             reading_tip.title = new_title
             self.reading_tip_service.update(reading_tip)
             self.io.write("Modification done successfully.")
+
 
     def delete_reading_tip(self):
         try:
@@ -91,6 +93,7 @@ class App:
         self.io.write(" 4. See all Reading Tips")
         self.io.write(" 5. Search Reading Tips by title")
         self.io.write(" 6. Exit software")
+        self.io.write(" 7. Add new tag")
 
     def run(self):
         self.io.write("Welcome to Reading Tip software!")
