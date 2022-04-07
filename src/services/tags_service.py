@@ -4,7 +4,6 @@ from repositories.tags_repository import (
 
 from entities.tag import Tag
 
-
 class TagsService:
     def __init__(self, tags_repository=default_tags_repository):
         self._tags_repository = tags_repository
