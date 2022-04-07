@@ -1,9 +1,10 @@
 from entities.reading_tip import ReadingTip
 
 class App:
-    def __init__(self, reading_tip_service, io):
+    def __init__(self, reading_tip_service, io, tag_service):
         self.io = io
         self.reading_tip_service = reading_tip_service
+        self.tag_service = tag_service
 
         # Initialize (command id -> command handler) map.
         self.commands = {
@@ -49,7 +50,7 @@ class App:
         self.reading_tip_service.delete(tip_id)
 
     def see_all_tags(self):
-        all_tags = self.reading_tip_service.get_all_tags()
+        all_tags = self.tag_service.get_all_tags()
         if all_tags:
             self.print_list_of_tags(all_tags)
 
