@@ -14,7 +14,6 @@ class AppLibrary:
         self._tags_repository = TagsRepository(self._db)
         self._service = ReadingTipService(self._reading_tip_repository)
         self._tag_service = TagsService(self._tags_repository)
-
         self._app = App(self._service, self._io, self._tag_service)
 
     def input(self, value):
