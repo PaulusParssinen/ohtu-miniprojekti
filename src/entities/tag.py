@@ -1,4 +1,4 @@
-class Tags:
+class Tag:
     def __init__(self):
         self.tags = []
         self.tags_in_reading_tip = []
