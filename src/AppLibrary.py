@@ -11,7 +11,7 @@ class AppLibrary:
         self._db = Database(":memory:")
         self._reading_tip_repository = ReadingTipRepository(self._db)
         self._tags_repository = TagsRepository(self._db)
-        self._service = ReadingTipService(self._reading_tip_repository, self._tags_repository)
+        self._service = ReadingTipService(self._reading_tip_repository)
 
         self._app = App(self._service, self._io)
 
@@ -27,5 +27,5 @@ class AppLibrary:
     def run_application(self):
         self._app.run()
 
-    def create_reading_tip(self, title, link, tag):
-        self._service.create(title, link=link, tag=tag)
+    def create_reading_tip(self, title, link):
+        self._service.create(title, link=link)

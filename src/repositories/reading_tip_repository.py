@@ -78,40 +78,40 @@ class ReadingTipRepository:
         return self.create_tips_from_results(query_result)
 
     def update(self, new_reading_tip):
-            """Update existing ReadingTip in the database.
+        """Update existing ReadingTip in the database.
             If given ReadingTip was updated successfully, returns True.
             If the given ReadingTip does not follow the database schema constraints; returns False.
-            """
+        """
 
-            db_cursor = self._db.connection.cursor()
+        db_cursor = self._db.connection.cursor()
 
-            values_to_db = [
-                new_reading_tip.title,
-                new_reading_tip.author,
-                new_reading_tip.type,
-                new_reading_tip.isbn,
-                new_reading_tip.url,
-                new_reading_tip.description,
-                new_reading_tip.comment,
-                new_reading_tip.id
+        values_to_db = [
+            new_reading_tip.title,
+            new_reading_tip.author,
+            new_reading_tip.type,
+            new_reading_tip.isbn,
+            new_reading_tip.url,
+            new_reading_tip.description,
+            new_reading_tip.comment,
+            new_reading_tip.id
             ]
-            try:
-                db_cursor.execute(
-                    "UPDATE ReadingTip SET \
-                        Title=?, \
-                        Author=?, \
-                        Type=?, \
-                        Isbn=?, \
-                        Url=?, \
-                        Description=?, \
-                        Comment=? \
-                        WHERE Id=?", tuple(values_to_db)
+        try:
+            db_cursor.execute(
+                "UPDATE ReadingTip SET \
+                    Title=?, \
+                    Author=?, \
+                    Type=?, \
+                    Isbn=?, \
+                    Url=?, \
+                    Description=?, \
+                    Comment=? \
+                    WHERE Id=?", tuple(values_to_db)
                 )
 
-                self._db.connection.commit()
-            except:
-                return False
-            return True
+            self._db.connection.commit()
+        except:
+            return False
+        return True
 
     def delete(self, reading_tip_id) -> bool:
         """Deleting existing reading tip from db.
@@ -141,8 +141,6 @@ class ReadingTipRepository:
             url=result_row[5],
             description=result_row[6],
             comment=result_row[7],
-            tags=result_row[8]
-
         )
 
 
