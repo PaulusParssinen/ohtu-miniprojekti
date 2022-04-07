@@ -13,17 +13,6 @@ class ReadingTip:
         self.description = description
         self.comment = comment
         self.related_courses = []
-        self.tags = []
-        self.tags_in_reading_tip = []
-
-    def create_new_tag(self, tag_name):
-        """Creates new tag to the """
-        if tag_name not in self.tags:
-            self.tags.append(tag_name)
-
-    def add_tag_to_reading_tip(self, tag_name):
-        if tag_name not in self.tags:
-            self.tags_in_reading_tip.append(tag_name)
 
     def format(self, seperator=", ") -> str:
         """Formats the reading tip values to a string using the specified seperator (default ", ").
@@ -39,8 +28,6 @@ class ReadingTip:
             values.append(f"Author: {self.author}")
         if self.url:
             values.append(f"URL: {self.url}")
-        if self.tags_in_reading_tip:
-            values.append(f"Tags: {self.tags}")
         return seperator.join(values)
 
     def __str__(self):
