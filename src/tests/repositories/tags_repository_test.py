@@ -13,9 +13,7 @@ class TestTagsRepository(unittest.TestCase):
         self.repository.create_tag(self.tag)
 
     def test_create_tag_with_non_empty_values_works(self):
-        self.assertEqual(self.repository.get_by_tag_name('tag1').tag_name, "tag1")
+        self.assertEqual(self.repository.get_tag_by_name('tag1').tag_name, "tag1")
 
     def test_create_tag_with_empty_field_should_return_false(self):
         self.assertFalse(self.repository.create_tag(Tag(" ")))
-    
-

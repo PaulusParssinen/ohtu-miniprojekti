@@ -13,11 +13,11 @@ class TagsService:
 
            Raises an exception if given fields do not follow the validation rules.
         """
-        if not self._tags_repository.create_tag(Tag(tag_name)):
+        if not self._tags_repository.create_tag(tag_name):
             raise Exception("Failed to add a new tag!")
 
-    def get_by_tag_name(self, tag_name):
-        return self._tag_repository.get_tag_by_name(tag_name)
+    def get_tag_by_name(self, tag_name):
+        return self._tags_repository.get_tag_by_name(tag_name)
 
     def get_all_tags(self):
         """Returns all reading tips from the underlying repository.

@@ -11,7 +11,7 @@ class TestReadingTipService(unittest.TestCase):
         self.db = Database(":memory:")
         self.repository = TagsRepository(self.db)
         self.service = TagsService(self.repository)
-        self.service.create_tag(Tag("tagi1"))
+        self.service.create_tag(Tag("tagi1").tag_name)
 
     def test_create_with_valid_name_should_add_a_new_tag(self):
-        self.assertEqual(self.service.get_by_tag_name("tagi1"), "tagi1")
+        self.assertEqual(self.service.get_tag_by_name(Tag("tagi1")), "tagi1")
