@@ -33,17 +33,7 @@ class TagsRepository:
         return self.create_tag_from_result(query_result)
 
     def insert_tag_into_reading_tip_repository(self):
-        """Inserts wanted tags from Tags table into wanted reading tips in readingtip table"""
-        db_cursor = self._db.connection.cursor()
-
-        try:
-
-            db_cursor.execute(
-                "INSERT INTO ReadingTip (Tags) SELECT Tag_name FROM Tags WHERE Tag_id=?)")
-            self._db.connection.commit()
-        except:
-            return False
-        return True
+        pass
 
     def get_all_tags(self):
         pass

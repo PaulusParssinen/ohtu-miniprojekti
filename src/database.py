@@ -11,6 +11,7 @@ class Database:
         self.connection = sqlite3.connect(file_name)
         self.ensure_tables_are_created()
         self.ensure_tags_table_is_created()
+        self.ensure_tag_tips_table_is_created()
 
     def drop_tables_from_db(self):
         """Drops all tables from db.
@@ -19,6 +20,7 @@ class Database:
         db_cursor = self.connection.cursor()
         db_cursor.execute("DROP TABLE IF EXISTS ReadingTip")
         db_cursor.execute("DROP TABLE IF EXISTS Tags")
+        db_cursor.execute("DROP TABLE IF EXISTS TagTips")
 
         self.connection.commit()
 
@@ -30,7 +32,7 @@ class Database:
         db_cursor = self.connection.cursor()
 
         db_cursor.execute("CREATE TABLE IF NOT EXISTS ReadingTip (\
-            Id INTEGER PRIMARY KEY, \
+            Tip_Id INTEGER PRIMARY KEY, \
             Title TEXT CHECK(Title IS NOT NULL AND length(Title) > 0), \
             Author TEXT, \
             Type TEXT, \
@@ -49,11 +51,20 @@ class Database:
             Tag_name TEXT CHECK(Tag_name IS NOT NULL AND length(Tag_name) > 0))")
         self.connection.commit()
 
+    def ensure_tag_tips_table_is_created(self):
+        db_cursor = self.connection.cursor()
+
+        db_cursor.execute("CREATE TABLE IF NOT EXISTS TagTips (\
+            Tip_Id INTEGER REFERENCES ReadingTip, \
+            Tag_Id INTEGER REFERENCES Tags)")
+        self.connection.commit()
+
     def reset_database(self):
         """Drops database if it exists and creates new tables.
         """
         self.drop_tables_from_db()
         self.ensure_tables_are_created()
         self.ensure_tags_table_is_created()
+        self.ensure_tag_tips_table_is_created()
 
 db = Database("readingtips.db")
