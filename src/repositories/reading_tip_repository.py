@@ -47,7 +47,7 @@ class ReadingTipRepository:
         db_cursor = self._db.connection.cursor()
 
         query_result = db_cursor.execute(
-            "SELECT * FROM ReadingTip WHERE Id = ?", (reading_tip_id,)
+            "SELECT * FROM ReadingTip WHERE Tip_Id = ?", (reading_tip_id,)
         ).fetchone()
 
         return self.create_tip_from_result(query_result)
@@ -105,7 +105,7 @@ class ReadingTipRepository:
                     Url=?, \
                     Description=?, \
                     Comment=? \
-                    WHERE Id=?", tuple(values_to_db)
+                    WHERE Tip_Id=?", tuple(values_to_db)
                 )
 
             self._db.connection.commit()
@@ -119,7 +119,7 @@ class ReadingTipRepository:
 
         db_cursor = self._db.connection.cursor()
         db_cursor.execute(
-            "DELETE FROM ReadingTip WHERE Id = ?", (reading_tip_id,)
+            "DELETE FROM ReadingTip WHERE Tip_Id = ?", (reading_tip_id,)
         )
 
         self._db.connection.commit()
