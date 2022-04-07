@@ -1,10 +1,6 @@
 from repositories.reading_tip_repository import (
     ReadingTipRepository as default_reading_tip_repository
     )
-
-from repositories.tags_repository import (
-    TagsRepository as default_tags_repository
-    )
 from entities.reading_tip import ReadingTip
 
 class ReadingTipService:
@@ -13,11 +9,10 @@ class ReadingTipService:
        This class is responsible for validating and sanitizing parameters to be valid the 
        for underlying data storage.
     """
-    def __init__(self, reading_tip_repository=default_reading_tip_repository, tags_repository=default_tags_repository):
+    def __init__(self, reading_tip_repository=default_reading_tip_repository):
         self._reading_tip_repository = reading_tip_repository
-        self._tags_repository = tags_repository
 
-    def create(self, title: str, author=None, link=None): #tag_name=None)
+    def create(self, title: str, author=None, link=None):
         """Adds a new tip with given fields to the underlying repository.
 
            Raises an exception if given fields do not follow the validation rules.
@@ -25,22 +20,15 @@ class ReadingTipService:
         self.validate_title(title)
 
         reading_tip = ReadingTip(title=title, author=author, url=link)
-        #tag = ReadingTip(tags=tag_name)
 
         if not self._reading_tip_repository.create(reading_tip):
             raise Exception("Failed to add a new reading tip!")
-        #if not self._tags_repository.create(tag):
-        #   raise Exception("Failed to add a new reading tip!")
 
     def delete(self, tip_id):
         """Delete selected reading tip by id
         """
         self._reading_tip_repository.delete(tip_id)
 
-    def get_all_tags(self):
-        """Returns all tags from the underlying repository.
-        """
-        pass
 
     def get_all(self):
         """Returns all reading tips from the underlying repository.
@@ -60,9 +48,6 @@ class ReadingTipService:
            If reading tip on given id does not exist in the repository, returns None.
         """
         return self._reading_tip_repository.get_by_id(tip_id)
-
-    def get_tag_by_id(self, tag_id):
-        return self._tags_repository.get_tag_by_id(tag_id)
 
     def update_by_id(self, reading_tip_id: int,
             new_title=None, new_author=None, new_url=None) -> bool:
@@ -97,4 +82,3 @@ class ReadingTipService:
         title = title.strip()
         if len(title) == 0:
             raise Exception("Reading tip cannot have a empty title!")
- 

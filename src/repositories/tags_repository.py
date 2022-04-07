@@ -23,11 +23,11 @@ class TagsRepository:
             return False
         return True
 
-    def get_tag_by_id(self, tag_id) -> ReadingTip:
+    def get_tag_by_name(self, tag_name) -> ReadingTip:
         db_cursor = self._db.connection.cursor()
 
         query_result = db_cursor.execute(
-            "SELECT * FROM Tags WHERE Id = ?", (tag_id,)
+            "SELECT * FROM Tags WHERE Tag_name = ?", (tag_name,)
         ).fetchone()
 
         return self.create_tag_from_result(query_result)
@@ -38,7 +38,8 @@ class TagsRepository:
 
         try:
 
-            db_cursor.execute("INSERT INTO ReadingTip (Tags) SELECT Tag_name FROM Tags WHERE Tag_id=?)")
+            db_cursor.execute(
+                "INSERT INTO ReadingTip (Tags) SELECT Tag_name FROM Tags WHERE Tag_id=?)")
             self._db.connection.commit()
         except:
             return False
@@ -48,15 +49,12 @@ class TagsRepository:
         pass
 
     def create_tag_from_result(self, result_row):
-
-        if not result_row:
-            return None
-        return ReadingTip(tag=result_row[8])
+        pass
 
     def create_tags_from_result(self, result_rows):
         tags = []
         for row in result_rows:
-            tags.append(self.create_tip_from_result(row))
+            tags.append(self.create_tag_from_result(row))
         return tags
 
 tags_repository = TagsRepository()

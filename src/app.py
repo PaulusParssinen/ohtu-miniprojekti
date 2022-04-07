@@ -1,9 +1,10 @@
 from entities.reading_tip import ReadingTip
 
 class App:
-    def __init__(self, reading_tip_service, io):
+    def __init__(self, reading_tip_service, io, tag_service):
         self.io = io
         self.reading_tip_service = reading_tip_service
+        self.tag_service = tag_service
 
         # Initialize (command id -> command handler) map.
         self.commands = {
@@ -18,12 +19,14 @@ class App:
     def add_reading_tip(self):
         title = self.io.read("Give reading tip title: ")
         link = self.io.read("Give reading tip a link: ")
-        #self.io.write('Choose tag for tip!')
-        #self.see_all_tags()
-        #new_tag = self.io.read("Please give new tag name: ")
+        self.io.write('Choose tag for tip!')
+        self.see_all_tags()
         self.reading_tip_service.create(title, link=link)
         #self.reading_tip_service.create(title, link=link, tag_name=new_tag)
         self.io.write("New Reading Tip added!")
+
+    def add_tag(self):
+        pass
 
     def modify_reading_tip(self):
         tip_id = self.io.read("Which reading tip you want to modify? Please give id: \n")
@@ -47,7 +50,7 @@ class App:
         self.reading_tip_service.delete(tip_id)
 
     def see_all_tags(self):
-        all_tags = self.reading_tip_service.get_all_tags()
+        all_tags = self.tag_service.get_all_tags()
         if all_tags:
             self.print_list_of_tags(all_tags)
 
@@ -75,9 +78,7 @@ class App:
             self.print_reading_tip(tip)
 
     def print_list_of_tags(self, tags):
-        self.io.write(f"{len(tags)} reading tips found:")
-        for tags in tags:
-            self.print_reading_tip(tags)
+        pass
 
     def print_reading_tip(self, tip: ReadingTip):
         self.io.write(tip.format())
