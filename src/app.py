@@ -1,10 +1,10 @@
 from entities.reading_tip import ReadingTip
 
 class App:
-    def __init__(self, reading_tip_service, io, tag_service):
+    def __init__(self, reading_tip_service, io, tags_service):
         self.io = io
         self.reading_tip_service = reading_tip_service
-        self.tag_service = tag_service
+        self.tags_service = tags_service
 
         # Initialize (command id -> command handler) map.
         self.commands = {
@@ -14,19 +14,19 @@ class App:
             4: self.see_all_reading_tips,
             5: self.search_reading_tips_by_title,
             6: self.exit_app,
-            7: self.add_tag
+            7: self.add_tag,
+            8: self.see_all_tags
         }
 
     def add_reading_tip(self):
         title = self.io.read("Give reading tip title: ")
         link = self.io.read("Give reading tip a link: ")
         self.reading_tip_service.create(title, link=link)
-        #self.reading_tip_service.create(title, link=link, tag_name=new_tag)
         self.io.write("New Reading Tip added!")
 
     def add_tag(self):
         new_tag = self.io.read("Give new tag: ")
-        self.tag_service.create_tag(new_tag)
+        self.tags_service.create_tag(new_tag)
         self.io.write("New tag added")
 
     def modify_reading_tip(self):
@@ -43,7 +43,6 @@ class App:
             self.reading_tip_service.update(reading_tip)
             self.io.write("Modification done successfully.")
 
-
     def delete_reading_tip(self):
         try:
             tip_id = int(self.io.read("Which reading tip you want to delete? Please give id: "))
@@ -51,15 +50,15 @@ class App:
             self.io.write("Invalid reading tip id")
         self.reading_tip_service.delete(tip_id)
 
-    def see_all_tags(self):
-        all_tags = self.tag_service.get_all_tags()
-        if all_tags:
-            self.print_list_of_tags(all_tags)
-
     def see_all_reading_tips(self):
         all_tips = self.reading_tip_service.get_all()
         if all_tips:
             self.print_list_of_tips(all_tips)
+
+    def see_all_tags(self):
+        all_tags = self.tags_service.get_all_tags()
+        if all_tags:
+            self.print_list_of_tags(all_tags)
 
     def search_reading_tips_by_title(self):
         title = self.io.read("Enter title to search for: ")
@@ -80,7 +79,12 @@ class App:
             self.print_reading_tip(tip)
 
     def print_list_of_tags(self, tags):
-        pass
+        self.io.write(f"{len(tags)} tags found:")
+        for tag in tags:
+            self.print_tags(str(tag))
+
+    def print_tags(self, tags):
+        self.io.write(tags)
 
     def print_reading_tip(self, tip: ReadingTip):
         self.io.write(tip.format())
@@ -94,6 +98,7 @@ class App:
         self.io.write(" 5. Search Reading Tips by title")
         self.io.write(" 6. Exit software")
         self.io.write(" 7. Add new tag")
+        self.io.write(" 8. See all tags")
 
     def run(self):
         self.io.write("Welcome to Reading Tip software!")
