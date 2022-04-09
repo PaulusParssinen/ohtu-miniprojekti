@@ -17,5 +17,17 @@ Input See All Reading Tips Command
 Input Search Reading Tips Command
     Input  5
 
+Input Add Tags Command
+    Input 6
+
+Input See Reading Tips With Tags Command
+    Input 7
+
+Input Add Tag Command
+    Input 8
+
+Input See Tags
+    Input 9
+
 Input Exit Command
-    Input  6
+    Input  10
