@@ -5,6 +5,7 @@ from services.tags_service import TagsService
 from repositories.reading_tip_repository import ReadingTipRepository
 from repositories.tags_repository import TagsRepository
 from ui.console_io import ConsoleIO
+from ui.console_table import ConsoleTable
 from app import App
 
 def main():
@@ -13,8 +14,9 @@ def main():
     reading_tip_service = ReadingTipService(reading_tip_repository)
     tag_service = TagsService(tag_repository)
     console_io = ConsoleIO()
+    console_table = ConsoleTable()
 
-    app = App(reading_tip_service, console_io, tag_service)
+    app = App(reading_tip_service, console_io, tag_service, console_table)
     app.run()
 
 if __name__ == "__main__":
