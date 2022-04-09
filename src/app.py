@@ -1,10 +1,11 @@
 from entities.reading_tip import ReadingTip
 
 class App:
-    def __init__(self, reading_tip_service, io, tags_service):
+    def __init__(self, reading_tip_service, io, tags_service, tip_tags_service):
         self.io = io
         self.reading_tip_service = reading_tip_service
         self.tags_service = tags_service
+        self.tip_tags_service = tip_tags_service
 
         # Initialize (command id -> command handler) map.
         self.commands = {
@@ -13,9 +14,11 @@ class App:
             3: self.delete_reading_tip,
             4: self.see_all_reading_tips,
             5: self.search_reading_tips_by_title,
-            6: self.exit_app,
-            7: self.add_tag,
-            8: self.see_all_tags
+            6: self.add_tags_to_reading_tip,
+            7: self.see_all_reading_tips_with_tag,
+            8: self.add_tag,
+            9: self.see_all_tags,
+            10: self.exit_app
         }
 
     def add_reading_tip(self):
@@ -23,6 +26,36 @@ class App:
         link = self.io.read("Give reading tip a link: ")
         self.reading_tip_service.create(title, link=link)
         self.io.write("New Reading Tip added!")
+    
+    def add_tags_to_reading_tip(self):
+        tip_id = self.io.read("To which reading tip you want to tag(s)? Please give id: \n")
+        try:
+            int(tip_id)
+        except:
+            self.io.write(f"Please enter id as integer.")
+            return
+        reading_tip = self.reading_tip_service.get_by_id(tip_id)
+
+        if reading_tip is None:
+            self.io.write(f"Reading tip with id {tip_id} was not found.")
+        else:
+            tags_string = self.io.read("Please give tag you want to add to the reading tip. If you want to add multiple tags, separate them with comma: \n")
+            tags = tags_string.split(',')
+            for tag in tags:
+                tag = tag.strip()
+                # Add those tags to the database which don't exist already
+                if not self.tags_service.check_if_tag_exists(tag):
+                    self.tags_service.create_tag(tag)
+                tag_id = self.tags_service.get_tag_id(tag)
+                # If tag already added to tip, don't add it again
+                if self.tip_tags_service.check_if_tag_added_to_tip(tip_id, tag_id):
+                    self.io.write(f"Tag {tag} was already added to tip id {tip_id}. Was not added again.")
+                    continue
+                # Add tip-tag pair to TipTags table to the database
+                if self.tip_tags_service.add_tag_to_reading_tip(tip_id, tag_id):
+                    self.io.write(f"Tag {tag} was added successfully to tip id {tip_id}.")
+                else:
+                    self.io.write(f"Failed to add tag {tag} to tip id {tip_id}.")
 
     def add_tag(self):
         new_tag = self.io.read("Give new tag: ")
@@ -60,6 +93,18 @@ class App:
         if all_tags:
             self.print_list_of_tags(all_tags)
 
+    def see_all_reading_tips_with_tag(self):
+        self.see_all_tags()
+        tag = self.io.read("\nWhich tag you want to filter reading tips with? \n")
+        tag = tag.strip()
+        if not self.tags_service.check_if_tag_exists(tag):
+            self.io.write(f"Tag {tag} does not exist.")
+            return
+        tag_id = self.tags_service.get_tag_id(tag)
+        reading_tip_objects = self.tip_tags_service.get_all_reading_tips_with_tag_id(tag_id)
+        self.io.write(f"Following reading tips were found with tag {tag}.\n")
+        self.print_list_of_tips(reading_tip_objects)
+    
     def search_reading_tips_by_title(self):
         title = self.io.read("Enter title to search for: ")
         tips = self.reading_tip_service.search_by_title(title)
@@ -96,9 +141,11 @@ class App:
         self.io.write(" 3. Delete a Reading Tip")
         self.io.write(" 4. See all Reading Tips")
         self.io.write(" 5. Search Reading Tips by title")
-        self.io.write(" 6. Exit software")
-        self.io.write(" 7. Add new tag")
-        self.io.write(" 8. See all tags")
+        self.io.write(" 6. Add tag(s) to a Reading Tip")
+        self.io.write(" 7. See all Reading Tips with Tag")
+        self.io.write(" 8. Add new tag")
+        self.io.write(" 9. See all tags")
+        self.io.write(" 10. Exit software")
 
     def run(self):
         self.io.write("Welcome to Reading Tip software!")
