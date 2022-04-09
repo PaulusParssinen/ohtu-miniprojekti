@@ -49,7 +49,7 @@ class TagsRepository:
         db_cursor = self._db.connection.cursor()
 
         query_result = db_cursor.execute(
-            "SELECT * FROM Tags"
+            "SELECT Tag_name FROM Tags"
         ).fetchall()
 
         return self.create_tags_from_results(query_result)
@@ -77,7 +77,7 @@ class TagsRepository:
         return self.create_tag_from_result(query_result)
 
     def create_tag_from_result(self, result_row):
-        return Tag(result_row[1])
+        return Tag(tag_name=result_row[0])
 
     def create_tags_from_results(self, result_row):
         tags = []

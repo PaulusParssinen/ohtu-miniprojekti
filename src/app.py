@@ -67,7 +67,7 @@ class App:
         reading_tip = self.reading_tip_service.get_by_id(tip_id)
 
         if reading_tip is None:
-            self.io.writeline(f"Reading tip with id {tip_id} was not found.")
+            self.io.write(f"Reading tip with id {tip_id} was not found.")
         else:
             self.print_reading_tip(reading_tip)
             new_title = self.io.read("Enter new title: \n")
