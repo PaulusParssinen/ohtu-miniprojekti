@@ -13,11 +13,11 @@ class TagsRepository:
         """Inserting a new tag into Tags table."""
 
         db_cursor = self._db.connection.cursor()
-        
+
         # Check that given tag does not exist in the database already
         if self.check_if_tag_exists(tag_name):
             return False
-        
+
         try:
             db_cursor.execute(
                     "INSERT INTO Tags (Tag_name) \
@@ -26,7 +26,6 @@ class TagsRepository:
             self._db.connection.commit()
         except:
             return False
-        
         return True
 
     def check_if_tag_exists(self, tag_name):
@@ -35,14 +34,14 @@ class TagsRepository:
         db_cursor = self._db.connection.cursor()
 
         query_result = db_cursor.execute(
-            "SELECT Tag_name FROM Tags WHERE Tag_name = ?", (tag_name, )
+            "SELECT Tag_name FROM Tags WHERE Tag_name = ?", [tag_name]
         ).fetchone()
-        
+
         if query_result != None:
             return True
         else:
             return False
-    
+
     def get_all_tags(self):
         """Returns all reading tips from db.
         """
@@ -67,17 +66,18 @@ class TagsRepository:
         else:
             return query_result[0]
     
-    def get_tag_by_name(self, tag_name):
+    def get_tag_by_name(self, tag_name) -> Tag:
+
         db_cursor = self._db.connection.cursor()
 
         query_result = db_cursor.execute(
-            "SELECT Tag_name FROM Tags WHERE Tag_name = ?", (tag_name, )
+            "SELECT Tag_name FROM Tags WHERE Tag_name=?", [tag_name]
         ).fetchone()
 
         return self.create_tag_from_result(query_result)
 
     def create_tag_from_result(self, result_row):
-        return Tag(result_row)
+        return Tag(result_row[0])
 
     def create_tags_from_results(self, result_row):
         tags = []
