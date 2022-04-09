@@ -21,7 +21,7 @@ class TestReadingTipService(unittest.TestCase):
     def test_create_with_valid_title_should_add_a_new_tip(self):
         self.service.create("Kirja")
         added_tip = self.service.get_by_id(2)
-        
+
         self.assertEqual("Kirja", added_tip.title)
 
     def test_create_with_empty_title_should_raise_error_and_not_add_new_tip(self):
