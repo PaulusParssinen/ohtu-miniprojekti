@@ -1,11 +1,12 @@
 from entities.reading_tip import ReadingTip
 
 class App:
-    def __init__(self, reading_tip_service, io, tags_service, tip_tags_service):
+    def __init__(self, reading_tip_service, io, tags_service, tip_tags_service, table):
         self.io = io
         self.reading_tip_service = reading_tip_service
         self.tags_service = tags_service
         self.tip_tags_service = tip_tags_service
+        self.table = table
 
         # Initialize (command id -> command handler) map.
         self.commands = {
@@ -120,8 +121,9 @@ class App:
 
     def print_list_of_tips(self, tips):
         self.io.write(f"{len(tips)} reading tips found:")
-        for tip in tips:
-            self.print_reading_tip(tip)
+        #for tip in tips:
+        #    self.print_reading_tip(tip)
+        self.table.create_table(tips)
 
     def print_list_of_tags(self, tags):
         self.io.write(f"{len(tags)} tags found:")
