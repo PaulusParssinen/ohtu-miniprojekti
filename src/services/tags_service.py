@@ -16,6 +16,12 @@ class TagsService:
         if not self._tags_repository.create_tag(tag_name):
             raise Exception("Failed to add a new tag!")
 
+    def check_if_tag_exists(self, tag_name):
+        return self._tags_repository.check_if_tag_exists(tag_name)
+    
+    def get_tag_id(self, tag_name):
+        return self._tags_repository.get_tag_id(tag_name)
+    
     def get_tag_by_name(self, tag_name):
         return self._tags_repository.get_tag_by_name(tag_name)
 
