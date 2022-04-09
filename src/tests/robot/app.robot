@@ -7,7 +7,7 @@ Add Reading Tip With Valid Title And Link
     Input Add Reading Tip Command
     Input    Tirakirja
     Input    https://www.cs.helsinki.fi/u/ahslaaks/tirakirja/
-    Input See All Reading Tips Command
+    Input See Reading Tips Command
     Input Exit Command
     Run Application
     Output Should Contain    New Reading Tip added!
