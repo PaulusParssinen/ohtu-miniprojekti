@@ -65,7 +65,7 @@ class TagsRepository:
             return None
         else:
             return query_result[0]
-    
+
     def get_tag_by_name(self, tag_name) -> Tag:
 
         db_cursor = self._db.connection.cursor()

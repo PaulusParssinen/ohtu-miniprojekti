@@ -10,10 +10,9 @@ class TestReadingTipService(unittest.TestCase):
     def setUp(self):
         db = Database(":memory:")
         repository = ReadingTipRepository(db)
-        
         tip = ReadingTip(
-            title="Tirakirja", 
-            author="Laaksonen", 
+            title="Tirakirja",
+            author="Laaksonen",
             url="https://www.cs.helsinki.fi/u/ahslaaks/tirakirja/")
         repository.create(tip)
         self.service = ReadingTipService(repository)
@@ -27,9 +26,8 @@ class TestReadingTipService(unittest.TestCase):
     def test_create_with_empty_title_should_raise_error_and_not_add_new_tip(self):
         with self.assertRaises(Exception):
             self.service.create("")
-        
         self.assertIsNone(self.service.get_by_id(2))
-        
+
     def test_get_all_should_return_one_result(self):
         self.assertEqual(1, len(self.service.get_all()))
 
@@ -39,7 +37,7 @@ class TestReadingTipService(unittest.TestCase):
 
     def test_search_by_title_returns_false_if_not_found(self):
         self.assertFalse(self.service.search_by_title("Unknown"))
-    
+
     def test_search_by_title_returns_true_if_found(self):
         self.assertEqual(1, len(self.service.search_by_title("Tira")))
 
@@ -59,32 +57,38 @@ class TestReadingTipService(unittest.TestCase):
     def test_update_nonexistent_id_should_raise_error(self):
         with self.assertRaises(Exception):
             self.service.update_by_id(1337)
-    
-    def test_updating_author_and_link_of_existing_reading_tip_should_work(self):
+
+    def test_updating_title_returns_correct_value(self):
         existing_tip = self.service.get_by_id(1)
-        
+        self.assertEqual(existing_tip.title, "Tirakirja")
+        existing_tip.title = "Algorytmit"
+        self.assertEqual(existing_tip.title, "Algorytmit")
+
+    def test_updating_author_returns_correct_value(self):
+        existing_tip = self.service.get_by_id(1)
         existing_tip.author = "A. Laaksonen"
+        self.assertEqual(existing_tip.author, "A. Laaksonen")
+
+    def test_updating_url_returns_correct_value(self):
+        existing_tip = self.service.get_by_id(1)
         existing_tip.url = "https://github.com/hy-tira/tirakirja/raw/master/tirakirja.pdf"
-        
-        self.service.update(existing_tip)
-        updated_tip = self.service.get_by_id(1)
-        
-        self.assertEqual(updated_tip.title, "Tirakirja")
-        self.assertEqual(updated_tip.author, "A. Laaksonen")
-        self.assertEqual(updated_tip.url, 
-            "https://github.com/hy-tira/tirakirja/raw/master/tirakirja.pdf")
-    
+        self.assertEqual(existing_tip.url, "https://github.com/hy-tira/tirakirja/raw/master/tirakirja.pdf")
+
     def test_updating_with_empty_title_should_raise_error(self):
         existing_tip = self.service.get_by_id(1)
-        
         existing_tip.title = ""
         existing_tip.author = "A. Laaksonen"
         existing_tip.url = "https://github.com/hy-tira/tirakirja/raw/master/tirakirja.pdf"
-        
+
         with self.assertRaises(Exception):
             self.service.update(existing_tip)
-    
+
     def test_updating_nonexistent_tip_should_return_false(self):
         nonexistent_tip = ReadingTip(1337, "This tip should not exist")
-        
+
         self.assertFalse(self.service.update(nonexistent_tip))
+
+    def test_raises_error_if_title_more_than_200_characters(self):
+        tip = 'm'*201
+        with self.assertRaises(Exception):
+            self.service.create(tip)

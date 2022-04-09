@@ -5,4 +5,5 @@ class Tag:
         self.tag_name = tag_name
 
     def __repr__(self):
-        return str(self.tag_name)
+        return self.tag_name
+
