@@ -11,5 +11,4 @@ Add Reading Tip With Valid Title And Link
     Input Exit Command
     Run Application
     Output Should Contain    New Reading Tip added!
-    Input 
     Output Should Contain    Id: 1, Title: Tirakirja, URL: https://www.cs.helsinki.fi/u/ahslaaks/tirakirja/
