@@ -27,7 +27,7 @@ class App:
         link = self.io.read("Give reading tip a link: ")
         self.reading_tip_service.create(title, link=link)
         self.io.write("New Reading Tip added!")
-    
+
     def add_tags_to_reading_tip(self):
         tip_id = self.io.read("To which reading tip you want to tag(s)? Please give id: \n")
         try:
