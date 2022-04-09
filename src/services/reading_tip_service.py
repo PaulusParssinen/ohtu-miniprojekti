@@ -62,10 +62,10 @@ class ReadingTipService:
         # Edit the existing tip fields
         if new_title:
             tip.title = new_title
-        if new_author:
-            tip.author = new_author
-        if new_url:
-            tip.url = new_url
+        #if new_author:
+        #   tip.author = new_author
+        #if new_url:
+        #    tip.url = new_url
 
         return self.update(tip)
 

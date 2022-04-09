@@ -14,10 +14,10 @@ class TipTagsService:
 
     def check_if_tag_added_to_tip(self, tip_id, tag_id):
         return self._tip_tags_repository.check_if_tag_added_to_tip(tip_id, tag_id)
-    
+
     def get_all_tip_tag_pairs(self):
         return self._tip_tags_repository.get_all_tip_tag_pairs()
-    
+
     def get_all_reading_tips_with_tag_id(self, tag_id):
         reading_tips = self._tip_tags_repository.get_all_reading_tips_with_tag_id(tag_id)
         reading_tip_objects = []

@@ -14,11 +14,9 @@ def main():
     reading_tip_repository = ReadingTipRepository(db)
     tag_repository = TagsRepository(db)
     tip_tags_repository = TipTagsRepository(db)
-    
     reading_tip_service = ReadingTipService(reading_tip_repository)
     tag_service = TagsService(tag_repository)
     tip_tags_service = TipTagsService(tip_tags_repository)
-    
     console_io = ConsoleIO()
     console_table = ConsoleTable()
 

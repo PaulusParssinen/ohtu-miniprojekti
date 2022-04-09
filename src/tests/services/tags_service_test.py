@@ -16,3 +16,24 @@ class TestReadingTipService(unittest.TestCase):
         self.service.create_tag("tag")
         added_tag = self.service.get_tag_by_name("tag")
         self.assertEqual("tag", added_tag.tag_name)
+
+    def test_cannot_add_same_tags_multiple_times(self):
+        self.service.create_tag('tag')
+        self.assertFalse(self.service.create_tag('tag'))
+
+    def test_get_all_tags_returns_correct_values(self):
+        self.service.create_tag("tag1")
+        self.service.create_tag("tag2")
+        all_tags = self.service.get_all_tags()
+        self.assertEqual(len(all_tags), 2)
+        self.assertEqual(all_tags[0].tag_name, "tag1")
+        self.assertEqual(all_tags[1].tag_name, "tag2")
+
+    def test_get_tag_id_returns_correct_value(self):
+        self.service.create_tag('tag1')
+        tag = self.service.get_tag_id('tag1')
+        self.assertEqual(tag, 1)
+
+    def test_empty_title_should_raise_error(self):
+        with self.assertRaises(Exception):
+                self.service.create_tag("")

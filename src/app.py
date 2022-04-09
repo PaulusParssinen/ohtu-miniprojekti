@@ -29,7 +29,7 @@ class App:
         description = self.io.read("Give description: ")
         self.reading_tip_service.create(title, link=link, author=author, description=description)
         self.io.write("New Reading Tip added!")
-    
+
     def add_tags_to_reading_tip(self):
         tip_id = self.io.read("To which reading tip you want to tag(s)? Please give id: \n")
         try:
@@ -72,7 +72,7 @@ class App:
         reading_tip = self.reading_tip_service.get_by_id(tip_id)
 
         if reading_tip is None:
-            self.io.writeline(f"Reading tip with id {tip_id} was not found.")
+            self.io.write(f"Reading tip with id {tip_id} was not found.")
         else:
             self.print_reading_tip(reading_tip)
             new_title = self.io.read("Enter new title: \n")
@@ -132,7 +132,7 @@ class App:
     def print_list_of_tags(self, tags):
         self.io.write(f"{len(tags)} tags found:")
         for tag in tags:
-            self.print_tags(str(tag))
+            self.print_tags(tag)
 
     def print_tags(self, tags):
         self.io.write(tags)

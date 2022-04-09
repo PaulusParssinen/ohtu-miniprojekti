@@ -1,4 +1,4 @@
 [run]
 branch = True
 source = src
-omit = src/tests/**,src/index.py,src/AppLibrary.py
+omit = src/tests/**,src/index.py,src/AppLibrary.py,src/**/__init__.py
