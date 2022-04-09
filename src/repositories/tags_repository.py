@@ -54,7 +54,20 @@ class TagsRepository:
 
         return self.create_tags_from_results(query_result)
 
+    def get_tag_id(self, tag_name):
+        db_cursor = self._db.connection.cursor()
+
+        query_result = db_cursor.execute(
+            "SELECT Tag_Id FROM Tags WHERE Tag_name = ?", (tag_name, )
+        ).fetchone()
+
+        if query_result is None:
+            return None
+        else:
+            return query_result[0]
+    
     def get_tag_by_name(self, tag_name) -> Tag:
+
         db_cursor = self._db.connection.cursor()
 
         query_result = db_cursor.execute(
