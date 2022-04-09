@@ -25,7 +25,7 @@ class App:
         title = self.io.read("Give reading tip title: ")
         link = self.io.read("Give reading tip a link: ")
         self.reading_tip_service.create(title, link=link)
-        self.io.write("New Reading Tip added!")
+        self.io.write_green("New Reading Tip added!")
     
     def add_tags_to_reading_tip(self):
         tip_id = self.io.read("To which reading tip you want to tag(s)? Please give id: \n")
@@ -60,21 +60,21 @@ class App:
     def add_tag(self):
         new_tag = self.io.read("Give new tag: ")
         self.tags_service.create_tag(new_tag)
-        self.io.write("New tag added")
+        self.io.write_green("New tag added")
 
     def modify_reading_tip(self):
         tip_id = self.io.read("Which reading tip you want to modify? Please give id: \n")
         reading_tip = self.reading_tip_service.get_by_id(tip_id)
 
         if reading_tip is None:
-            self.io.writeline(f"Reading tip with id {tip_id} was not found.")
+            self.io.write_red(f"Reading tip with id {tip_id} was not found.")
         else:
             self.print_reading_tip(reading_tip)
             new_title = self.io.read("Enter new title: \n")
 
             reading_tip.title = new_title
             self.reading_tip_service.update(reading_tip)
-            self.io.write("Modification done successfully.")
+            self.io.write_green("Modification done successfully.")
 
     def delete_reading_tip(self):
         try:
@@ -82,6 +82,7 @@ class App:
         except:
             self.io.write("Invalid reading tip id")
         self.reading_tip_service.delete(tip_id)
+        self.io.write_green(f"Deleting a Reading Tip with tip id {tip_id} done successfully.")
 
     def see_all_reading_tips(self):
         all_tips = self.reading_tip_service.get_all()
