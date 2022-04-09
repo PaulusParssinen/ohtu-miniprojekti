@@ -15,9 +15,10 @@ class App:
             4: self.see_all_reading_tips,
             5: self.search_reading_tips_by_title,
             6: self.add_tags_to_reading_tip,
-            7: self.add_tag,
-            8: self.see_all_tags,
-            9: self.exit_app
+            7: self.see_all_reading_tips_with_tag,
+            8: self.add_tag,
+            9: self.see_all_tags,
+            10: self.exit_app
         }
 
     def add_reading_tip(self):
@@ -92,6 +93,18 @@ class App:
         if all_tags:
             self.print_list_of_tags(all_tags)
 
+    def see_all_reading_tips_with_tag(self):
+        self.see_all_tags()
+        tag = self.io.read("\nWhich tag you want to filter reading tips with? \n")
+        tag = tag.strip()
+        if not self.tags_service.check_if_tag_exists(tag):
+            self.io.write(f"Tag {tag} does not exist.")
+            return
+        tag_id = self.tags_service.get_tag_id(tag)
+        reading_tip_objects = self.tip_tags_service.get_all_reading_tips_with_tag_id(tag_id)
+        self.io.write(f"Following reading tips were found with tag {tag}.\n")
+        self.print_list_of_tips(reading_tip_objects)
+    
     def search_reading_tips_by_title(self):
         title = self.io.read("Enter title to search for: ")
         tips = self.reading_tip_service.search_by_title(title)
@@ -129,9 +142,10 @@ class App:
         self.io.write(" 4. See all Reading Tips")
         self.io.write(" 5. Search Reading Tips by title")
         self.io.write(" 6. Add tag(s) to a Reading Tip")
-        self.io.write(" 7. Add new tag")
-        self.io.write(" 8. See all tags")
-        self.io.write(" 9. Exit software")
+        self.io.write(" 7. See all Reading Tips with Tag")
+        self.io.write(" 8. Add new tag")
+        self.io.write(" 9. See all tags")
+        self.io.write(" 10. Exit software")
 
     def run(self):
         self.io.write("Welcome to Reading Tip software!")

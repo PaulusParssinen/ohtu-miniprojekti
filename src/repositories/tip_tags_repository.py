@@ -50,5 +50,25 @@ class TipTagsRepository:
         ).fetchall()
         
         return query_result
+    
+    def get_all_reading_tips_with_tag_id(self, tag_id):
+        """Returns all tip-tags pairs from the database with given tag_id."""
+        
+        db_cursor = self._db.connection.cursor()
+        
+        query_result = db_cursor.execute(
+            "SELECT * FROM TipTags WHERE Tag_id=?", (tag_id,)
+        ).fetchall()
+        
+        reading_tips = []
+        
+        for pair in query_result:
+            tip_id, tag_id = pair
+            reading_tip = db_cursor.execute(
+                "SELECT * FROM ReadingTip WHERE Tip_Id=?", (tip_id,)
+            ).fetchone()
+            reading_tips.append(reading_tip)
+        
+        return reading_tips
 
 tip_tags_repository = TipTagsRepository()

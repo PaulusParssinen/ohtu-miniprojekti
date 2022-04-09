@@ -17,3 +17,12 @@ class TipTagsService:
     
     def get_all_tip_tag_pairs(self):
         return self._tip_tags_repository.get_all_tip_tag_pairs()
+    
+    def get_all_reading_tips_with_tag_id(self, tag_id):
+        reading_tips = self._tip_tags_repository.get_all_reading_tips_with_tag_id(tag_id)
+        reading_tip_objects = []
+        for reading_tip in reading_tips:
+            identifier, title, url = reading_tip[0], reading_tip[1], reading_tip[5]
+            reading_tip_object = ReadingTip(identifier=identifier, title=title, url=url)
+            reading_tip_objects.append(reading_tip_object)
+        return reading_tip_objects
