@@ -16,11 +16,13 @@ class ConsoleTable:
     def set_columns(self):
         self._table.add_column("Id")
         self._table.add_column("Title")
+        self._table.add_column("Author")
         self._table.add_column("Url")
+        self._table.add_column("Description")
 
     def add_rows(self, reading_tips):
         for tip in reading_tips:
-            self._table.add_row(str(tip.id), str(tip.title), str(tip.url))
+            self._table.add_row(str(tip.id), str(tip.title), str(tip.author or ""), str(tip.url or ""), str(tip.description or ""))
     
     def print(self):
         self._console.print(self._table)

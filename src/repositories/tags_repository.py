@@ -37,7 +37,7 @@ class TagsRepository:
             "SELECT Tag_name FROM Tags WHERE Tag_name = ?", [tag_name]
         ).fetchone()
 
-        if query_result != None:
+        if query_result is not None:
             return True
         else:
             return False

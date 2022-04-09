@@ -12,14 +12,14 @@ class ReadingTipService:
     def __init__(self, reading_tip_repository=default_reading_tip_repository):
         self._reading_tip_repository = reading_tip_repository
 
-    def create(self, title: str, author=None, link=None):
+    def create(self, title: str, author=None, link=None, description=None):
         """Adds a new tip with given fields to the underlying repository.
 
            Raises an exception if given fields do not follow the validation rules.
         """
         self.validate_title(title)
 
-        reading_tip = ReadingTip(title=title, author=author, url=link)
+        reading_tip = ReadingTip(title=title, author=author, url=link, description=description)
 
         if not self._reading_tip_repository.create(reading_tip):
             raise Exception("Failed to add a new reading tip!")

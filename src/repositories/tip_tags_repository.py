@@ -1,7 +1,4 @@
 from database import (db as default_tip_tag_db)
-from entities.reading_tip import ReadingTip
-from entities.tag import Tag
-
 
 class TipTagsRepository:
     """All database operations related to TipTags table
@@ -37,8 +34,8 @@ class TipTagsRepository:
         
         if query_result is None:
             return False
-        else:
-            return True
+
+        return True
     
     def get_all_tip_tag_pairs(self):
         """Returns all tip-tags pairs from the database."""
