@@ -81,3 +81,6 @@ class ReadingTipService:
         title = title.strip()
         if len(title) == 0:
             raise Exception("Reading tip cannot have a empty title!")
+
+        if len(title) > 200:
+            raise Exception("Reading tip length cannot exceed 200 characters!")
