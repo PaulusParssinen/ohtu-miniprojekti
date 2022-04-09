@@ -64,7 +64,7 @@ class TagsRepository:
         return self.create_tag_from_result(query_result)
 
     def create_tag_from_result(self, result_row):
-        return Tag(result_row[0])
+        return Tag(result_row[1])
 
     def create_tags_from_results(self, result_row):
         tags = []

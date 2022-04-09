@@ -81,7 +81,7 @@ class App:
     def print_list_of_tags(self, tags):
         self.io.write(f"{len(tags)} tags found:")
         for tag in tags:
-            self.print_tags(str(tag))
+            self.print_tags(tag)
 
     def print_tags(self, tags):
         self.io.write(tags)
