@@ -19,10 +19,16 @@ class ReadingTipService:
         """
         self.validate_title(title)
 
-        reading_tip = ReadingTip(title=title, author=author, url=link, description=description, comment=comment)
+        reading_tip = ReadingTip(title=title, author=author, url=link, 
+                                 description=description, comment=comment)
 
-        if not self._reading_tip_repository.create(reading_tip):
+        created_row = self._reading_tip_repository.create(reading_tip)
+
+        if created_row is False:
             raise Exception("Failed to add a new reading tip!")
+
+        return created_row
+
 
     def delete(self, tip_id):
         """Delete selected reading tip by id
@@ -84,3 +90,11 @@ class ReadingTipService:
 
         if len(title) > 200:
             raise Exception("Reading tip length cannot exceed 200 characters!")
+
+    def get_ids(self, reading_tips):
+        ids = []
+
+        for tip in reading_tips:
+            ids.append(tip.id)
+        
+        return ids
