@@ -24,9 +24,12 @@ class App:
 
     def add_reading_tip(self):
         title = self.io.read("Give reading tip title: ")
-        link = self.io.read("Give reading tip a link: ")
-        self.reading_tip_service.create(title, link=link)
-        self.io.write_green("New Reading Tip added!")
+        link = self.io.read("Give reading tip a link (optional): ")
+        author = self.io.read("Give reading tip an author (optional): ")
+        description = self.io.read("Give description (optional): ")
+        comment = self.io.read("Add comments (optional)")
+        self.reading_tip_service.create(title, link=link, author=author, description=description, comment=comment)
+        self.io.write("New Reading Tip added!")
 
     def add_tags_to_reading_tip(self):
         tip_id = self.io.read("To which reading tip you want to tag(s)? Please give id: \n")
@@ -40,7 +43,8 @@ class App:
         if reading_tip is None:
             self.io.write(f"Reading tip with id {tip_id} was not found.")
         else:
-            tags_string = self.io.read("Please give tag you want to add to the reading tip. If you want to add multiple tags, separate them with comma: \n")
+            tags_string = self.io.read("Please give tag you want to add to the reading tip. \
+                If you want to add multiple tags, separate them with comma: \n")
             tags = tags_string.split(',')
             for tag in tags:
                 tag = tag.strip()
@@ -50,7 +54,8 @@ class App:
                 tag_id = self.tags_service.get_tag_id(tag)
                 # If tag already added to tip, don't add it again
                 if self.tip_tags_service.check_if_tag_added_to_tip(tip_id, tag_id):
-                    self.io.write(f"Tag {tag} was already added to tip id {tip_id}. Was not added again.")
+                    self.io.write(f"Tag {tag} was already added to tip id {tip_id}. \
+                        Was not added again.")
                     continue
                 # Add tip-tag pair to TipTags table to the database
                 if self.tip_tags_service.add_tag_to_reading_tip(tip_id, tag_id):

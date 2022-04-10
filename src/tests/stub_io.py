@@ -1,4 +1,3 @@
-
 class StubIO:
     def __init__(self, inputs=None):
         self.inputs = inputs or []

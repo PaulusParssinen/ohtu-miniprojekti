@@ -1,5 +1,6 @@
 from app import App
 from database import Database
+from repositories.tip_tags_repository import TipTagsRepository
 from tests.stub_io import StubIO
 from services.reading_tip_service import ReadingTipService
 from services.tags_service import TagsService
