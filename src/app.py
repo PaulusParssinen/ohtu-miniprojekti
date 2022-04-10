@@ -24,10 +24,11 @@ class App:
 
     def add_reading_tip(self):
         title = self.io.read("Give reading tip title: ")
-        link = self.io.read("Give reading tip a link: ")
-        author = self.io.read("Give reading tip an author: ")
-        description = self.io.read("Give description: ")
-        self.reading_tip_service.create(title, link=link, author=author, description=description)
+        link = self.io.read("Give reading tip a link (optional): ")
+        author = self.io.read("Give reading tip an author (optional): ")
+        description = self.io.read("Give description (optional): ")
+        comment = self.io.read("Add comments (optional)")
+        self.reading_tip_service.create(title, link=link, author=author, description=description, comment=comment)
         self.io.write("New Reading Tip added!")
 
     def add_tags_to_reading_tip(self):
