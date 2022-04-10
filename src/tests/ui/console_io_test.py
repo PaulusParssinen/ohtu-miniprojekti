@@ -1,4 +1,5 @@
 import unittest
+from ui.console_io import ConsoleIO
 class TestConsoleIO(unittest.TestCase):
     def setUp(self):
         pass
