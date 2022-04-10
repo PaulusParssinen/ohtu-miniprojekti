@@ -10,12 +10,13 @@ class App:
 
         # Initialize (command id -> command handler) map.
         self.commands = {
+            0: self.print_all_operations,
             1: self.add_reading_tip,
             2: self.modify_reading_tip,
             3: self.delete_reading_tip,
             4: self.see_all_reading_tips,
             5: self.search_reading_tips_by_title,
-            6: self.add_tags_to_reading_tip,
+            6: self.add_tags_to_existing_reading_tip,
             7: self.see_all_reading_tips_with_tag,
             8: self.add_tag,
             9: self.see_all_tags,
@@ -27,24 +28,38 @@ class App:
         link = self.io.read("Give reading tip a link (optional): ")
         author = self.io.read("Give reading tip an author (optional): ")
         description = self.io.read("Give description (optional): ")
-        comment = self.io.read("Add comments (optional)")
-        self.reading_tip_service.create(title, link=link, author=author, description=description, comment=comment)
-        self.io.write("New Reading Tip added!")
+        comment = self.io.read("Add comments (optional): ")
+        tags = self.io.read("Add tags (optional, separate multiple tags with comma): ")
 
-    def add_tags_to_reading_tip(self):
+        tip_id = self.reading_tip_service.create(title, link=link, author=author, 
+                description=description, comment=comment)
+
+        if tip_id is not False:
+            reading_tip = self.reading_tip_service.get_by_id(tip_id)    
+
+            self.add_tags_to_reading_tip(reading_tip, tip_id, tags)
+
+            self.io.write("New Reading Tip added!")
+
+    def add_tags_to_existing_reading_tip(self):
         tip_id = self.io.read("To which reading tip you want to tag(s)? Please give id: \n")
         try:
             int(tip_id)
         except:
-            self.io.write(f"Please enter id as integer.")
+            self.io.write("Please enter id as integer.")
             return
         reading_tip = self.reading_tip_service.get_by_id(tip_id)
 
+        self.add_tags_to_reading_tip(reading_tip, tip_id)
+
+    def add_tags_to_reading_tip(self, reading_tip, tip_id, tags_string=None):
         if reading_tip is None:
             self.io.write(f"Reading tip with id {tip_id} was not found.")
         else:
-            tags_string = self.io.read("Please give tag you want to add to the reading tip. \
+            if tags_string is None:
+                tags_string = self.io.read("Please give tag you want to add to the reading tip. \
                 If you want to add multiple tags, separate them with comma: \n")
+
             tags = tags_string.split(',')
             for tag in tags:
                 tag = tag.strip()
@@ -92,8 +107,17 @@ class App:
 
     def see_all_reading_tips(self):
         all_tips = self.reading_tip_service.get_all()
+
         if all_tips:
             self.print_list_of_tips(all_tips)
+
+    def print_list_of_tips(self, tips):
+        ids_of_tips = self.reading_tip_service.get_ids(tips)
+        tags_of_tips = self.tip_tags_service.get_all_tags_for_multiple_ids(ids_of_tips)
+
+        self.io.write(f"{len(tips)} reading tips found:")
+
+        self.table.create_table(tips, tags_of_tips)
 
     def see_all_tags(self):
         all_tags = self.tags_service.get_all_tags()
@@ -124,12 +148,6 @@ class App:
         # Raise exit exception.
         # This will stop execution of the app and is not caught by the default exception handler.
         raise SystemExit()
-
-    def print_list_of_tips(self, tips):
-        self.io.write(f"{len(tips)} reading tips found:")
-        #for tip in tips:
-        #    self.print_reading_tip(tip)
-        self.table.create_table(tips)
 
     def print_list_of_tags(self, tags):
         self.io.write(f"{len(tags)} tags found:")
