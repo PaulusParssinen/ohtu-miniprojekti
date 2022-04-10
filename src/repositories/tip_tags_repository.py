@@ -45,7 +45,7 @@ class TipTagsRepository:
         query_result = db_cursor.execute(
             "SELECT * FROM TipTags"
         ).fetchall()
-        
+
         return query_result
     
     def get_all_reading_tips_with_tag_id(self, tag_id):
