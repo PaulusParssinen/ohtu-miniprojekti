@@ -4,7 +4,6 @@ from entities.tag import Tag
 from entities.reading_tip import ReadingTip
 from repositories.tip_tags_repository import TipTagsRepository
 from repositories.reading_tip_repository import ReadingTipRepository
-from repositories.tags_repository import TagsRepository
 
 
 class TestTipTagsRepository(unittest.TestCase):
@@ -12,9 +11,7 @@ class TestTipTagsRepository(unittest.TestCase):
         self.db = Database(":memory:")
         self.tip_tags_repository = TipTagsRepository(self.db)
         self.reading_tip_repository = ReadingTipRepository(self.db)
-        self.tags_repository = TagsRepository(self.db)
         self.reading_tip_repository.create(ReadingTip(title="Kirja 1", author="Author 1", url="Link 1"))
-        self.tags_repository.create_tag('tag')
         self.tip_tags_repository.add_tag_to_reading_tip(1,1)
 
     def test_add_tag_to_reading_tip_works(self):
@@ -31,5 +28,7 @@ class TestTipTagsRepository(unittest.TestCase):
     
     def test_get_all_reading_tips_with_tag_id(self):
         tip_tag_pairs = self.tip_tags_repository.get_all_reading_tips_with_tag_id(1)
-        self.assertEqual(tip_tag_pairs, [(1, 'Kirja 1', 'Author 1', None, None, 'Link 1', None, None, None)])
-
+        self.assertEqual(tip_tag_pairs[0][1], 'Kirja 1')
+        
+        self.reading_tip_repository.create(ReadingTip(title="Kirja 2", author="Author 2", url="Link 2"))
+        self.assertTrue(self.tip_tags_repository.add_tag_to_reading_tip(2,1))
