@@ -9,13 +9,13 @@ from repositories.reading_tip_repository import ReadingTipRepository
 class TestReadingTipService(unittest.TestCase):
     def setUp(self):
         db = Database(":memory:")
-        repository = ReadingTipRepository(db)
+        self.repository = ReadingTipRepository(db)
         tip = ReadingTip(
             title="Tirakirja",
             author="Laaksonen",
             url="https://www.cs.helsinki.fi/u/ahslaaks/tirakirja/")
-        repository.create(tip)
-        self.service = ReadingTipService(repository)
+        self.repository.create(tip)
+        self.service = ReadingTipService(self.repository)
 
     def test_create_with_valid_title_should_add_a_new_tip(self):
         self.service.create("Kirja")
@@ -92,3 +92,17 @@ class TestReadingTipService(unittest.TestCase):
         tip = 'm'*201
         with self.assertRaises(Exception):
             self.service.create(tip)
+    
+    def test_get_ids_return_correct_ids(self):
+        tip2 = ReadingTip(title="Kirja2", author="Author", url="Linkki")
+        tip3 = ReadingTip(title="Kirja3", author="Author3", url="Linkki3")
+
+        self.repository.create(tip2)
+        self.repository.create(tip3)
+
+        tips = self.service.get_all()
+        self.assertEqual(self.service.get_ids(tips), [1, 2, 3])
+
+        self.service.delete(2)
+        tips = self.service.get_all()
+        self.assertEqual(self.service.get_ids(tips), [1, 3])
