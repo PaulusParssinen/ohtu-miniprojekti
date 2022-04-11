@@ -13,7 +13,7 @@ class ReadingTipRepository:
     def create(self, reading_tip_object: ReadingTip) -> bool:
         """Inserting new reading tip into db.
 
-           If the given ReadingTip was successfully inserted into the database, returns True.
+           If the given ReadingTip was successfully inserted into the database, returns row number.
            If the given ReadingTip does not follow the database schema constraints; returns False.
         """
 
@@ -36,7 +36,8 @@ class ReadingTipRepository:
             self._db.connection.commit()
         except:
             return False
-        return True
+        
+        return db_cursor.lastrowid
 
     def get_by_id(self, reading_tip_id) -> ReadingTip:
         """Returns reading tip based on given id from db.
