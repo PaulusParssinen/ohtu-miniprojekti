@@ -11,6 +11,7 @@ Add Reading Tip With Valid Title And Link
     Input    Laaksonen
     Input    Tietokanta ja algoritmi kurssin materiaali
     Input    kommentti_testi
+    Input    testi_tagi
     Input Exit Command
     Run Application
     Output Should Contain    New Reading Tip added!
@@ -36,6 +37,44 @@ Delete Existing Reading Tip
     Input Exit Command
     Run Application
     Output Should Contain    Deleting a Reading Tip with tip id 1 done successfully.
+
+See All Reading Tips
+    Create Reading Tip  Kirja3   Linkki3
+    Input See Reading Tips Command
+    Input Exit Command
+    Run Application
+    Output Should Contain    2 reading tips found:
+
+See All Reading Tips
+    Create Reading Tip  Kirja3   Linkki3
+    Input See Reading Tips Command
+    Input Exit Command
+    Run Application
+    Output Should Contain    2 reading tips found:
+
+Add Tags To Reading Tips
+    Input Add Tags to Reading Tip Command
+    Input  1
+    Input  tag_testi
+    Input Exit Command
+    Run Application
+    Output Should Contain    Tag tag_testi was added successfully to tip id 1.
+
+Add Tag 
+    Input Add Tag Command
+    Input  new_tag
+    Input Exit Command
+    Run Application
+    Output Should Contain    New tag added
+
+See All Tags
+    Input Add Tag Command
+    Input  new_tag
+    Input See Tags Command
+    Input Exit Command
+    Run Application
+    Output Should Contain    New tag added
+    Output Should Contain    1 tags found:
 
 *** Keywords ***
 Add Reading Tip
