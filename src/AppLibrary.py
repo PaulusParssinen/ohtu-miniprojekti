@@ -1,4 +1,4 @@
-from app import App
+from ui.app import App
 from database import Database
 from repositories.tip_tags_repository import TipTagsRepository
 from tests.stub_io import StubIO
