@@ -36,10 +36,13 @@ class TestReadingTipService(unittest.TestCase):
         self.assertIsNone(self.service.get_by_id(1))
 
     def test_search_by_title_returns_false_if_not_found(self):
-        self.assertFalse(self.service.search_by_title("Unknown"))
+        self.assertEqual(0, len(self.service.search_by_title("Unknown")))
 
-    def test_search_by_title_returns_true_if_found(self):
+    def test_search_by_title_exact_returns_result(self):
         self.assertEqual(1, len(self.service.search_by_title("Tira")))
+
+    def test_search_by_title_misspelled_returns_result(self):
+        self.assertEqual(1, len(self.service.search_by_title("trakirja")))
 
     def test_get_with_existing_reading_tip(self):
         reading_tip = self.service.get_by_id(1)
