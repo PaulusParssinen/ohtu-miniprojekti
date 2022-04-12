@@ -1,6 +1,8 @@
 from database import (db as default_reading_tip_db)
 from entities.reading_tip import ReadingTip
 
+from thefuzz import fuzz
+
 class ReadingTipRepository:
     """All database operations related to reading tips (adding, modifying and deleting)
     """
@@ -53,17 +55,18 @@ class ReadingTipRepository:
 
         return self.create_tip_from_result(query_result)
 
-    def search_by_title(self, reading_tip_title) -> ReadingTip:
-        """Returns reading tips that contain given title from db.
+    def search_by_title(self, query) -> ReadingTip:
+        """Returns reading tips that contain title similar to given query from db.
         """
+        
+        min_ratio = 80
+        
+        results = []
+        for tip in self.get_all():
+            if fuzz.WRatio(query, tip.title) >= min_ratio:
+                results.append(tip)
 
-        db_cursor = self._db.connection.cursor()
-
-        query_result = db_cursor.execute(
-            "SELECT * FROM ReadingTip WHERE Title LIKE ?", (f"%{reading_tip_title}%",)
-        ).fetchall()
-
-        return self.create_tips_from_results(query_result)
+        return results
 
 
     def get_all(self):
