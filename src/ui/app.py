@@ -173,30 +173,27 @@ class App:
         self.io.write(" 9. See all tags")
         self.io.write(" 10. Exit software")
 
+    def get_command(self, command):
+        command_id = int(command.strip())
+
+        command_handler = self.commands.get(command_id)
+        if command_handler:
+            command_handler()
+        else:
+            self.io.write(f"No operation found for given number \"{command_id}\"!")
+            self.print_all_operations()
+
     def run(self):
         self.io.write("Welcome to Reading Tip software!")
         self.print_all_operations()
 
         while True:
-            command = self.io.read("Select the operation you want to run (numbers only): \n")
             try:
-                command_id = int(command.strip())
-
-                # Attempt to lookup a matching command handler by the given id
-                command_handler = self.commands.get(command_id)
-
-                # If the corresponding command handler was found, call it.
-                # If not; write an error message.
-                if command_handler:
-                    command_handler()
-                else:
-                    self.io.write(f"No operation found for given number \"{command_id}\"!")
-                    self.print_all_operations()
-
+                command = self.io.read("Select the operation you want to run (numbers only): \n")
+                self.get_command(command)
             except Exception as error:
-                # This exception handler is a catch-all for all of the command handlers.
-                # If the command handler does not have own exception handling,
-                # this exception block handles it by simply printing the error to user.
                 self.io.write(str(error))
             except SystemExit:
                 break
+
+
