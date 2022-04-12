@@ -1,5 +1,5 @@
 # Lukuvinkki
-[![CI](https://github.com/PaulusParssinen/ohtu-miniprojekti/actions/workflows/ci.yml/badge.svg)](https://github.com/PaulusParssinen/ohtu-miniprojekti/actions/workflows/ci.yml)
+[![CI]()
 
 
 ## Alustus ja ohjelman suoritus
