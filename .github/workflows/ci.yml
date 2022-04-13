@@ -30,8 +30,8 @@ jobs:
       run: poetry run invoke robot
     - name: Coverage report
       run: |
-      poetry run invoke coverage
-      poetry run coverage xml
+        poetry run invoke coverage
+        poetry run coverage xml
     - name: Coverage report to Codecov
       uses: codecov/codecov-action@v2
     - name: Lint
