@@ -2,8 +2,6 @@ from repositories.tags_repository import (
     TagsRepository as default_tags_repository
     )
 
-from entities.tag import Tag
-
 class TagsService:
     def __init__(self, tags_repository=default_tags_repository):
         self._tags_repository = tags_repository
@@ -15,7 +13,6 @@ class TagsService:
 
         if self.check_if_tag_exists(tag_name):
             return False
-
         if not self._tags_repository.create_tag(tag_name):
             raise Exception("Failed to add a new tag!")
 

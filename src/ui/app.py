@@ -20,7 +20,8 @@ class App:
             7: self.see_all_reading_tips_with_tag,
             8: self.add_tag,
             9: self.see_all_tags,
-            10: self.exit_app
+            10: self.exit_app,
+            11: self.mark_as_read
         }
 
     def add_reading_tip(self):
@@ -30,12 +31,13 @@ class App:
         description = self.io.read("Give description (optional): ")
         comment = self.io.read("Add comments (optional): ")
         tags = self.io.read("Add tags (optional, separate multiple tags with comma): ")
+        status = "Not ready yet!"
 
-        tip_id = self.reading_tip_service.create(title, link=link, author=author, 
-                description=description, comment=comment)
+        tip_id = self.reading_tip_service.create(title, link=link, author=author,
+                description=description, comment=comment, status=status)
 
         if tip_id is not False:
-            reading_tip = self.reading_tip_service.get_by_id(tip_id)    
+            reading_tip = self.reading_tip_service.get_by_id(tip_id)
 
             self.add_tags_to_reading_tip(reading_tip, tip_id, tags)
 
@@ -82,6 +84,18 @@ class App:
         new_tag = self.io.read("Give new tag: ")
         self.tags_service.create_tag(new_tag)
         self.io.write("New tag added")
+
+    def mark_as_read(self):
+        tip_id = self.io.read("Which reading tip you want to mark as read? Please give id: \n")
+        reading_tip = self.reading_tip_service.get_by_id(tip_id)
+
+        if reading_tip is None:
+            self.io.write(f"Reading tip with id {tip_id} was not found.")
+        else:
+            reading_tip.status = "Already read!"
+            self.reading_tip_service.update_status(reading_tip)
+            self.io.write("Modification done successfully.")
+            self.print_reading_tip(reading_tip)
 
     def modify_reading_tip(self):
         tip_id = self.io.read("Which reading tip you want to modify? Please give id: \n")
@@ -135,7 +149,7 @@ class App:
         reading_tip_objects = self.tip_tags_service.get_all_reading_tips_with_tag_id(tag_id)
         self.io.write(f"Following reading tips were found with tag {tag}.\n")
         self.print_list_of_tips(reading_tip_objects)
-    
+
     def search_reading_tips_by_title(self):
         title = self.io.read("Enter title to search for: ")
         tips = self.reading_tip_service.search_by_title(title)
@@ -172,6 +186,7 @@ class App:
         self.io.write(" 8. Add new tag")
         self.io.write(" 9. See all tags")
         self.io.write(" 10. Exit software")
+        self.io.write(" 11. Mark tip as read")
 
     def get_command(self, command):
         command_id = int(command.strip())
