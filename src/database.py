@@ -40,7 +40,8 @@ class Database:
             Url TEXT, \
             Description TEXT, \
             Comment TEXT, \
-            Tags TEXT)")
+            Tags TEXT,\
+            Status TEXT)")
         self.connection.commit()
 
     def ensure_tags_table_is_created(self):

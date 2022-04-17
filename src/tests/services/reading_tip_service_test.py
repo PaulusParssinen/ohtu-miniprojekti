@@ -51,16 +51,6 @@ class TestReadingTipService(unittest.TestCase):
     def test_get_with_nonexisting_reading_tip(self):
         self.assertIsNone(self.service.get_by_id(100))
 
-    def test_update_by_tip_id(self):
-        self.service.update_by_id(1, 'Muutettu Kirja 1')
-        reading_tip = self.service.get_by_id(1)
-
-        self.assertEqual(reading_tip.title, 'Muutettu Kirja 1')
-
-    def test_update_nonexistent_id_should_raise_error(self):
-        with self.assertRaises(Exception):
-            self.service.update_by_id(1337)
-
     def test_updating_title_returns_correct_value(self):
         existing_tip = self.service.get_by_id(1)
         self.assertEqual(existing_tip.title, "Tirakirja")

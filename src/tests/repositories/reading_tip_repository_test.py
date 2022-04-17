@@ -1,7 +1,5 @@
 import unittest
-
 from database import Database
-
 from entities.reading_tip import ReadingTip
 from repositories.reading_tip_repository import ReadingTipRepository
 
