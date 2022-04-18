@@ -37,6 +37,14 @@ class TestReadingTipsRepository(unittest.TestCase):
         all_tips = self.repository.get_all()
 
         self.assertEqual(len(all_tips), 2)
+    
+    def test_get_unread_reading_tips_returns_one_tip_with_correct_values(self):
+        unread_tips = self.repository.get_unread()
+
+        self.assertEqual(len(unread_tips), 1)
+        self.assertEqual(unread_tips[0].title, "Kirja 1")
+        self.assertEqual(unread_tips[0].author, "Author 1")
+        self.assertEqual(unread_tips[0].url, "Link 1")
 
     def test_updating_with_valid_title_should_update_title_and_keep_other_fields_same(self):
         tip = self.repository.get_by_id(1)

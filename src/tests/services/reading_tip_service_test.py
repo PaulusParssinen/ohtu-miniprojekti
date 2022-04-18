@@ -30,6 +30,9 @@ class TestReadingTipService(unittest.TestCase):
 
     def test_get_all_should_return_one_result(self):
         self.assertEqual(1, len(self.service.get_all()))
+    
+    def test_get_unread_should_return_one_result(self):
+        self.assertEqual(1, len(self.service.get_unread()))
 
     def test_delete_by_existing_id_should_work(self):
         self.service.delete(1)
