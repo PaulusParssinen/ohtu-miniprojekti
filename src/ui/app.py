@@ -20,8 +20,8 @@ class App:
             7: self.see_all_reading_tips_with_tag,
             8: self.add_tag,
             9: self.see_all_tags,
-            10: self.exit_app,
-            11: self.mark_as_read
+            10: self.mark_as_read,
+            11: self.exit_app,
         }
 
     def add_reading_tip(self):
@@ -31,7 +31,7 @@ class App:
         description = self.io.read("Give description (optional): ")
         comment = self.io.read("Add comments (optional): ")
         tags = self.io.read("Add tags (optional, separate multiple tags with comma): ")
-        status = "Not ready yet!"
+        status = "Not read yet!"
 
         tip_id = self.reading_tip_service.create(title, link=link, author=author,
                 description=description, comment=comment, status=status)
@@ -92,7 +92,9 @@ class App:
         if reading_tip is None:
             self.io.write(f"Reading tip with id {tip_id} was not found.")
         else:
-            reading_tip.status = "Already read!"
+            self.print_reading_tip(reading_tip)
+            new_status = "Already read!"
+            reading_tip.status = new_status
             self.reading_tip_service.update_status(reading_tip)
             self.io.write("Modification done successfully.")
             self.print_reading_tip(reading_tip)
@@ -185,8 +187,8 @@ class App:
         self.io.write(" 7. See all Reading Tips with Tag")
         self.io.write(" 8. Add new tag")
         self.io.write(" 9. See all tags")
-        self.io.write(" 10. Exit software")
-        self.io.write(" 11. Mark tip as read")
+        self.io.write(" 10. Mark reading tip as read")
+        self.io.write(" 11. Exit software")
 
     def get_command(self, command):
         command_id = int(command.strip())

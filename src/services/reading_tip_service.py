@@ -62,7 +62,7 @@ class ReadingTipService:
         self.validate_title(new_reading_tip.title)
         self._reading_tip_repository.update(new_reading_tip)
 
-    def update_status(self, reading_tip_status):
+    def update_status(self, reading_tip_status: ReadingTip) -> bool:
         self._reading_tip_repository.update_status(reading_tip_status)
 
     def validate_title(self, title):
