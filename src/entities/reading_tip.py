@@ -19,10 +19,18 @@ class ReadingTip:
         """Formats the reading tip values to a string using the specified seperator (default ", ").
         """
         values = []
-        attributes = {"Id": self.id, "Title": self.type, "Author": self.author, "Url": self.url, "Status": self.status}
-        for key, attr in attributes.items():
-            if attr:
-                values.append(": ".join(key, attr))
+        if self.id:
+            values.append(f"Id: {self.id}")
+        if self.title:
+            values.append(f"Title: {self.title}")
+        if self.type:
+            values.append(f"Type: {self.type}")
+        if self.author:
+            values.append(f"Author: {self.author}")
+        if self.url:
+            values.append(f"URL: {self.url}")
+        if self.status:
+            values.append(f"Status: {self.status}")
         return seperator.join(values)
 
     def __str__(self):
