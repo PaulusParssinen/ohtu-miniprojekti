@@ -15,13 +15,14 @@ class App:
             2: self.modify_reading_tip,
             3: self.delete_reading_tip,
             4: self.see_all_reading_tips,
-            5: self.search_reading_tips_by_title,
-            6: self.add_tags_to_existing_reading_tip,
-            7: self.see_all_reading_tips_with_tag,
-            8: self.add_tag,
-            9: self.see_all_tags,
-            10: self.mark_as_read,
-            11: self.exit_app,
+            5: self.see_all_unread_reading_tips,
+            6: self.search_reading_tips_by_title,
+            7: self.add_tags_to_existing_reading_tip,
+            8: self.see_all_reading_tips_with_tag,
+            9: self.add_tag,
+            10: self.see_all_tags,
+            11: self.mark_as_read,
+            12: self.exit_app,
         }
 
     def add_reading_tip(self):
@@ -126,6 +127,12 @@ class App:
 
         if all_tips:
             self.print_list_of_tips(all_tips)
+    
+    def see_all_unread_reading_tips(self):
+        unread_tips = self.reading_tip_service.get_unread()
+        self.io.write("Following reading tips are unread.")
+        if unread_tips:
+            self.print_list_of_tips(unread_tips)
 
     def print_list_of_tips(self, tips):
         ids_of_tips = self.reading_tip_service.get_ids(tips)
@@ -182,13 +189,14 @@ class App:
         self.io.write(" 2. Modify a Reading Tip")
         self.io.write(" 3. Delete a Reading Tip")
         self.io.write(" 4. See all Reading Tips")
-        self.io.write(" 5. Search Reading Tips by title")
-        self.io.write(" 6. Add tag(s) to a Reading Tip")
-        self.io.write(" 7. See all Reading Tips with Tag")
-        self.io.write(" 8. Add new tag")
-        self.io.write(" 9. See all tags")
-        self.io.write(" 10. Mark reading tip as read")
-        self.io.write(" 11. Exit software")
+        self.io.write(" 5. See all Unread Reading Tips")
+        self.io.write(" 6. Search Reading Tips by title")
+        self.io.write(" 7. Add tag(s) to a Reading Tip")
+        self.io.write(" 8. See all Reading Tips with Tag")
+        self.io.write(" 9. Add new tag")
+        self.io.write(" 10. See all tags")
+        self.io.write(" 11. Mark reading tip as read")
+        self.io.write(" 12. Exit software")
 
     def get_command(self, command):
         command_id = int(command.strip())

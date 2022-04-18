@@ -40,6 +40,11 @@ class ReadingTipService:
         """Returns all reading tips from the underlying repository.
         """
         return self._reading_tip_repository.get_all()
+    
+    def get_unread(self):
+        """Returns all unread reading tips from the underlying repository.
+        """
+        return self._reading_tip_repository.get_unread()
 
     def search_by_title(self, tip_title):
         """Returns reading tips by found from the underlying repository by given title.
