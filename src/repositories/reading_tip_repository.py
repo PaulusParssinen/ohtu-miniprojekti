@@ -119,11 +119,16 @@ class ReadingTipRepository:
 
         db_cursor = self._db.connection.cursor()
 
+        values_to_db = [
+            new_reading_tip_status.status,
+            new_reading_tip_status.id,
+        ]
+
         try:
             db_cursor.execute(
                 "UPDATE ReadingTip SET \
                     Status=? \
-                    WHERE Tip_Id=?", new_reading_tip_status
+                    WHERE Tip_Id=?", tuple(values_to_db)
                 )
 
             self._db.connection.commit()

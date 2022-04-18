@@ -15,11 +15,6 @@ class ReadingTip:
         self.related_courses = []
         self.status = str(status)
 
-    def update_status(self):
-        if self.status is False:
-            return "Not read yet!"
-        return "Already read"
-
     def format(self, seperator=", ") -> str:
         """Formats the reading tip values to a string using the specified seperator (default ", ").
         """
