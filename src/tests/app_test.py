@@ -44,25 +44,25 @@ class TestApp(unittest.TestCase):
         self.mock_io.write.side_effect = ["1"]
 
     def test_creating_and_deleting_reading_tip_is_called(self):
-        inputs = ["1", "Muumien tarinoita", "www.muumit.fi", "Tove Jansson", "kuvailu", "kommentit", "muumi_tag", "11"]
+        inputs = ["1", "Muumien tarinoita", "www.muumit.fi", "Tove Jansson", "kuvailu", "kommentit", "muumi_tag", "12"]
         self.mock_io.read.side_effect = inputs
         self.app.run()
         self.reading_tip_service_mock.create.assert_called()
 
     def test_modyfing_reading_tip_is_called(self):
-        inputs = ["2", "1", "Muumilaakson tarinoita", "11"]
+        inputs = ["2", "1", "Muumilaakson tarinoita", "12"]
         self.mock_io.read.side_effect = inputs
         self.app.run()
         self.reading_tip_service_mock.update.assert_called()
 
     def test_deleting_tip_is_called(self):
-        inputs = ["3", "2", "11"]
+        inputs = ["3", "2", "12"]
         self.mock_io.read.side_effect = inputs
         self.app.run()
         self.reading_tip_service_mock.delete.assert_called()
 
     def test_see_reading_tips_by_title_is_called(self):
-        inputs = ["5", "Muumilaakson tarinoita","11"]
+        inputs = ["5", "Muumilaakson tarinoita","12"]
         self.mock_io.read.side_effect = inputs
         self.app.run()
         self.reading_tip_service_mock.search_by_title.assert_called()

@@ -7,7 +7,7 @@ class TestReadingTipsRepository(unittest.TestCase):
     def setUp(self):
         self.db = Database(":memory:")
         self.repository = ReadingTipRepository(self.db)
-        self.repository.create(ReadingTip(title="Kirja 1", author="Author 1", url="Link 1"))
+        self.repository.create(ReadingTip(title="Kirja 1", author="Author 1", url="Link 1", status="Not read yet!"))
 
     def test_create_tip_with_non_empty_values_works(self):
         self.assertEqual(self.repository.get_by_id(1).title, "Kirja 1")
