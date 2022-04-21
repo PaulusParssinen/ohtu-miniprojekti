@@ -13,7 +13,8 @@ class TestReadingTipService(unittest.TestCase):
         tip = ReadingTip(
             title="Tirakirja",
             author="Laaksonen",
-            url="https://www.cs.helsinki.fi/u/ahslaaks/tirakirja/")
+            url="https://www.cs.helsinki.fi/u/ahslaaks/tirakirja/",
+            status="Not read yet!")
         self.repository.create(tip)
         self.service = ReadingTipService(self.repository)
 
