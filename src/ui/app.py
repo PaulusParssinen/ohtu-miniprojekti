@@ -210,6 +210,9 @@ class App:
 
     def run(self):
         self.io.write("Welcome to Reading Tip software!")
+
+        self.see_all_unread_reading_tips()
+
         self.print_all_operations()
 
         while True:
