@@ -39,8 +39,7 @@ class TagsRepository:
 
         if query_result is not None:
             return True
-        else:
-            return False
+        return False
 
     def get_all_tags(self):
         """Returns all reading tips from db.
@@ -63,8 +62,7 @@ class TagsRepository:
 
         if query_result is None:
             return None
-        else:
-            return query_result[0]
+        return query_result[0]
 
     def get_tag_by_name(self, tag_name) -> Tag:
 

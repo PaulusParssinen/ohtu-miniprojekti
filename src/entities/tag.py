@@ -6,4 +6,3 @@ class Tag:
 
     def __repr__(self):
         return self.tag_name
-

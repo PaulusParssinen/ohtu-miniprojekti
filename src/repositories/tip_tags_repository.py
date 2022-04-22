@@ -11,7 +11,6 @@ class TipTagsRepository:
         """Inserting a new tip-tag pair into TipTags table."""
 
         db_cursor = self._db.connection.cursor()
-        
         try:
             db_cursor.execute(
                     "INSERT INTO TipTags (Tip_id, Tag_Id) \
@@ -20,7 +19,6 @@ class TipTagsRepository:
             self._db.connection.commit()
         except:
             return False
-        
         return True
     
     def check_if_tag_added_to_tip(self, tip_id, tag_id):

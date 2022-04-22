@@ -8,7 +8,7 @@ from repositories.tags_repository import TagsRepository
 from repositories.tip_tags_repository import TipTagsRepository
 from ui.console_io import ConsoleIO
 from ui.console_table import ConsoleTable
-from app import App
+from ui.app import App
 
 def main():
     reading_tip_repository = ReadingTipRepository(db)
