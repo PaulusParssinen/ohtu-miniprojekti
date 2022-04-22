@@ -57,7 +57,7 @@ class App:
 
     def add_tags_to_reading_tip(self, reading_tip, tip_id, tags_string=None):
         if reading_tip is None:
-            self.io.write(f"Reading tip with id {tip_id} was not found.")
+            self.io.write_red("Reading tip with id {tip_id} was not found.")
         else:
             if tags_string is None:
                 tags_string = self.io.read("Please give tag you want to add to the reading tip. \
@@ -67,14 +67,21 @@ class App:
             for tag in tags:
                 tag = tag.strip()
                 # Add those tags to the database which don't exist already
-                if not self.tags_service.check_if_tag_exists(tag):
-                    self.tags_service.create_tag(tag)
+                if self.tags_service.check_if_tag_exists(tag):
+                    pass  
+                elif self.tags_service.create_tag(tag):
+                    self.io.write_green("New tag created")
+                    pass
+                else:
+                    self.io.write_red("Failed to create a new tag!")
+                    break
+                    
                 tag_id = self.tags_service.get_tag_id(tag)
                 # If tag already added to tip, don't add it again
                 if self.tip_tags_service.check_if_tag_added_to_tip(tip_id, tag_id):
                     self.io.write_red(f"Tag {tag} was already added to tip id {tip_id}. \
                         Was not added again.")
-                    continue
+
                 # Add tip-tag pair to TipTags table to the database
                 if self.tip_tags_service.add_tag_to_reading_tip(tip_id, tag_id):
                     self.io.write_green(f"Tag {tag} was added successfully to tip id {tip_id}.")
@@ -91,7 +98,7 @@ class App:
         reading_tip = self.reading_tip_service.get_by_id(tip_id)
 
         if reading_tip is None:
-            self.io.write("Reading tip with id {tip_id} was not found.")
+            self.io.write_red(f"Reading tip with id {tip_id} was not found.")
         else:
             self.print_reading_tip(reading_tip)
             new_status = "Already read!"
@@ -105,14 +112,14 @@ class App:
         reading_tip = self.reading_tip_service.get_by_id(tip_id)
 
         if reading_tip is None:
-            self.io.write_red("Reading tip with id {tip_id} was not found.")
+            self.io.write_red(f"Reading tip with id {tip_id} was not found.")
         else:
             self.print_reading_tip(reading_tip)
             new_title = self.io.read("Enter new title: \n")
 
             reading_tip.title = new_title
             self.reading_tip_service.update(reading_tip)
-            self.io.write("Modification done successfully.")
+            self.io.write_green("Modification done successfully.")
 
     def delete_reading_tip(self):
         try:
@@ -213,10 +220,9 @@ class App:
 
         self.see_all_unread_reading_tips()
 
-        self.print_all_operations()
-
         while True:
             try:
+                self.print_all_operations()
                 command = self.io.read("Select the operation you want to run (numbers only): \n")
                 self.get_command(command)
             except Exception as error:
