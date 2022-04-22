@@ -140,12 +140,13 @@ class App:
             self.io.write_green("Modification done successfully.")
 
     def delete_reading_tip(self):
-        try:
-            tip_id = int(self.io.read("Which reading tip you want to delete? Please give id: "))
-        except:
-            self.io.write_red("Invalid reading tip id")
-        self.reading_tip_service.delete(tip_id)
-        self.io.write_green(f"Deleting a Reading Tip with tip id {tip_id} done successfully.")
+        tip_id = self.io.read("Which reading tip you want to delete? Please give id: ")
+        reading_tip = self.reading_tip_service.get_by_id(tip_id)
+        if reading_tip is None:
+            self.io.write_red(f"Reading tip with id {tip_id} was not found.")
+        else:
+            self.reading_tip_service.delete(tip_id)
+            self.io.write_green(f"Deleting a Reading Tip with tip id {tip_id} done successfully.")
 
     def see_all_reading_tips(self):
         all_tips = self.reading_tip_service.get_all()

@@ -60,14 +60,12 @@ class ReadingTipService:
     def update(self, new_reading_tip: ReadingTip) -> bool:
         """Updates given reading tip fields in the underlying repository.
         """
-        # Validate the fields of the new reading tip object
         self._reading_tip_repository.update(new_reading_tip)
 
     def update_status(self, reading_tip_status: ReadingTip) -> bool:
         self._reading_tip_repository.update_status(reading_tip_status)
 
     def validate_title(self, title):
-        # Remove whitespace from the start and end of the title
         title = title.strip()
         if len(title) == 0:
             return 'Empty title'
