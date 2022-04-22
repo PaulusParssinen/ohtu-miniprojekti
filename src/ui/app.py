@@ -27,29 +27,47 @@ class App:
 
     def add_reading_tip(self):
         title = self.io.read("Give reading tip title: ")
-        link = self.io.read("Give reading tip a link (optional): ")
-        author = self.io.read("Give reading tip an author (optional): ")
-        description = self.io.read("Give description (optional): ")
-        comment = self.io.read("Add comments (optional): ")
-        tags = self.io.read("Add tags (optional, separate multiple tags with comma): ")
-        status = "Not read yet!"
+        if self.validate_title(title):
+            link = self.io.read("Give reading tip a link (optional): ")
+            author = self.io.read("Give reading tip an author (optional): ")
+            description = self.io.read("Give description (optional): ")
+            comment = self.io.read("Add comments (optional): ")
+            tags = self.io.read("Add tags (optional, separate multiple tags with comma): ")
+            status = "Not read yet!"
 
-        tip_id = self.reading_tip_service.create(title, link=link, author=author,
-                description=description, comment=comment, status=status)
+            tip_id = self.reading_tip_service.create(title, link=link, author=author,
+                    description=description, comment=comment, status=status)
 
-        if tip_id is not False:
-            reading_tip = self.reading_tip_service.get_by_id(tip_id)
+            if tip_id is False:
+                self.io.write_red("Failed to add a new reading tip!")
+            else:
+                reading_tip = self.reading_tip_service.get_by_id(tip_id)
 
-            self.add_tags_to_reading_tip(reading_tip, tip_id, tags)
+                self.add_tags_to_reading_tip(reading_tip, tip_id, tags)
 
-            self.io.write_green("New Reading Tip added!")
+                self.io.write_green("New Reading Tip added!")
+        
+    def validate_title(self, title):
+
+        title_validation = self.reading_tip_service.validate_title(title)
+
+        if title_validation == 'Empty title':
+            self.io.write_red("Reading tip cannot have a empty title!")
+            return False
+
+        if title_validation == 'Too many characters':
+            self.io.write_red("Reading tip length cannot exceed 200 characters!")
+            return False
+
+        return True
+
 
     def add_tags_to_existing_reading_tip(self):
         tip_id = self.io.read("To which reading tip you want to tag(s)? Please give id: \n")
         try:
             int(tip_id)
         except:
-            self.io.write("Please enter id as integer.")
+            self.io.write_red("Please enter id as integer.")
             return
         reading_tip = self.reading_tip_service.get_by_id(tip_id)
 
