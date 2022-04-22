@@ -1,5 +1,7 @@
 # Lukuvinkki
 [![CI](https://github.com/PaulusParssinen/ohtu-miniprojekti/actions/workflows/ci.yml/badge.svg)](https://github.com/PaulusParssinen/ohtu-miniprojekti/actions/workflows/ci.yml)
+[![Coverage](https://codecov.io/gh/PaulusParssinen/ohtu-miniprojekti/branch/master/graph/badge.svg?token=38G51UDNGJ)](https://codecov.io/gh/PaulusParssinen/ohtu-miniprojekti)
+
 
 
 ## Alustus ja ohjelman suoritus

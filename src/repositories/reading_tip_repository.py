@@ -1,3 +1,4 @@
+from thefuzz import fuzz
 from database import (db as default_reading_tip_db)
 from entities.reading_tip import ReadingTip
 
@@ -27,16 +28,17 @@ class ReadingTipRepository:
             reading_tip_object.url,
             reading_tip_object.description,
             reading_tip_object.comment,
+            reading_tip_object.status
         ]
         try:
             db_cursor.execute(
-                "INSERT INTO ReadingTip (Title, Author, Type, Isbn, Url, Description, Comment) \
-                VALUES (?, ?, ?, ?, ?, ?, ?)", tuple(values_to_db)
+                "INSERT INTO ReadingTip (Title, Author, Type, Isbn, \
+                                        Url, Description, Comment, Status) \
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tuple(values_to_db)
             )
             self._db.connection.commit()
         except:
             return False
-        
         return db_cursor.lastrowid
 
     def get_by_id(self, reading_tip_id) -> ReadingTip:
@@ -53,17 +55,16 @@ class ReadingTipRepository:
 
         return self.create_tip_from_result(query_result)
 
-    def search_by_title(self, reading_tip_title) -> ReadingTip:
-        """Returns reading tips that contain given title from db.
+    def search_by_title(self, query) -> ReadingTip:
+        """Returns reading tips that contain title similar to given query from db.
         """
+        min_ratio = 80
+        results = []
+        for tip in self.get_all():
+            if fuzz.WRatio(query, tip.title) >= min_ratio:
+                results.append(tip)
 
-        db_cursor = self._db.connection.cursor()
-
-        query_result = db_cursor.execute(
-            "SELECT * FROM ReadingTip WHERE Title LIKE ?", (f"%{reading_tip_title}%",)
-        ).fetchall()
-
-        return self.create_tips_from_results(query_result)
+        return results
 
 
     def get_all(self):
@@ -74,6 +75,18 @@ class ReadingTipRepository:
 
         query_result = db_cursor.execute(
             "SELECT * FROM ReadingTip"
+        ).fetchall()
+
+        return self.create_tips_from_results(query_result)
+    
+    def get_unread(self):
+        """Returns all unread reading tips from db.
+        """
+
+        db_cursor = self._db.connection.cursor()
+
+        query_result = db_cursor.execute(
+            "SELECT * FROM ReadingTip WHERE Status = 'Not read yet!'"
         ).fetchall()
 
         return self.create_tips_from_results(query_result)
@@ -114,6 +127,27 @@ class ReadingTipRepository:
             return False
         return True
 
+    def update_status(self, new_reading_tip_status):
+
+        db_cursor = self._db.connection.cursor()
+
+        values_to_db = [
+            new_reading_tip_status.status,
+            new_reading_tip_status.id,
+        ]
+
+        try:
+            db_cursor.execute(
+                "UPDATE ReadingTip SET \
+                    Status=? \
+                    WHERE Tip_Id=?", tuple(values_to_db)
+                )
+
+            self._db.connection.commit()
+        except:
+            return False
+        return True
+
     def delete(self, reading_tip_id) -> bool:
         """Deleting existing reading tip from db.
         """
@@ -142,6 +176,7 @@ class ReadingTipRepository:
             url=result_row[5],
             description=result_row[6],
             comment=result_row[7],
+            status=result_row[9]
         )
 
 

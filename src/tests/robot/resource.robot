@@ -29,5 +29,11 @@ Input Add Tag Command
 Input See Tags Command
     Input  9
 
-Input Exit Command
+Input Mark As Read Command
     Input  10
+
+Input See Unread Reading Tips Command
+	Input  11
+
+Input Exit Command
+    Input  12

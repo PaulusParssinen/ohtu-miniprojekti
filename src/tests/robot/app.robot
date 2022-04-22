@@ -41,6 +41,10 @@ Search Reading Tip By Invalid Title
     Input Exit Command
     Run Application
     Output Should Contain  No reading tips found for title query "Kirja2".
+    Input  JokuToinen
+    Input Exit Command
+    Run Application
+    Output Should Contain  No reading tips found for title query "JokuToinen".
 
 Modify Existing Reading Tip
     Input Modify Reading Tip Command
