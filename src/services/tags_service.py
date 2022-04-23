@@ -11,6 +11,9 @@ class TagsService:
 
            Raises an exception if given fields do not follow the validation rules."""
 
+        if self.check_if_tag_exists(tag_name):
+            return False
+
         if self._tags_repository.create_tag(tag_name):
             return True
         else:

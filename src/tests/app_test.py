@@ -55,11 +55,11 @@ class TestApp(unittest.TestCase):
         self.app.run()
         self.reading_tip_service_mock.update.assert_called()
 
-    def test_deleting_tip_is_called(self):
-        inputs = ["3", "2", "12"]
+    def test_deleting_tip_is_not_called_when_id_does_not_exist(self):
+        inputs = ["3", "3", "12"]
         self.mock_io.read.side_effect = inputs
         self.app.run()
-        self.reading_tip_service_mock.delete.assert_called()
+        self.reading_tip_service_mock.delete.assert_not_called()
 
     def test_see_reading_tips_by_title_is_called(self):
         inputs = ["5", "Muumilaakson tarinoita","12"]

@@ -65,14 +65,14 @@ class TestReadingTipService(unittest.TestCase):
         self.assertEqual(existing_tip.url, "https://github.com/hy-tira/tirakirja/raw/master/tirakirja.pdf")
 
     def test_updating_with_empty_title_should_raise_error(self):
-        existing_tip = ReadingTip(self.service.get_by_id(1),
-                                "",
-                                "A. Laaksonen",
-                                "https://github.com/hy-tira/tirakirja/raw/master/tirakirja.pdf")
+        existing_tip = self.service.get_by_id(1)
+        existing_tip.title = ""
+
         self.assertFalse(self.service.update(existing_tip))
 
     def test_updating_nonexistent_tip_should_return_false(self):
-        nonexistent_tip = ReadingTip(1337, "This tip should not exist")
+        nonexistent_tip = ReadingTip(title="This tip should not exist")
+        nonexistent_tip.id = 1337
 
         self.assertFalse(self.service.update(nonexistent_tip))
 
