@@ -37,6 +37,10 @@ Search Reading Tip By Valid Title
 
 Search Reading Tip By Invalid Title
     Input Search For Reading Tip Command
+    Input  Kirja2
+    Input Exit Command
+    Run Application
+    Output Should Contain  No reading tips found for title query "Kirja2".
     Input  JokuToinen
     Input Exit Command
     Run Application

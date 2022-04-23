@@ -39,7 +39,7 @@ class TestTipTagsRepository(unittest.TestCase):
         tags_repository.create_tag("Tag 1")
         tags_repository.create_tag("Tag 2")
 
-        tip = self.reading_tip_repository.create(ReadingTip(title="Kirja 2", author="Author 2", url="Link 2"))
+        self.reading_tip_repository.create(ReadingTip(title="Kirja 2", author="Author 2", url="Link 2"))
         tags = self.tip_tags_repository.get_all_tags_with_tip_id(2)
 
         self.assertEqual(tags,[])

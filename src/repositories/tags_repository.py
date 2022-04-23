@@ -13,11 +13,6 @@ class TagsRepository:
         """Inserting a new tag into Tags table."""
 
         db_cursor = self._db.connection.cursor()
-
-        # Check that given tag does not exist in the database already
-        if self.check_if_tag_exists(tag_name):
-            return False
-
         try:
             db_cursor.execute(
                     "INSERT INTO Tags (Tag_name) \

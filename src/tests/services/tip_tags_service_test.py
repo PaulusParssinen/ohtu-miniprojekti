@@ -16,7 +16,6 @@ class TestReadingTipTagsService(unittest.TestCase):
         self.reading_tip_service = ReadingTipService(self.reading_tip_repository)
         self.tags_repository = TagsRepository(self.db)
         self.tags_service = TagsService(self.tags_repository)
-
         self.tip_tags_service.add_tag_to_reading_tip(1,1)
         self.reading_tip_service.create(title="Kirja 1")
 
