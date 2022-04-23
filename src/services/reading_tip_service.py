@@ -31,6 +31,7 @@ class ReadingTipService:
         """
         self._reading_tip_repository.delete(tip_id)
 
+
     def get_all(self):
         """Returns all reading tips from the underlying repository.
         """
@@ -58,6 +59,13 @@ class ReadingTipService:
     def update(self, new_reading_tip: ReadingTip) -> bool:
         """Updates given reading tip fields in the underlying repository.
         """
+
+        if new_reading_tip is None or self.get_by_id(new_reading_tip.id) is None:
+            return False
+        
+        if new_reading_tip.title == "":
+            return False
+
         return self._reading_tip_repository.update(new_reading_tip)
 
     def update_status(self, reading_tip_status: ReadingTip) -> bool:
