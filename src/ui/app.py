@@ -75,7 +75,7 @@ class App:
 
     def add_tags_to_reading_tip(self, reading_tip, tip_id, tags_string=None):
         if reading_tip is None:
-            self.io.write_red("Reading tip with id {tip_id} was not found.")
+            self.io.write_red(f"Reading tip with id {tip_id} was not found.")
         else:
             if tags_string is None:
                 tags_string = self.io.read("Please give tag you want to add to the reading tip. \
