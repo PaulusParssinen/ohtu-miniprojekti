@@ -34,6 +34,5 @@ class TestReadingTipService(unittest.TestCase):
         tag = self.service.get_tag_id('tag1')
         self.assertEqual(tag, 1)
 
-    def test_empty_title_should_raise_error(self):
-        with self.assertRaises(Exception):
-                self.service.create_tag("")
+    def test_empty_title_should_return_false(self):
+        self.assertFalse(self.service.create_tag(""))

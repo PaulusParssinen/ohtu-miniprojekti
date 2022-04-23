@@ -89,7 +89,6 @@ class App:
                     pass  
                 elif self.tags_service.create_tag(tag):
                     self.io.write_green("New tag created")
-                    pass
                 else:
                     self.io.write_red("Failed to create a new tag!")
                     break
@@ -238,10 +237,10 @@ class App:
         self.io.write("Welcome to Reading Tip software!")
 
         self.see_all_unread_reading_tips()
+        self.print_all_operations()
 
         while True:
             try:
-                self.print_all_operations()
                 command = self.io.read("Select the operation you want to run (numbers only): \n")
                 self.get_command(command)
             except Exception as error:

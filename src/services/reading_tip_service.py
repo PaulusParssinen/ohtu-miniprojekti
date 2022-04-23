@@ -15,8 +15,6 @@ class ReadingTipService:
     def create(self, title: str, author=None, link=None,
                 description=None, comment=None, status=str):
         """Adds a new tip with given fields to the underlying repository.
-
-           Raises an exception if given fields do not follow the validation rules.
         """
         self.validate_title(title)
 
@@ -60,7 +58,7 @@ class ReadingTipService:
     def update(self, new_reading_tip: ReadingTip) -> bool:
         """Updates given reading tip fields in the underlying repository.
         """
-        self._reading_tip_repository.update(new_reading_tip)
+        return self._reading_tip_repository.update(new_reading_tip)
 
     def update_status(self, reading_tip_status: ReadingTip) -> bool:
         self._reading_tip_repository.update_status(reading_tip_status)

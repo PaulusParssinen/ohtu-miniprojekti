@@ -15,11 +15,6 @@ class TestTagsRepository(unittest.TestCase):
         added_tag = self.repository.get_tag_by_name("tag")
         self.assertEqual("tag", added_tag.tag_name)
 
-    def test_cannot_add_same_tags_multiple_times(self):
-        self.assertTrue(self.repository.create_tag('tag'))
-        self.repository.create_tag('tag')
-        self.assertFalse(self.repository.create_tag('tag'))
-
     def test_get_all_tags_returns_correct_values(self):
         self.repository.create_tag("tag1")
         self.repository.create_tag("tag2")
