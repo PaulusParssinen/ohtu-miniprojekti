@@ -1,6 +1,3 @@
-import colorama
-from colorama import Fore, Back, Style
-
 class StubIO:
     def __init__(self, inputs=None):
         self.inputs = inputs or []
@@ -17,8 +14,8 @@ class StubIO:
     def add_input(self, value):
         self.inputs.append(value)
 
-    def write_green(self, value, end='\n'):
+    def write_green(self, value):
         self.outputs.append(value)
 
-    def write_red(self, value, end='\n'):
+    def write_red(self, value):
         self.outputs.append(value)
