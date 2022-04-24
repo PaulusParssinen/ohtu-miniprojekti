@@ -34,6 +34,7 @@ Search Reading Tip By Valid Title
     Input Exit Command
     Run Application
     Output Should Contain  1 reading tips found:
+    Table Row Count Should Be  1
 
 Search Reading Tip By Invalid Title
     Input Search For Reading Tip Command
@@ -69,7 +70,12 @@ Delete Existing Reading Tip
     Run Application
     Output Should Contain    Deleting a Reading Tip with tip id 1 done successfully.
 
-#Delete Nonexistent Reading Tip ei toimi oikein
+Delete Nonexistent Reading Tip
+    Input Delete Reading Tip Command
+    Input    100
+    Input Exit Command
+    Run Application
+    Output Should Contain    Reading tip with id 100 was not found.
 
 See All Reading Tips
     Create Reading Tip  Kirja3   Linkki3
@@ -77,6 +83,7 @@ See All Reading Tips
     Input Exit Command
     Run Application
     Output Should Contain    2 reading tips found:
+    Table Row Count Should Be  2
 
 Add Tags To Reading Tip
     Input Add Tags to Reading Tip Command
@@ -108,6 +115,12 @@ See All Tags
     Run Application
     Output Should Contain    New tag added
     Output Should Contain    1 tags found:
+
+Print Unread Tips When Program Is Started
+    Input Exit Command
+    Run Application
+    Output Should Contain  1 reading tips found:
+    Table Row Count Should Be  1
 
 *** Keywords ***
 Add Reading Tip

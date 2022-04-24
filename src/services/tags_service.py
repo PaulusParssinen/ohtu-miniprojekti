@@ -14,10 +14,7 @@ class TagsService:
         if self.check_if_tag_exists(tag_name):
             return False
 
-        if self._tags_repository.create_tag(tag_name):
-            return True
-        else:
-            return False
+        return self._tags_repository.create_tag(tag_name)
 
     def check_if_tag_exists(self, tag_name):
         return self._tags_repository.check_if_tag_exists(tag_name)

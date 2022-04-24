@@ -79,6 +79,8 @@ class ReadingTipService:
         if len(title) > 200:
             return 'Too many characters'
 
+        return True
+
     def get_ids(self, reading_tips):
         ids = []
         for tip in reading_tips:

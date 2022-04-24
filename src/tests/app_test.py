@@ -36,6 +36,12 @@ class TestApp(unittest.TestCase):
         self.app.get_command("4")
         self.reading_tip_service_mock.get_all.assert_called()
 
+    def test_command_add_tag_is_called(self):
+        inputs = ["8", "new tag", "12"]
+        self.mock_io.read.side_effect = inputs
+        self.app.run()
+        self.tag_service_mock.create_tag.assert_called()
+
     def test_command_see_all_tags_is_called(self):
         self.app.get_command("9")
         self.tag_service_mock.get_all_tags.assert_called()
@@ -66,3 +72,13 @@ class TestApp(unittest.TestCase):
         self.mock_io.read.side_effect = inputs
         self.app.run()
         self.reading_tip_service_mock.search_by_title.assert_called()
+
+    def test_validate_title_returns_corrects_values(self):
+        title = ""
+        self.assertFalse(self.app.validate_title(title))
+
+        title = "Too long title"*100
+        self.assertFalse(self.app.validate_title(title))
+
+        title = "Acceptable title"
+        self.assertTrue(self.app.validate_title(title))
