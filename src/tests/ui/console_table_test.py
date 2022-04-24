@@ -9,8 +9,8 @@ class TestConsoleTable(unittest.TestCase):
         self.console_table._table = Table(show_header=True)
     
     def test_add_correct_number_of_rows(self):
-        tip = ReadingTip(title="Title 1", author="Author 1")
-        tip2 = ReadingTip(title="Title 2", author="Author 2")
+        tip = ReadingTip(title="Title 1", author="Author 1", status="Not yet read!")
+        tip2 = ReadingTip(title="Title 2", author="Author 2", status="Already read!")
 
         tips = [tip, tip2]
         
@@ -26,3 +26,15 @@ class TestConsoleTable(unittest.TestCase):
 
         tags = ["tag", "tag 2"]
         self.assertEqual(self.console_table.tag_lists_to_string(tags), "tag tag 2 ")
+
+    def test_get_row_count_returns_correct_value(self):
+        tip = ReadingTip(title="Title 1", author="Author 1")
+        tip2 = ReadingTip(title="Title 2", author="Author 2")
+
+        tips = [tip, tip2]
+        
+        self.console_table.add_rows(tips, [[],[]])
+
+        rows = self.console_table.get_row_count()
+
+        self.assertEqual(rows, 2)

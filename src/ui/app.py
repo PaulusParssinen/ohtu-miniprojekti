@@ -68,10 +68,11 @@ class App:
             int(tip_id)
         except:
             self.io.write_red("Please enter id as integer.")
-            return
+            return False
         reading_tip = self.reading_tip_service.get_by_id(tip_id)
 
         self.add_tags_to_reading_tip(reading_tip, tip_id)
+        return True
 
     def add_tags_to_reading_tip(self, reading_tip, tip_id, tags_string=None):
         if reading_tip is None:

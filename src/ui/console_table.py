@@ -4,7 +4,7 @@ from rich.table import Table
 class ConsoleTable:
     def __init__(self):
         self._console = Console()
-        self._table = 0
+        self._table = Table()
 
     def create_table(self, reading_tips, tags=None):
         self._table = Table(show_header=True, show_lines=True)
@@ -47,3 +47,6 @@ class ConsoleTable:
 
     def print(self):
         self._console.print(self._table)
+
+    def get_row_count(self):
+        return self._table.row_count
