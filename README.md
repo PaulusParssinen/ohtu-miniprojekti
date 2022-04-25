@@ -69,6 +69,4 @@ poetry run invoke view-report
 
 [Definition of done](https://github.com/PaulusParssinen/ohtu-miniprojekti/blob/master/dokumentaatio/definition_of_done.md)
 
-
-
-
+[Loppuraportti](https://github.com/PaulusParssinen/ohtu-miniprojekti/blob/master/dokumentaatio/loppuraportti.md)

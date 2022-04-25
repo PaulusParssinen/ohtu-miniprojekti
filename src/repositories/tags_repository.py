@@ -10,14 +10,10 @@ class TagsRepository:
         self._db = db
 
     def create_tag(self, tag_name):
-        """Inserting a new tag into Tags table."""
+        """Inserting a new tag into Tags table.
+        """
 
         db_cursor = self._db.connection.cursor()
-
-        # Check that given tag does not exist in the database already
-        if self.check_if_tag_exists(tag_name):
-            return False
-
         try:
             db_cursor.execute(
                     "INSERT INTO Tags (Tag_name) \
@@ -29,8 +25,9 @@ class TagsRepository:
         return True
 
     def check_if_tag_exists(self, tag_name):
-        """Check if given tag name already exists in the database.
+        """Check if given tag name already exists in Tags table
         """
+
         db_cursor = self._db.connection.cursor()
 
         query_result = db_cursor.execute(
@@ -42,18 +39,32 @@ class TagsRepository:
         return False
 
     def get_all_tags(self):
-        """Returns all reading tips from db.
+        """Returns all reading tips from Tags table
         """
 
         db_cursor = self._db.connection.cursor()
 
         query_result = db_cursor.execute(
-            "SELECT Tag_name FROM Tags"
+            "SELECT * FROM Tags"
         ).fetchall()
 
         return self.create_tags_from_results(query_result)
 
+    def get_by_id(self, tag_id) -> Tag:
+        db_cursor = self._db.connection.cursor()
+
+        query_result = db_cursor.execute(
+            "SELECT * FROM Tags WHERE Tag_Id = ?", (tag_id, )
+        ).fetchone()
+
+        if query_result is None:
+            return None
+        return self.create_tag_from_result(query_result)
+
     def get_tag_id(self, tag_name):
+        """Returns tag_id by tag_name from Tags table
+        """
+
         db_cursor = self._db.connection.cursor()
 
         query_result = db_cursor.execute(
@@ -65,19 +76,26 @@ class TagsRepository:
         return query_result[0]
 
     def get_tag_by_name(self, tag_name) -> Tag:
+        """Returns tag_name based on tag_name
+        """
 
         db_cursor = self._db.connection.cursor()
 
         query_result = db_cursor.execute(
-            "SELECT Tag_name FROM Tags WHERE Tag_name=?", [tag_name]
+            "SELECT * FROM Tags WHERE Tag_name=?", [tag_name]
         ).fetchone()
 
         return self.create_tag_from_result(query_result)
 
-    def create_tag_from_result(self, result_row):
-        return Tag(tag_name=result_row[0])
+    def create_tag_from_result(self, result_row) -> Tag:
+        """Transforms and returns query result to Tag object
+        """
+        return Tag(int(result_row[0]), result_row[1])
 
     def create_tags_from_results(self, result_row):
+        """Creates and returns a list of Tag objects
+        """
+
         tags = []
         for row in result_row:
             tags.append(self.create_tag_from_result(row))

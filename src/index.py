@@ -1,22 +1,28 @@
 import sys
+
 from database import db
-from services.reading_tip_service import ReadingTipService
+
 from services.tags_service import TagsService
 from services.tip_tags_service import TipTagsService
-from repositories.reading_tip_repository import ReadingTipRepository
+from services.reading_tip_service import ReadingTipService
+
 from repositories.tags_repository import TagsRepository
 from repositories.tip_tags_repository import TipTagsRepository
+from repositories.reading_tip_repository import ReadingTipRepository
+
+from ui.app import App
 from ui.console_io import ConsoleIO
 from ui.console_table import ConsoleTable
-from ui.app import App
 
 def main():
-    reading_tip_repository = ReadingTipRepository(db)
     tag_repository = TagsRepository(db)
     tip_tags_repository = TipTagsRepository(db)
-    reading_tip_service = ReadingTipService(reading_tip_repository)
+    reading_tip_repository = ReadingTipRepository(db)
+    
     tag_service = TagsService(tag_repository)
-    tip_tags_service = TipTagsService(tip_tags_repository)
+    reading_tip_service = ReadingTipService(reading_tip_repository)
+    tip_tags_service = TipTagsService(tip_tags_repository, tag_service, reading_tip_service)
+    
     console_io = ConsoleIO()
     console_table = ConsoleTable()
 

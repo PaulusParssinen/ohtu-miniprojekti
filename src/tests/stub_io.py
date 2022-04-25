@@ -13,3 +13,9 @@ class StubIO:
 
     def add_input(self, value):
         self.inputs.append(value)
+
+    def write_green(self, value):
+        self.outputs.append(value)
+
+    def write_red(self, value):
+        self.outputs.append(value)

@@ -4,10 +4,10 @@ from rich.table import Table
 class ConsoleTable:
     def __init__(self):
         self._console = Console()
-        self._table = 0
+        self._table = Table()
 
     def create_table(self, reading_tips, tags=None):
-        self._table = Table(show_header=True)
+        self._table = Table(show_header=True, show_lines=True)
         self.set_columns()
         self.add_rows(reading_tips, tags)
         self.print()
@@ -27,8 +27,14 @@ class ConsoleTable:
 
         for tip in reading_tips:
             tags = self.tag_lists_to_string(all_tags[tip_index])
+
+            if tip.status == "Already read!":
+                emoji = ":white_heavy_check_mark:"
+            else:
+                emoji = ":cross_mark:"
+
             self._table.add_row(str(tip.id), str(tip.title), str(tip.author or ""), str(tip.url or ""),
-                            str(tip.description or ""), str(tip.comment or ""), str(tags or ""), str(tip.status))
+                str(tip.description or ""), str(tip.comment or ""), str(tags or ""), emoji)
             tip_index += 1
 
     def tag_lists_to_string(self, tags):
@@ -41,3 +47,6 @@ class ConsoleTable:
 
     def print(self):
         self._console.print(self._table)
+
+    def get_row_count(self):
+        return self._table.row_count
