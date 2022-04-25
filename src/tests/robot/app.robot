@@ -1,6 +1,7 @@
 *** Settings ***
 Resource  resource.robot
 Library   AppLibrary
+Library    ../../AppLibrary.py
 Test Setup  Add Reading Tip
 
 *** Test Cases ***
@@ -86,7 +87,7 @@ Delete Nonexistent Reading Tip
     Output Should Contain    Reading tip with id 100 was not found.
 
 See All Reading Tips
-    Create Reading Tip  Kirja3   Linkki3
+    Create Reading Tip  Kirja3
     Input See Reading Tips Command
     Input Exit Command
     Run Application
@@ -192,9 +193,6 @@ User Cannot Give Command That Is Not Integer
 
 *** Keywords ***
 Add Reading Tip
-    Create Reading Tip  Kirja1   Linkki1
-    Create Reading Tip  Video    Linkki2
-    Create Reading Tip  Book1    Linkki3
-
-
-
+    Create Reading Tip  Kirja1
+    Create Reading Tip  Video
+    Create Reading Tip  Book1

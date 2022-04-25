@@ -39,8 +39,8 @@ class AppLibrary:
     def run_application(self):
         self._app.run()
 
-    def create_reading_tip(self, title, link):
-        self._reading_tip_service.create(title, link=link, status="Not read yet!")
+    def create_reading_tip(self, title):
+        self._reading_tip_service.create(title, status="Not read yet!")
 
     def table_row_count_should_be(self, value):
         row_count = self._table.get_row_count()

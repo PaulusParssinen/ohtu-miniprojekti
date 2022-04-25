@@ -34,7 +34,7 @@ class ConsoleTable:
                 emoji = ":cross_mark:"
 
             self._table.add_row(str(tip.id), str(tip.title), str(tip.author or ""), str(tip.url or ""),
-                            str(tip.description or ""), str(tip.comment or ""), str(tags or ""), emoji)
+                str(tip.description or ""), str(tip.comment or ""), str(tags or ""), emoji)
             tip_index += 1
 
     def tag_lists_to_string(self, tags):
