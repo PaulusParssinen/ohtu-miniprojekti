@@ -10,8 +10,8 @@ from services.tip_tags_service import TipTagsService
 from services.reading_tip_service import ReadingTipService
 
 from repositories.tags_repository import TagsRepository
-from repositories.reading_tip_repository import ReadingTipRepository
 from repositories.tip_tags_repository import TipTagsRepository
+from repositories.reading_tip_repository import ReadingTipRepository
 
 from ui.app import App
 from ui.console_io import ConsoleIO
@@ -61,15 +61,21 @@ class TestApp(unittest.TestCase):
     def test_find_tip_by_name_is_called(self):
         self.mock_io.write.side_effect = ["1"]
 
-    def test_creating_and_deleting_reading_tip_is_called(self):
+    def test_creating_reading_tip_is_called(self):
         inputs = ["1", "Muumien tarinoita", "www.muumit.fi", "Tove Jansson", "kuvailu", "kommentit", "muumi_tag", "12"]
 
         self.mock_io.read.side_effect = inputs
         self.app.run()
         self.reading_tip_service_mock.create.assert_called()
 
-    def test_modyfing_reading_tip_is_called(self):
-        inputs = ["2", "1", "Muumilaakson tarinoita", "12"]
+    def test_modifying_reading_tip_is_called(self):
+        inputs = [
+            "1", 
+            "Muumien tarinoita", "www.muumit.fi", "Tove Jansson", "kuvailu", "kommentit", 
+            "muumi_tag",
+            "2", 
+            "1", "Muumilaakson tarinoita", "12"]
+        
         self.mock_io.read.side_effect = inputs
         self.app.run()
         self.reading_tip_service_mock.update.assert_called()
@@ -93,8 +99,13 @@ class TestApp(unittest.TestCase):
         self.app.get_command("11")
         self.reading_tip_service_mock.get_unread.assert_called()
 
-    def test_update_statatus_is_called(self):
-        inputs = ["10", "1","12"]
+    def test_update_status_is_called(self):
+        inputs = [
+            "1", 
+            "Muumien tarinoita", "www.muumit.fi", "Tove Jansson", "kuvailu", "kommentit", 
+            "muumi_tag",
+            "10", 
+            "1", "12"]
         self.mock_io.read.side_effect = inputs
         self.app.run()
         self.reading_tip_service_mock.update_status.assert_called()
@@ -110,7 +121,13 @@ class TestApp(unittest.TestCase):
         self.assertTrue(self.app.validate_title(title))
     
     def test_mark_as_read_with_existing_id_is_called(self):
-        inputs = ["10", "1", "12"]
+        inputs = [
+            "1", 
+            "Muumien tarinoita", "www.muumit.fi", "Tove Jansson", "kuvailu", "kommentit", 
+            "muumi_tag", 
+            "10", 
+            "1", "12"]
+        
         self.mock_io.read.side_effect = inputs
         self.app.run()
         self.reading_tip_service_mock.update_status.assert_called()
