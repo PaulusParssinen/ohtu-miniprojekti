@@ -1,5 +1,3 @@
-from entities.reading_tip import ReadingTip
-
 from services.tags_service import TagsService as default_tags_service
 from services.reading_tip_service import ReadingTipService as default_reading_tip_service
 

@@ -1,14 +1,18 @@
 import sys
+
 from database import db
-from services.reading_tip_service import ReadingTipService
+
 from services.tags_service import TagsService
 from services.tip_tags_service import TipTagsService
-from repositories.reading_tip_repository import ReadingTipRepository
+from services.reading_tip_service import ReadingTipService
+
 from repositories.tags_repository import TagsRepository
 from repositories.tip_tags_repository import TipTagsRepository
+from repositories.reading_tip_repository import ReadingTipRepository
+
+from ui.app import App
 from ui.console_io import ConsoleIO
 from ui.console_table import ConsoleTable
-from ui.app import App
 
 def main():
     tag_repository = TagsRepository(db)
