@@ -77,6 +77,16 @@ class TestApp(unittest.TestCase):
         self.app.run()
         self.reading_tip_service_mock.search_by_title.assert_called()
 
+    def test_see_all_unread_reading_tips(self):
+        self.app.get_command("11")
+        self.reading_tip_service_mock.get_unread.assert_called()
+
+    def test_update_statatus_is_called(self):
+        inputs = ["10", "1","12"]
+        self.mock_io.read.side_effect = inputs
+        self.app.run()
+        self.reading_tip_service_mock.update_status.assert_called()
+
     def test_validate_title_returns_corrects_values(self):
         title = ""
         self.assertFalse(self.app.validate_title(title))

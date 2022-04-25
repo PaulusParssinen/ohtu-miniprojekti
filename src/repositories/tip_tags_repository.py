@@ -8,7 +8,7 @@ class TipTagsRepository:
         self._db = db
 
     def add_tag_to_reading_tip(self, tip_id, tag_id):
-        """Inserting a new tip-tag pair into TipTags table."""
+        """Inserting a new tip-tag pair into TipTags table"""
 
         db_cursor = self._db.connection.cursor()
         try:

@@ -9,6 +9,7 @@ class ReadingTipRepository:
     def __init__(self, db=default_reading_tip_db):
         """Initializing class with db connection as parameter.
         """
+
         self._db = db
 
     def create(self, reading_tip_object: ReadingTip) -> bool:
@@ -128,8 +129,11 @@ class ReadingTipRepository:
         return True
 
     def update_status(self, new_reading_tip_status):
+        """Update the status of the reading tip.
+        """
 
         db_cursor = self._db.connection.cursor()
+
 
         values_to_db = [
             new_reading_tip_status.status,

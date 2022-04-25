@@ -9,15 +9,27 @@ class TipTagsService:
         self._tip_tags_repository = tip_tags_repository
 
     def add_tag_to_reading_tip(self, tip_id, tag_id):
+        """Add tags to a reading tip
+        """
+
         return self._tip_tags_repository.add_tag_to_reading_tip(tip_id, tag_id)
 
     def check_if_tag_added_to_tip(self, tip_id, tag_id):
+        """Check if tag is already linked to reading tip
+        """
+
         return self._tip_tags_repository.check_if_tag_added_to_tip(tip_id, tag_id)
 
     def get_all_tip_tag_pairs(self):
+        """Get all tip tag pairs
+        """
+
         return self._tip_tags_repository.get_all_tip_tag_pairs()
 
     def get_all_reading_tips_with_tag_id(self, tag_id):
+        """Returns all readings tips to linked to a tag id
+        """
+
         reading_tips = self._tip_tags_repository.get_all_reading_tips_with_tag_id(tag_id)
         reading_tip_objects = []
         for reading_tip in reading_tips:
@@ -27,6 +39,8 @@ class TipTagsService:
         return reading_tip_objects
 
     def get_all_tags_with_tip_id(self, tip_id):
+        """Returns all readings tips to linked to a tip id
+        """
 
         tags = self._tip_tags_repository.get_all_tags_with_tip_id(tip_id)
         tag_names = []
@@ -37,6 +51,9 @@ class TipTagsService:
         return tag_names
 
     def get_all_tags_for_multiple_ids(self, tip_ids):
+        """Get all tags for multiple ids
+        """
+
         all_tags = []
 
         for tip_id in tip_ids:
