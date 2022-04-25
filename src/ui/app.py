@@ -78,7 +78,6 @@ class App:
             tags = tags_string.split(',')
             for tag in tags:
                 tag = tag.strip()
-                # Add those tags to the database which don't exist already
                 if self.tags_service.check_if_tag_exists(tag):
                     pass  
                 elif self.tags_service.create_tag(tag):
@@ -88,12 +87,10 @@ class App:
                     break
                     
                 tag_id = self.tags_service.get_tag_id(tag)
-                # If tag already added to tip, don't add it again
                 if self.tip_tags_service.check_if_tag_added_to_tip(tip_id, tag_id):
                     self.io.write_red(f"Tag {tag} was already added to tip id {tip_id}. \
                         Was not added again.")
 
-                # Add tip-tag pair to TipTags table to the database
                 if self.tip_tags_service.add_tag_to_reading_tip(tip_id, tag_id):
                     self.io.write_green(f"Tag {tag} was added successfully to tip id {tip_id}.")
                 else:
@@ -110,12 +107,16 @@ class App:
 
         if reading_tip is None:
             self.io.write_red(f"Reading tip with id {tip_id} was not found.")
+            return 
+
+        if reading_tip.status == "Already read!":
+            self.io.write_red(f"Reading tip with id {tip_id} has been already read. Status can't be changed.")
         else:
-            self.print_reading_tip(reading_tip)
             new_status = "Already read!"
             reading_tip.status = new_status
             self.reading_tip_service.update_status(reading_tip)
             self.print_reading_tip(reading_tip)
+            self.io.write_green("Reading tip status changed to 'Already read!'")
 
     def modify_reading_tip(self):
         tip_id = self.io.read("Which reading tip you want to modify? Please give id: \n")
@@ -186,8 +187,6 @@ class App:
             self.io.write_red(f"No reading tips found for title query \"{title}\".")
 
     def exit_app(self):
-        # Raise exit exception.
-        # This will stop execution of the app and is not caught by the default exception handler.
         raise SystemExit()
 
     def print_list_of_tags(self, tags):
