@@ -1,4 +1,7 @@
 import unittest
+
+from unittest.mock import patch
+
 from database import Database
 from entities.reading_tip import ReadingTip
 from services.reading_tip_service import ReadingTipService
@@ -17,10 +20,11 @@ class TestReadingTipService(unittest.TestCase):
         self.service = ReadingTipService(self.repository)
 
     def test_create_with_valid_title_should_add_a_new_tip(self):
-        self.service.create("Kirja")
-        added_tip = self.service.get_by_id(2)
+        added_tip_id = self.service.create("Competitive Programmer’s Handbook")
+        added_tip = self.service.get_by_id(added_tip_id)
 
-        self.assertEqual("Kirja", added_tip.title)
+        self.assertIsNotNone(added_tip_id)
+        self.assertEqual("Competitive Programmer’s Handbook", added_tip.title)
 
     def test_get_all_should_return_one_result(self):
         self.assertEqual(1, len(self.service.get_all()))
@@ -52,17 +56,29 @@ class TestReadingTipService(unittest.TestCase):
         existing_tip = self.service.get_by_id(1)
         self.assertEqual(existing_tip.title, "Tirakirja")
         existing_tip.title = "Algorytmit"
+        self.assertTrue(self.service.update(existing_tip))
         self.assertEqual(existing_tip.title, "Algorytmit")
 
     def test_updating_author_returns_correct_value(self):
         existing_tip = self.service.get_by_id(1)
         existing_tip.author = "A. Laaksonen"
+        self.assertTrue(self.service.update(existing_tip))
         self.assertEqual(existing_tip.author, "A. Laaksonen")
 
-    def test_updating_url_returns_correct_value(self):
+    @patch('requests.get')
+    def test_updating_url_returns_correct_shortened_url(self, mock_get):
+        # Mock the GET response for the shortener API call
+        mock_response = unittest.mock.Mock()
+        mock_response.text = "https://tinyurl.com/y4w86f3q"
+        mock_get.return_value = mock_response
+        
         existing_tip = self.service.get_by_id(1)
         existing_tip.url = "https://github.com/hy-tira/tirakirja/raw/master/tirakirja.pdf"
-        self.assertEqual(existing_tip.url, "https://github.com/hy-tira/tirakirja/raw/master/tirakirja.pdf")
+        
+        self.service.update(existing_tip)
+        existing_tip = self.service.get_by_id(1)
+        
+        self.assertEqual(existing_tip.url, "https://tinyurl.com/y4w86f3q")
 
     def test_updating_with_empty_title_should_raise_error(self):
         existing_tip = self.service.get_by_id(1)
@@ -83,10 +99,14 @@ class TestReadingTipService(unittest.TestCase):
     def test_validating_title_returns_false_if_title_is_empty(self):
         title = ''
         self.assertEqual(self.service.validate_title(title), "Empty title")
-
+    
+    def test_validating_title_returns_true_if_title_is_valid(self):
+        title = 'Tirakirja'
+        self.assertIsNone(self.service.validate_title(title))
+    
     def test_get_ids_return_correct_ids(self):
-        tip2 = ReadingTip(title="Kirja2", author="Author", url="Linkki")
-        tip3 = ReadingTip(title="Kirja3", author="Author3", url="Linkki3")
+        tip2 = ReadingTip(title="Competitive Programmer’s Handbook", author="Antti Laaksonen")
+        tip3 = ReadingTip(title="Kirja3", author="Author3")
 
         self.repository.create(tip2)
         self.repository.create(tip3)
@@ -102,6 +122,6 @@ class TestReadingTipService(unittest.TestCase):
         existing_tip = self.service.get_by_id(1)
         self.assertTrue(self.service.update_status(existing_tip))
 
-    def test_update_status_with_non_existent_id_returns_Flase(self):
+    def test_update_status_with_non_existent_id_returns_false(self):
         existing_tip = self.service.get_by_id(100)
         self.assertFalse(self.service.update_status(existing_tip))

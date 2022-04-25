@@ -46,45 +46,33 @@ class TipTagsRepository:
 
         return query_result
     
-    def get_all_reading_tips_with_tag_id(self, tag_id):
-        """Returns all tip-tags pairs from the database with given tag_id."""
+    def get_all_reading_tip_ids_with_tag_id(self, tag_id):
+        """Returns all reading ids of the tips that have given tag id linked to it."""
         
         db_cursor = self._db.connection.cursor()
         
-        query_result = db_cursor.execute(
+        pairs = db_cursor.execute(
             "SELECT * FROM TipTags WHERE Tag_id=?", (tag_id,)
         ).fetchall()
         
-        reading_tips = []
+        tip_ids = []
+        for pair in pairs:
+            tip_ids.append(pair[0])
         
-        for pair in query_result:
-            tip_id, tag_id = pair
-            reading_tip = db_cursor.execute(
-                "SELECT * FROM ReadingTip WHERE Tip_Id=?", (tip_id,)
-            ).fetchone()
-            reading_tips.append(reading_tip)
-        
-        return reading_tips
+        return tip_ids
 
-    def get_all_tags_with_tip_id(self, tip_id):
-        """Returns all tip-tags pairs from the database with given tip_id."""
+    def get_all_tag_ids_with_tip_id(self, tip_id):
+        """Returns all tag ids linked to given tip id from the database."""
         
         db_cursor = self._db.connection.cursor()
-
+        
         query_result = db_cursor.execute(
-            "SELECT * FROM TipTags WHERE Tip_id=?", (tip_id,)
+            "SELECT Tag_id FROM TipTags WHERE Tip_id=?", (tip_id,)
         ).fetchall()
         
-        tags = []
-        
+        tag_ids = []
         for pair in query_result:
-            tip_id, tag_id = pair
-
-            tag = db_cursor.execute(
-                "SELECT * FROM Tags WHERE Tag_Id=?", (tag_id,)
-            ).fetchone()
-            tags.append(tag)
-        
-        return tags
+            tag_ids.append(pair[0])
+        return tag_ids
 
 tip_tags_repository = TipTagsRepository()

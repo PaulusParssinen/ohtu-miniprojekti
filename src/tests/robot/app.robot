@@ -127,10 +127,6 @@ Existing Tag Is Not Added Again
 See All Tags
     Input Add Tag Command
     Input  new_tag
-    Input See Tags Command
-    Input Exit Command
-    Run Application
-    Output Should Contain    1 tags found:
     Input Add Tag Command
     Input  another_tag
     Input See Tags Command
