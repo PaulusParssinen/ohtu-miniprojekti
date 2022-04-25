@@ -86,3 +86,15 @@ class TestApp(unittest.TestCase):
 
         title = "Acceptable title"
         self.assertTrue(self.app.validate_title(title))
+    
+    def test_mark_as_read_with_existing_id_is_called(self):
+        inputs = ["10", "1", "12"]
+        self.mock_io.read.side_effect = inputs
+        self.app.run()
+        self.reading_tip_service_mock.update_status.assert_called()
+
+    def test_mark_as_read_with_nonexistent_id_is_not_called(self):
+        inputs = ["10", "100", "12"]
+        self.mock_io.read.side_effect = inputs
+        self.app.run()
+        self.reading_tip_service_mock.update_status.assert_not_called()

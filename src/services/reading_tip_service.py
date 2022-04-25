@@ -62,14 +62,15 @@ class ReadingTipService:
 
         if new_reading_tip is None or self.get_by_id(new_reading_tip.id) is None:
             return False
-        
         if new_reading_tip.title == "":
             return False
 
         return self._reading_tip_repository.update(new_reading_tip)
 
     def update_status(self, reading_tip_status: ReadingTip) -> bool:
-        self._reading_tip_repository.update_status(reading_tip_status)
+        if reading_tip_status == None:
+            return False
+        return self._reading_tip_repository.update_status(reading_tip_status)
 
     def validate_title(self, title):
         title = title.strip()
