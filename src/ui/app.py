@@ -107,10 +107,6 @@ class App:
 
         if reading_tip is None:
             self.io.write_red(f"Reading tip with id {tip_id} was not found.")
-            return 
-
-        if reading_tip.status == "Already read!":
-            self.io.write_red(f"Reading tip with id {tip_id} has been already read. Status can't be changed.")
         else:
             new_status = "Already read!"
             reading_tip.status = new_status
