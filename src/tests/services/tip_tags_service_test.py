@@ -45,13 +45,13 @@ class TestReadingTipTagsService(unittest.TestCase):
 
     def test_get_all_tags_with_tip_id_works(self):
         tags = self.tip_tags_service.get_all_tags_with_tip_id(1)
-        self.assertListEqual(tags, [Tag(1, "Käpistely")])
-
+        self.assertEqual("Käpistely", tags[0].tag_name)
+        
         self.tags_service.create_tag("Algot")
         self.tip_tags_service.add_tag_to_reading_tip(1, 2)
 
-        names = self.tip_tags_service.get_all_tags_with_tip_id(1)
-        self.assertListEqual(names, [Tag(1, "Käpistely"), Tag(2, "Algot")])
+        tags = self.tip_tags_service.get_all_tags_with_tip_id(1)
+        self.assertEqual("Algot", tags[1].tag_name)
 
     def test_get_all_tags_for_multiple_ids_works(self):
         cses_book_id = self.reading_tip_service.create(title = "Competitive Programmer’s Handbook")
@@ -59,5 +59,6 @@ class TestReadingTipTagsService(unittest.TestCase):
         self.tags_service.create_tag("Algot")
         self.tip_tags_service.add_tag_to_reading_tip(cses_book_id, 2)
 
-        names = self.tip_tags_service.get_all_tags_for_multiple_ids([1, cses_book_id])
-        self.assertListEqual(names, [[Tag(1, "Käpistely")], [Tag(2, "Algot")]])
+        tags = self.tip_tags_service.get_all_tags_for_multiple_ids([1, cses_book_id])
+        self.assertEqual("Käpistely", tags[0][0].tag_name)
+        self.assertEqual("Algot", tags[1][0].tag_name)
