@@ -98,8 +98,11 @@ class App:
 
     def add_tag(self):
         new_tag = self.io.read("Give new tag: ")
-        self.tags_service.create_tag(new_tag)
-        self.io.write_green("New tag added")
+        
+        if self.tags_service.create_tag(new_tag) is False:
+            self.io.write_red("Tag already existed")
+        else:
+            self.io.write_green("New tag added")
 
     def mark_as_read(self):
         tip_id = self.io.read("Which reading tip you want to mark as read? Please give id: \n")
@@ -232,6 +235,8 @@ class App:
             try:
                 command = self.io.read("Select the operation you want to run (numbers only): \n")
                 self.get_command(command)
+            except ValueError:
+                self.io.write_red("Command should be an integer") 
             except Exception as error:
                 self.io.write(str(error))
             except SystemExit:

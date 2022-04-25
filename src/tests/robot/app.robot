@@ -4,7 +4,7 @@ Library   AppLibrary
 Test Setup  Add Reading Tip
 
 *** Test Cases ***
-Add Reading Tip With Valid Title And Link
+Add Reading Tip With Valid Title
     Input Add Reading Tip Command
     Input    Tirakirja
     Input    https://www.cs.helsinki.fi/u/ahslaaks/tirakirja/
@@ -16,7 +16,7 @@ Add Reading Tip With Valid Title And Link
     Run Application
     Output Should Contain    New Reading Tip added!
 
-Add Reading Tip With Invalid Title And Link
+Add Reading Tip With Invalid Title
     Input Add Reading Tip Command
     Input    \
     Input    \
@@ -36,12 +36,20 @@ Search Reading Tip By Valid Title
     Output Should Contain  1 reading tips found:
     Table Row Count Should Be  1
 
-Search Reading Tip By Invalid Title
+Search Reading Tip By Almost Valid Title
     Input Search For Reading Tip Command
-    Input  Kirja2Kirja2
+    Input  Krja1
     Input Exit Command
     Run Application
-    Output Should Contain  No reading tips found for title query "Kirja2Kirja2".
+    Output Should Contain  1 reading tips found:
+    Table Row Count Should Be  1
+
+Search Reading Tip By Invalid Title
+    Input Search For Reading Tip Command
+    Input  NonExistent
+    Input Exit Command
+    Run Application
+    Output Should Contain  No reading tips found for title query "NonExistent".
     Input Search For Reading Tip Command
     Input  JokuToinen
     Input Exit Command
@@ -82,8 +90,8 @@ See All Reading Tips
     Input See Reading Tips Command
     Input Exit Command
     Run Application
-    Output Should Contain    2 reading tips found:
-    Table Row Count Should Be  2
+    Output Should Contain    4 reading tips found:
+    Table Row Count Should Be  4
 
 Add Tags To Reading Tip
     Input Add Tags to Reading Tip Command
@@ -107,24 +115,90 @@ Add Tag
     Run Application
     Output Should Contain    New tag added
 
+Existing Tag Is Not Added Again
+    Input Add Tag Command
+    Input  new_tag
+    Input Add Tag Command
+    Input  new_tag
+    Input Exit Command
+    Run Application
+    Output Should Contain   Tag already existed
+
 See All Tags
     Input Add Tag Command
     Input  new_tag
     Input See Tags Command
     Input Exit Command
     Run Application
-    Output Should Contain    New tag added
     Output Should Contain    1 tags found:
+    Input Add Tag Command
+    Input  another_tag
+    Input See Tags Command
+    Input Exit Command
+    Run Application
+    Output Should Contain    2 tags found:
 
-Print Unread Tips When Program Is Started
+See Reading Tips With Tag
+    Input Add Tags to Reading Tip Command
+    Input  1
+    Input  tag_testi
+    Input See All Reading Tips With Tag Command
+    Input  tag_testi
     Input Exit Command
     Run Application
     Output Should Contain  1 reading tips found:
     Table Row Count Should Be  1
 
+Mark Valid Reading Tip As Read
+    Input Mark As Read Command
+    Input  1
+    Input Exit Command
+    Run Application
+    Output Should Contain  Reading tip status changed to 'Already read!'
+
+Mark Invalid Reading Tip As Read
+    Input Mark As Read Command
+    Input  100
+    Input Exit Command
+    Run Application
+    Output Should Contain  Reading tip with id 100 was not found.
+
+See All Unread Tips
+    Input See Unread Reading Tips Command
+    Input Exit Command
+    Run Application
+    Output Should Contain  Following reading tips are unread.
+    Table Row Count Should Be  3
+    Input Mark As Read Command
+    Input  1
+    Input See Unread Reading Tips Command
+    Input Exit Command
+    Run Application
+    Table Row Count Should Be  2
+
+Print Unread Tips When Program Is Started
+    Input Exit Command
+    Run Application
+    Output Should Contain  3 reading tips found:
+    Table Row Count Should Be  3
+
+User Cannot Give Command That Does Not Exist
+    Input  100
+    Input Exit Command
+    Run Application
+    Output Should Contain  No operation found for given number "100"!
+
+User Cannot Give Command That Is Not Integer
+    Input  command
+    Input Exit Command
+    Run Application
+    Output Should Contain  Command should be an integer
+
 *** Keywords ***
 Add Reading Tip
     Create Reading Tip  Kirja1   Linkki1
+    Create Reading Tip  Video    Linkki2
+    Create Reading Tip  Book1    Linkki3
 
 
 
