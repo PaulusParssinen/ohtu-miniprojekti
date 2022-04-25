@@ -83,7 +83,7 @@ class TestReadingTipService(unittest.TestCase):
     def test_validating_title_returns_false_if_title_is_empty(self):
         title = ''
         self.assertEqual(self.service.validate_title(title), "Empty title")
-    
+
     def test_get_ids_return_correct_ids(self):
         tip2 = ReadingTip(title="Kirja2", author="Author", url="Linkki")
         tip3 = ReadingTip(title="Kirja3", author="Author3", url="Linkki3")
@@ -97,3 +97,11 @@ class TestReadingTipService(unittest.TestCase):
         self.service.delete(2)
         tips = self.service.get_all()
         self.assertEqual(self.service.get_ids(tips), [1, 3])
+
+    def test_update_status(self):
+        existing_tip = self.service.get_by_id(1)
+        self.assertTrue(self.service.update_status(existing_tip))
+
+    def test_update_status_with_non_existent_id_returns_Flase(self):
+        existing_tip = self.service.get_by_id(100)
+        self.assertFalse(self.service.update_status(existing_tip))
