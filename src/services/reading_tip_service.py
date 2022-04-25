@@ -1,7 +1,7 @@
 import requests
 
-from repositories.reading_tip_repository import ReadingTipRepository as default_tip_repository
 from entities.reading_tip import ReadingTip
+from repositories.reading_tip_repository import ReadingTipRepository as default_tip_repository
 
 class ReadingTipService:
     """Class encapsulating the business logic such as exposed to the application.

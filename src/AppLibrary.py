@@ -1,13 +1,17 @@
+from tests.stub_io import StubIO
+
 from ui.app import App
 from ui.console_table import ConsoleTable
+
 from database import Database
-from tests.stub_io import StubIO
-from services.reading_tip_service import ReadingTipService
+
 from services.tags_service import TagsService
 from services.tip_tags_service import TipTagsService
-from repositories.reading_tip_repository import ReadingTipRepository
+from services.reading_tip_service import ReadingTipService
+
 from repositories.tags_repository import TagsRepository
 from repositories.tip_tags_repository import TipTagsRepository
+from repositories.reading_tip_repository import ReadingTipRepository
 
 class AppLibrary:
     def __init__(self):
