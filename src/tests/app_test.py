@@ -1,23 +1,35 @@
 import unittest
 from unittest.mock import Mock, ANY
+
+from database import Database
+
 from entities.reading_tip import ReadingTip
-from ui.app import App
-from database import db
-from services.reading_tip_service import ReadingTipService
+
 from services.tags_service import TagsService
 from services.tip_tags_service import TipTagsService
-from repositories.reading_tip_repository import ReadingTipRepository
+from services.reading_tip_service import ReadingTipService
+
 from repositories.tags_repository import TagsRepository
+from repositories.reading_tip_repository import ReadingTipRepository
 from repositories.tip_tags_repository import TipTagsRepository
+
+from ui.app import App
 from ui.console_io import ConsoleIO
 from ui.console_table import ConsoleTable
-from ui.app import App
 
 class TestApp(unittest.TestCase):
     def setUp(self):
+        db = Database(":memory:")
+        
         self.reading_tip_service_mock = Mock(wraps=ReadingTipService(ReadingTipRepository(db)))
         self.tag_service_mock = Mock(wraps=TagsService(TagsRepository(db)))
-        self.tip_tags_service_mock = Mock(wraps=TipTagsService(TipTagsRepository(db)))
+        
+        self.tip_tags_service_mock = Mock(wraps=
+            TipTagsService(
+                TipTagsRepository(db), 
+                TagsService(TagsRepository(db)), 
+                ReadingTipService(ReadingTipRepository(db))))
+        
         self.mock_io = Mock(wraps=ConsoleIO())
         self.table_mock = Mock(wraps=ConsoleTable())
 

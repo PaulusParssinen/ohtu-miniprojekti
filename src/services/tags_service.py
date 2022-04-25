@@ -20,6 +20,9 @@ class TagsService:
         """
 
         return self._tags_repository.check_if_tag_exists(tag_name)
+    
+    def get_by_id(self, tag_id):
+        return self._tags_repository.get_by_id(tag_id)
 
     def get_tag_id(self, tag_name):
         """Returns tag that had been fetched from Tags Repository by tag name

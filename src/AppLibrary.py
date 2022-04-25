@@ -13,14 +13,18 @@ class AppLibrary:
     def __init__(self):
         self._io = StubIO()
         self._db = Database(":memory:")
-        self._reading_tip_repository = ReadingTipRepository(self._db)
+        
         self._tags_repository = TagsRepository(self._db)
         self._tip_tags_repository = TipTagsRepository(self._db)
-        self._service = ReadingTipService(self._reading_tip_repository)
+        self._reading_tip_repository = ReadingTipRepository(self._db)
+        
         self._tag_service = TagsService(self._tags_repository)
-        self._tip_tags_service = TipTagsService(self._tip_tags_repository)
+        self._reading_tip_service = ReadingTipService(self._reading_tip_repository)
+        self._tip_tags_service = TipTagsService(self._tip_tags_repository, self._tag_service, 
+            self._reading_tip_service)
+        
         self._table = ConsoleTable()
-        self._app = App(self._service, self._io, self._tag_service,
+        self._app = App(self._reading_tip_service, self._io, self._tag_service,
                         self._tip_tags_service, self._table)
 
     def input(self, value):
@@ -36,7 +40,7 @@ class AppLibrary:
         self._app.run()
 
     def create_reading_tip(self, title, link):
-        self._service.create(title, link=link, status="Not read yet!")
+        self._reading_tip_service.create(title, link=link, status="Not read yet!")
 
     def table_row_count_should_be(self, value):
         row_count = self._table.get_row_count()

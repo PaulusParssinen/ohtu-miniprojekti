@@ -45,10 +45,21 @@ class TagsRepository:
         db_cursor = self._db.connection.cursor()
 
         query_result = db_cursor.execute(
-            "SELECT Tag_name FROM Tags"
+            "SELECT * FROM Tags"
         ).fetchall()
 
         return self.create_tags_from_results(query_result)
+
+    def get_by_id(self, tag_id) -> Tag:
+        db_cursor = self._db.connection.cursor()
+
+        query_result = db_cursor.execute(
+            "SELECT * FROM Tags WHERE Tag_Id = ?", (tag_id, )
+        ).fetchone()
+
+        if query_result is None:
+            return None
+        return self.create_tag_from_result(query_result)
 
     def get_tag_id(self, tag_name):
         """Returns tag_id by tag_name from Tags table
@@ -71,16 +82,13 @@ class TagsRepository:
         db_cursor = self._db.connection.cursor()
 
         query_result = db_cursor.execute(
-            "SELECT Tag_name FROM Tags WHERE Tag_name=?", [tag_name]
+            "SELECT * FROM Tags WHERE Tag_name=?", [tag_name]
         ).fetchone()
 
         return self.create_tag_from_result(query_result)
 
-    def create_tag_from_result(self, result_row):
-        """Transforms and returns query result to Tag object
-        """
-
-        return Tag(tag_name=result_row[0])
+    def create_tag_from_result(self, result_row) -> Tag:
+        return Tag(int(result_row[0]), result_row[1])
 
     def create_tags_from_results(self, result_row):
         """Creates and returns a list of Tag objects

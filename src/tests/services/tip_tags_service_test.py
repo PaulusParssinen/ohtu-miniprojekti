@@ -1,23 +1,33 @@
 import unittest
+
 from database import Database
-from services.tip_tags_service import TipTagsService
-from repositories.tip_tags_repository import TipTagsRepository
-from services.reading_tip_service import ReadingTipService
-from repositories.reading_tip_repository import ReadingTipRepository
+
+from entities.tag import Tag
+
 from services.tags_service import TagsService
+from services.tip_tags_service import TipTagsService
+from services.reading_tip_service import ReadingTipService
+
 from repositories.tags_repository import TagsRepository
+from repositories.tip_tags_repository import TipTagsRepository
+from repositories.reading_tip_repository import ReadingTipRepository
 
 class TestReadingTipTagsService(unittest.TestCase):
     def setUp(self):
         self.db = Database(":memory:")
+        
+        self.tags_repository = TagsRepository(self.db)
         self.tip_tags_repository = TipTagsRepository(self.db)
         self.reading_tip_repository = ReadingTipRepository(self.db)
-        self.tip_tags_service = TipTagsService(self.tip_tags_repository)
-        self.reading_tip_service = ReadingTipService(self.reading_tip_repository)
-        self.tags_repository = TagsRepository(self.db)
+        
         self.tags_service = TagsService(self.tags_repository)
-        self.tip_tags_service.add_tag_to_reading_tip(1,1)
-        self.reading_tip_service.create(title="Kirja 1")
+        self.reading_tip_service = ReadingTipService(self.reading_tip_repository)
+        self.tip_tags_service = TipTagsService(self.tip_tags_repository, 
+            self.tags_service, self.reading_tip_service)
+        
+        self.tags_service.create_tag("Käpistely")
+        self.reading_tip_service.create(title="Tirakirja")
+        self.tip_tags_service.add_tag_to_reading_tip(1, 1)
 
     def test_add_tag_to_reading_tip_works(self):
         self.assertTrue(self.tip_tags_service.add_tag_to_reading_tip(2,2))
@@ -31,32 +41,23 @@ class TestReadingTipTagsService(unittest.TestCase):
 
     def test_get_all_reading_tips_with_tag_id_works(self):
         reading_tip_objects = self.tip_tags_service.get_all_reading_tips_with_tag_id(1)
-        self.assertEqual(reading_tip_objects[0].title, 'Kirja 1')
+        self.assertEqual(reading_tip_objects[0].title, 'Tirakirja')
 
     def test_get_all_tags_with_tip_id_works(self):
-        id = self.reading_tip_service.create(title = "Book 2")
+        tags = self.tip_tags_service.get_all_tags_with_tip_id(1)
+        self.assertListEqual(tags, [Tag(1, "Käpistely")])
 
-        tags = self.tip_tags_service.get_all_tags_with_tip_id(id)
-        self.assertEqual(tags, [])
+        self.tags_service.create_tag("Algot")
+        self.tip_tags_service.add_tag_to_reading_tip(1, 2)
 
-        self.tags_service.create_tag("tag")
-        self.tags_service.create_tag("another")
-
-        self.tip_tags_service.add_tag_to_reading_tip(id, 1)
-        self.tip_tags_service.add_tag_to_reading_tip(id, 2)
-
-        tags = self.tip_tags_service.get_all_tags_with_tip_id(id)
-        self.assertEqual(tags, ["tag", "another"])
+        names = self.tip_tags_service.get_all_tags_with_tip_id(1)
+        self.assertListEqual(names, [Tag(1, "Käpistely"), Tag(2, "Algot")])
 
     def test_get_all_tags_for_multiple_ids_works(self):
-        id = self.reading_tip_service.create(title = "Book 2")
-        id2 = self.reading_tip_service.create(title = "Book 2")
+        cses_book_id = self.reading_tip_service.create(title = "Competitive Programmer’s Handbook")
 
-        self.tags_service.create_tag("tag")
-        self.tags_service.create_tag("another")
+        self.tags_service.create_tag("Algot")
+        self.tip_tags_service.add_tag_to_reading_tip(cses_book_id, 2)
 
-        self.tip_tags_service.add_tag_to_reading_tip(id, 1)
-        self.tip_tags_service.add_tag_to_reading_tip(id2, 2)
-
-        tags = self.tip_tags_service.get_all_tags_for_multiple_ids([id, id2])
-        self.assertEqual(tags, [["tag"], ["another"]])
+        names = self.tip_tags_service.get_all_tags_for_multiple_ids([1, cses_book_id])
+        self.assertListEqual(names, [[Tag(1, "Käpistely")], [Tag(2, "Algot")]])
