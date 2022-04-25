@@ -38,14 +38,14 @@ class App:
             tip_id = self.reading_tip_service.create(title, link=link, author=author,
                     description=description, comment=comment, status=status)
 
-            if tip_id is False:
-                self.io.write_red("Failed to add a new reading tip!")
-            else:
+            if tip_id:
                 reading_tip = self.reading_tip_service.get_by_id(tip_id)
 
                 self.add_tags_to_reading_tip(reading_tip, tip_id, tags)
 
                 self.io.write_green("New Reading Tip added!")
+            else:
+                self.io.write_red("Failed to add a new reading tip!")
         
     def validate_title(self, title):
 
