@@ -64,15 +64,8 @@ class App:
 
     def add_tags_to_existing_reading_tip(self):
         tip_id = self.io.read("To which reading tip you want to tag(s)? Please give id: \n")
-        try:
-            int(tip_id)
-        except:
-            self.io.write_red("Please enter id as integer.")
-            return False
         reading_tip = self.reading_tip_service.get_by_id(tip_id)
-
         self.add_tags_to_reading_tip(reading_tip, tip_id)
-        return True
 
     def add_tags_to_reading_tip(self, reading_tip, tip_id, tags_string=None):
         if reading_tip is None:
@@ -122,7 +115,6 @@ class App:
             new_status = "Already read!"
             reading_tip.status = new_status
             self.reading_tip_service.update_status(reading_tip)
-            self.io.write_green("Modification done successfully.")
             self.print_reading_tip(reading_tip)
 
     def modify_reading_tip(self):

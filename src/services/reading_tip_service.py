@@ -9,6 +9,7 @@ class ReadingTipService:
        This class is responsible for validating and sanitizing parameters to be valid the
        for underlying data storage.
     """
+    
     def __init__(self, reading_tip_repository=default_reading_tip_repository):
         self._reading_tip_repository = reading_tip_repository
 
@@ -16,6 +17,7 @@ class ReadingTipService:
                 description=None, comment=None, status=str):
         """Adds a new tip with given fields to the underlying repository.
         """
+
         self.validate_title(title)
 
         reading_tip = ReadingTip(title=title, author=author, url=link,
@@ -35,11 +37,13 @@ class ReadingTipService:
     def get_all(self):
         """Returns all reading tips from the underlying repository.
         """
+
         return self._reading_tip_repository.get_all()
     
     def get_unread(self):
         """Returns all unread reading tips from the underlying repository.
         """
+
         return self._reading_tip_repository.get_unread()
 
     def search_by_title(self, tip_title):
@@ -47,6 +51,7 @@ class ReadingTipService:
 
            If no tips were found from the repository, returns None.
         """
+
         return self._reading_tip_repository.search_by_title(tip_title)
 
     def get_by_id(self, tip_id) -> ReadingTip:
@@ -54,6 +59,7 @@ class ReadingTipService:
 
            If reading tip on given id does not exist in the repository, returns None.
         """
+
         return self._reading_tip_repository.get_by_id(tip_id)
 
     def update(self, new_reading_tip: ReadingTip) -> bool:
@@ -69,9 +75,15 @@ class ReadingTipService:
         return self._reading_tip_repository.update(new_reading_tip)
 
     def update_status(self, reading_tip_status: ReadingTip) -> bool:
+        """Update reading tip status
+        """
+        
         self._reading_tip_repository.update_status(reading_tip_status)
 
     def validate_title(self, title):
+        """Validates the format of the reading tip title
+        """
+        
         title = title.strip()
         if len(title) == 0:
             return 'Empty title'
@@ -82,6 +94,9 @@ class ReadingTipService:
         return True
 
     def get_ids(self, reading_tips):
+        """Create a list of reading tip ids
+        """
+
         ids = []
         for tip in reading_tips:
             ids.append(tip.id)
