@@ -215,6 +215,7 @@ class App:
         self.io.write(" 11. See all Unread Reading Tips")
         self.io.write(" 12. Exit software")
 
+
     def get_command(self, command):
         command_id = int(command.strip())
 

@@ -37,7 +37,7 @@ class TestReadingTipsRepository(unittest.TestCase):
         all_tips = self.repository.get_all()
 
         self.assertEqual(len(all_tips), 2)
-    
+
     def test_get_unread_reading_tips_returns_one_tip_with_correct_values(self):
         unread_tips = self.repository.get_unread()
 
@@ -72,3 +72,8 @@ class TestReadingTipsRepository(unittest.TestCase):
     def test_deleting_tip_that_exists_works(self):
         self.repository.delete(1)
         self.assertIsNone(self.repository.get_by_id(1))
+
+    def test_update_status_with_existing_id_returns_True(self):
+        tip = self.repository.get_by_id(1)
+        success = self.repository.update_status(tip)
+        self.assertTrue(success)

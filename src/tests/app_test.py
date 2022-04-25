@@ -51,6 +51,7 @@ class TestApp(unittest.TestCase):
 
     def test_creating_and_deleting_reading_tip_is_called(self):
         inputs = ["1", "Muumien tarinoita", "www.muumit.fi", "Tove Jansson", "kuvailu", "kommentit", "muumi_tag", "12"]
+
         self.mock_io.read.side_effect = inputs
         self.app.run()
         self.reading_tip_service_mock.create.assert_called()
@@ -63,6 +64,9 @@ class TestApp(unittest.TestCase):
 
     def test_deleting_tip_is_not_called_when_id_does_not_exist(self):
         inputs = ["3", "3", "12"]
+
+    def test_deleting_tip_is_called(self):
+        inputs = ["3", "2", "12"]
         self.mock_io.read.side_effect = inputs
         self.app.run()
         self.reading_tip_service_mock.delete.assert_not_called()
@@ -92,3 +96,15 @@ class TestApp(unittest.TestCase):
 
         title = "Acceptable title"
         self.assertTrue(self.app.validate_title(title))
+    
+    def test_mark_as_read_with_existing_id_is_called(self):
+        inputs = ["10", "1", "12"]
+        self.mock_io.read.side_effect = inputs
+        self.app.run()
+        self.reading_tip_service_mock.update_status.assert_called()
+
+    def test_mark_as_read_with_nonexistent_id_is_not_called(self):
+        inputs = ["10", "100", "12"]
+        self.mock_io.read.side_effect = inputs
+        self.app.run()
+        self.reading_tip_service_mock.update_status.assert_not_called()
