@@ -1,7 +1,5 @@
 import unittest
-
 from database import Database
-
 from entities.reading_tip import ReadingTip
 from services.reading_tip_service import ReadingTipService
 from repositories.reading_tip_repository import ReadingTipRepository
@@ -13,7 +11,8 @@ class TestReadingTipService(unittest.TestCase):
         tip = ReadingTip(
             title="Tirakirja",
             author="Laaksonen",
-            url="https://www.cs.helsinki.fi/u/ahslaaks/tirakirja/")
+            url="https://www.cs.helsinki.fi/u/ahslaaks/tirakirja/",
+            status="Not read yet!")
         self.repository.create(tip)
         self.service = ReadingTipService(self.repository)
 
@@ -23,13 +22,11 @@ class TestReadingTipService(unittest.TestCase):
 
         self.assertEqual("Kirja", added_tip.title)
 
-    def test_create_with_empty_title_should_raise_error_and_not_add_new_tip(self):
-        with self.assertRaises(Exception):
-            self.service.create("")
-        self.assertIsNone(self.service.get_by_id(2))
-
     def test_get_all_should_return_one_result(self):
         self.assertEqual(1, len(self.service.get_all()))
+    
+    def test_get_unread_should_return_one_result(self):
+        self.assertEqual(1, len(self.service.get_unread()))
 
     def test_delete_by_existing_id_should_work(self):
         self.service.delete(1)
@@ -70,21 +67,22 @@ class TestReadingTipService(unittest.TestCase):
     def test_updating_with_empty_title_should_raise_error(self):
         existing_tip = self.service.get_by_id(1)
         existing_tip.title = ""
-        existing_tip.author = "A. Laaksonen"
-        existing_tip.url = "https://github.com/hy-tira/tirakirja/raw/master/tirakirja.pdf"
 
-        with self.assertRaises(Exception):
-            self.service.update(existing_tip)
+        self.assertFalse(self.service.update(existing_tip))
 
     def test_updating_nonexistent_tip_should_return_false(self):
-        nonexistent_tip = ReadingTip(1337, "This tip should not exist")
+        nonexistent_tip = ReadingTip(title="This tip should not exist")
+        nonexistent_tip.id = 1337
 
         self.assertFalse(self.service.update(nonexistent_tip))
 
-    def test_raises_error_if_title_more_than_200_characters(self):
-        tip = 'm'*201
-        with self.assertRaises(Exception):
-            self.service.create(tip)
+    def test_validating_title_returns_false_if_title_more_than_200_characters(self):
+        title = 'm'*201
+        self.assertEqual(self.service.validate_title(title), "Too many characters")
+
+    def test_validating_title_returns_false_if_title_is_empty(self):
+        title = ''
+        self.assertEqual(self.service.validate_title(title), "Empty title")
     
     def test_get_ids_return_correct_ids(self):
         tip2 = ReadingTip(title="Kirja2", author="Author", url="Linkki")

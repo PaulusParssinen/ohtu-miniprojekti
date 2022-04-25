@@ -78,6 +78,18 @@ class ReadingTipRepository:
         ).fetchall()
 
         return self.create_tips_from_results(query_result)
+    
+    def get_unread(self):
+        """Returns all unread reading tips from db.
+        """
+
+        db_cursor = self._db.connection.cursor()
+
+        query_result = db_cursor.execute(
+            "SELECT * FROM ReadingTip WHERE Status = 'Not read yet!'"
+        ).fetchall()
+
+        return self.create_tips_from_results(query_result)
 
     def update(self, new_reading_tip):
         """Update existing ReadingTip in the database.
