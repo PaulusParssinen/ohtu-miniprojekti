@@ -92,8 +92,8 @@ class ReadingTipService:
         if self.validate_title(reading_tip.title):
             return False
         
-        # If link was given, attempt to shorten it.
-        if reading_tip.url:
+        # If link was given, and it was not already shortened, attempt to shorten it.
+        if reading_tip.url and "tinyurl.com" not in reading_tip.url:
             reading_tip.url = self.shorten_tip_url(reading_tip.url)
             # if shortened link is now None, the URL given by user was malformed => fail.
             if not reading_tip.url:

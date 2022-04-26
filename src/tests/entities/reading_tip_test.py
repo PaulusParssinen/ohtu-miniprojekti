@@ -14,7 +14,3 @@ class TestReadingTip(unittest.TestCase):
     def test_str_format_shows_status_none_when_no_field_is_defined(self):
         reading_tip = ReadingTip()
         self.assertEqual(str(reading_tip), "Status: None")
-
-    def test_str_format_shows_status_none_when_no_field_is_defined(self):
-        reading_tip = ReadingTip()
-        self.assertEqual(str(reading_tip), "Status: None")
