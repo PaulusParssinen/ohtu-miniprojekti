@@ -63,7 +63,7 @@ poetry run invoke view-report
 
 [Käyttöohje](https://github.com/PaulusParssinen/ohtu-miniprojekti/blob/master/dokumentaatio/kayttoohje.md)
 
-[Backlog](https://github.com/PaulusParssinen/ohtu-miniprojekti/projects/1)
+[Backlog](https://github.com/PaulusParssinen/ohtu-miniprojekti/projects/1) ([Hyväksymistestit](https://github.com/PaulusParssinen/ohtu-miniprojekti/blob/master/src/tests/robot/app.robot))
 
 [Työaikakirjanpito](https://docs.google.com/spreadsheets/d/1A-ZcTPfodWB2oIwpxf0ftId64tXmp-Jd7OyfNQiHnw4/edit#gid=1003565531)
 
