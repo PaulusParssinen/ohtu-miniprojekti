@@ -40,7 +40,7 @@ class Database:
             Url TEXT, \
             Description TEXT, \
             Comment TEXT, \
-            Tags TEXT,\
+            Tags TEXT, \
             Status TEXT)")
         self.connection.commit()
 
@@ -57,7 +57,8 @@ class Database:
 
         db_cursor.execute("CREATE TABLE IF NOT EXISTS TipTags (\
             Tip_Id INTEGER REFERENCES ReadingTip, \
-            Tag_Id INTEGER REFERENCES Tags)")
+            Tag_Id INTEGER REFERENCES Tags, \
+            UNIQUE(Tip_Id, Tag_Id))")
         self.connection.commit()
 
     def reset_database(self):
