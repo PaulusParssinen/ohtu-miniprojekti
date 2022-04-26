@@ -156,7 +156,7 @@ class App:
         ids_of_tips = self.reading_tip_service.get_ids(tips)
         tags_of_tips = self.tip_tags_service.get_all_tags_for_multiple_ids(ids_of_tips)
 
-        self.io.write(f"{len(tips)} reading tips found:")
+        self.io.write_green(f"{len(tips)} reading tips found:")
 
         self.table.create_table(tips, tags_of_tips)
 
@@ -189,7 +189,7 @@ class App:
         raise SystemExit()
 
     def print_list_of_tags(self, tags):
-        self.io.write(f"{len(tags)} tags found:")
+        self.io.write_green(f"{len(tags)} tags found:")
         for tag in tags:
             self.print_tags(tag)
 
