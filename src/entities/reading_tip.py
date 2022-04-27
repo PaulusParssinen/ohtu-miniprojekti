@@ -22,7 +22,7 @@ class ReadingTip:
         attributes = {"Id": self.id, "Title": self.title, "Type": self.type, "Author": self.author, "URL": self.url, "Status": self.status}
         for key, attr in attributes.items():
             if attr:
-                values.append(": ".join([key, attr]))
+                values.append(": ".join([key, str(attr)]))
         return seperator.join(values)
 
     def __str__(self):
